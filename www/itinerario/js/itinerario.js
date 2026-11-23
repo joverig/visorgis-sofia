@@ -93,6 +93,13 @@
       return [new S.Style({ stroke: new S.Stroke({ color: '#fffaf1', width: 11, lineCap: 'round', lineJoin: 'round' }), zIndex: 35 }),
         new S.Style({ stroke: new S.Stroke({ color: t.modo === 'pie' ? 'rgba(168,50,42,.9)' : m.color, width: 6, lineCap: 'round', lineJoin: 'round' }), zIndex: 36 })];
     }
+    if (estado.siguiente === t) {
+      // Camino que sale de la parada abierta: se marca con suavidad hacia dónde seguir
+      const k2 = 'sig' + t.modo;
+      if (!cacheT[k2]) cacheT[k2] = [new S.Style({ stroke: new S.Stroke({ color: 'rgba(255,250,241,.95)', width: 9, lineCap: 'round', lineJoin: 'round' }), zIndex: 28 }),
+        new S.Style({ stroke: new S.Stroke({ color: t.modo === 'pie' ? 'rgba(168,50,42,.55)' : m.color + 'aa', width: 4, lineCap: 'round', lineJoin: 'round', lineDash: t.modo === 'pie' ? undefined : m.dash }), zIndex: 29 })];
+      return cacheT[k2];
+    }
     const tenue = estado.paso && estado.paso.tipo === 'tramo';
     const k = t.modo + tenue;
     if (!cacheT[k]) {
@@ -160,14 +167,15 @@
     const t = f.get('t');
     const sel = estado.paso === t, sobre = estado.sobre === t;
     if (estado.paso && estado.paso.tipo === 'tramo' && !sel) return null;
-    const k = t.audio + sel + sobre;
+    const sig = estado.siguiente === t;
+    const k = t.audio + sel + sobre + sig;
     if (!cacheET[k]) {
       const m = MODOS[t.modo];
       const activo = sel || sobre;
-      cacheET[k] = new S.Style({ text: new S.Text({ text: m.icono + ' ' + txtMin(t.min), font: fuente('700', 11.5),
-        fill: new S.Fill({ color: activo ? '#fff' : t.modo === 'pie' ? '#5a3a2c' : m.color }),
-        backgroundFill: new S.Fill({ color: activo ? '#a8322a' : '#fffaf1' }), backgroundStroke: new S.Stroke({ color: activo ? '#fff' : t.modo === 'pie' ? 'rgba(110,56,40,.55)' : m.color, width: 1.5 }),
-        padding: [3, 7, 2, 7] }), zIndex: sel ? 45 : 25 });
+      cacheET[k] = new S.Style({ text: new S.Text({ text: (sig ? 'Siguiente · ' : '') + m.icono + ' ' + txtMin(t.min), font: fuente('700', 11.5),
+        fill: new S.Fill({ color: activo ? '#fff' : sig ? '#a8322a' : t.modo === 'pie' ? '#5a3a2c' : m.color }),
+        backgroundFill: new S.Fill({ color: activo ? '#a8322a' : '#fffaf1' }), backgroundStroke: new S.Stroke({ color: activo ? '#fff' : sig ? '#a8322a' : t.modo === 'pie' ? 'rgba(110,56,40,.55)' : m.color, width: 1.5 }),
+        padding: [3, 7, 2, 7] }), zIndex: sel ? 45 : sig ? 35 : 25 });
     }
     return cacheET[k];
   }
@@ -241,13 +249,30 @@
       }
     });
   }
+  // Cifras del día: horario, paradas y kilómetros a pie (en vez de un resumen recortado)
+  function pintarCifras(d) {
+    const par = d.pasos.filter((p) => p.tipo === 'parada');
+    const visitas = par.filter((p) => !NO_VISITABLES.has(p.lugar) && p.lugar !== 'casa');
+    const pie = d.pasos.filter((p) => p.tipo === 'tramo' && p.modo === 'pie').reduce((s, p) => s + p.dist, 0);
+    const modos = [...new Set(d.pasos.filter((p) => p.tipo === 'tramo' && p.modo !== 'pie').map((p) => MODOS[p.modo].icono))].join(' ');
+    const horas = par.map((p) => p.hora).filter(Boolean);
+    const cifras = [
+      [horas[0] + '–' + horas[horas.length - 1], 'horario'],
+      [String(visitas.length), visitas.length === 1 ? 'parada' : 'paradas'],
+      [(pie / 1000).toFixed(1).replace('.', ',') + ' km', 'a pie' + (modos ? ' · ' + modos : '')],
+    ];
+    $('d-cifras').innerHTML = '';
+    cifras.forEach(([v, t]) => { const div = document.createElement('div'); div.innerHTML = '<dt></dt><dd></dd>'; div.querySelector('dt').textContent = v; div.querySelector('dd').textContent = t; $('d-cifras').appendChild(div); });
+  }
   function abrirDia(d, sinMover) {
     if (narrador) narrador.parar();
-    estado.dia = d; estado.paso = null;
+    estado.dia = d; estado.paso = null; estado.siguiente = null;
     cargarCapasDia(d);
     pintarPestanas();
     $('vista-paso').hidden = true; $('vista-dia').hidden = false;
     $('d-fecha').textContent = d.titulo + ' de diciembre';
+    pintarCifras(d);
+    document.querySelector('.dia-intro').open = false;
     $('d-lema').textContent = d.lema;
     const intro = $('d-intro'); intro.innerHTML = '';
     d.intro.forEach((t) => { const el = document.createElement('p'); el.textContent = t; intro.appendChild(el); });
@@ -295,6 +320,9 @@
   function abrirPaso(p, sinMover) {
     if (narrador) narrador.parar();
     estado.paso = p;
+    // El camino que sigue a esta parada (si lo hay) se resalta levemente
+    const ip = estado.dia.pasos.indexOf(p);
+    estado.siguiente = p.tipo === 'parada' && estado.dia.pasos[ip + 1] && estado.dia.pasos[ip + 1].tipo === 'tramo' ? estado.dia.pasos[ip + 1] : null;
     $('vista-dia').hidden = true; $('vista-paso').hidden = false;
     document.body.classList.remove('historia-abierta');
     const esParada = p.tipo === 'parada';
@@ -340,7 +368,11 @@
     history.replaceState(null, '', '#' + idPaso(p));
     if (!esParada) requestAnimationFrame(animar);
     if (!sinMover) {
-      if (esParada) view.animate({ center: coordDe(p.lugar), zoom: Math.max(view.getZoom(), 16), duration: 500 });
+      if (esParada && estado.siguiente && estado.siguiente.modo !== 'bus') {
+        const ext = ol.extent.boundingExtent([coordDe(p.lugar)]);
+        ol.extent.extend(ext, estado.siguiente.feature.getGeometry().getExtent());
+        encuadrar(ext, 17);
+      } else if (esParada) view.animate({ center: coordDe(p.lugar), zoom: Math.max(view.getZoom(), 16), duration: 500 });
       else encuadrar(p.feature.getGeometry().getExtent(), p.modo === 'bus' ? 9 : 17);
     }
   }
@@ -353,7 +385,7 @@
   }
   function cerrarPaso() {
     if (narrador) narrador.parar();
-    estado.paso = null;
+    estado.paso = null; estado.siguiente = null;
     $('vista-paso').hidden = true; $('vista-dia').hidden = false;
     pintarPasos(estado.dia);
     refrescar();
@@ -385,7 +417,6 @@
     SofiaComun.pistaMapa(map, 'itinerario', 'Toca una parada o un camino del mapa para ver la hora, el precio y escuchar su narración');
     datos = await (await fetch('datos/itinerario.json', { cache: 'no-store' })).json();
     $('volver-dia').onclick = cerrarPaso; $('cerrar-paso').onclick = cerrarPaso;
-    $('leer-mas').onclick = () => document.body.classList.add('historia-abierta');
     $('p-visitado').onclick = () => { const p = estado.paso; if (!p) return; V.poner(p.lugar, !V.tiene(p.lugar)); pintarVisitado(); refrescar(); };
     $('zona').querySelectorAll('button').forEach((b) => { b.onclick = () => encuadrarDia(estado.dia, b.dataset.zona); });
     $('tirador').onclick = () => panelM.alternar();
