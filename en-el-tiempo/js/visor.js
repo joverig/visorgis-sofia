@@ -6,7 +6,7 @@
   const $ = (s) => document.querySelector(s);
   const estado = { v: 0, idxMostrado: -1, reproduciendo: false, verHoy: false, anio: 0, tipo: '' };
   let capas = [];
-  let map, view, capaFondo, capaCalles, grupoHistorico, capaPerimetros;
+  let map, view, capaFondo, capaCalles, grupoHistorico, capaPerimetros, narrador;
 
   /* ---------- Fuentes ---------- */
   function crearSource(c) {
@@ -294,6 +294,7 @@
     const c = capas[idx];
     $('#anio').textContent = c.etiqueta;
     $('#titulo').textContent = c.titulo;
+    if (narrador) narrador.preparar($('#narrar'), c.id);
     estado.anio = c.anio;
     estado.tipo = c.tipo;
     if (capaPerimetros) capaPerimetros.changed();
@@ -470,6 +471,8 @@
       return;
     }
     capas = (await resolverWayback(C.capas.slice())).sort((a, b) => a.anio - b.anio);
+    narrador = window.SofiaComun ? new SofiaComun.Narrador('audio/') : null;
+    if (window.SofiaComun) SofiaComun.enlacePortal(document.querySelector('.cabecera'));
     crearMapa();
     construirTimeline();
     enlazarControles();
