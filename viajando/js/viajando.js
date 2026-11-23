@@ -1,4 +1,5 @@
-/* Viajando por Sofía · puntos de interés, rutas a pie entre ellos y posición GPS (OpenLayers UMD) */
+/* Viajando por Sofía · lugares (principales y secundarios), red de rutas a pie en los dos sentidos,
+   lugares visitados y posición GPS (OpenLayers UMD) */
 (function () {
   'use strict';
   const $ = (id) => document.getElementById(id);
@@ -7,13 +8,12 @@
     religioso: 'Iglesias y templos', roma: 'Serdica romana', museo: 'Museos', monumento: 'Monumentos',
     edificio: 'Edificios históricos', parque: 'Parques', mercado: 'Mercados',
   };
-  const BASES = {
-    calles: { url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png', atr: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors', clase: 'base-calles' },
-    satelite: { url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', atr: 'Imagen: Esri, Maxar, Earthstar Geographics' },
-  };
+  // Colores para distinguir los caminos que salen de un lugar (paleta sobria, legible sobre el papel)
+  const PALETA = ['#8c2f39', '#2f5d7c', '#5f7a34', '#a8711c', '#6b4a7e', '#2f7f86', '#7a5a3a'];
+  const ESRI_SAT = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
 
-  let map, view, capaBase, capaPuntos, capaEtiquetas, capaRutas, capaYo, narrador;
-  const estado = { punto: null, ruta: null, filtro: null, filtroVisita: null, yo: null, seguir: false, base: 'calles' };
+  let map, view, capaCalles, capaSatelite, capaPuntos, capaEtiquetas, capaRutas, capaYo, narrador;
+  const estado = { punto: null, ruta: null, sentido: 'ida', origen: null, filtro: null, filtroVisita: null, yo: null, seguir: false, base: 'calles' };
 
   /* ---------- lugares visitados: se guardan solo en este navegador (localStorage) ---------- */
   const CLAVE_VISITADOS = 'sofia-viajando-visitados';
@@ -22,10 +22,12 @@
     try { localStorage.setItem(CLAVE_VISITADOS, JSON.stringify([...visitados])); } catch (e) { /* modo privado: solo dura la sesión */ }
   }
   const esVisitado = (p) => visitados.has(p.id);
-  const puntos = [];          // { id, nombre, categoria, resumen, historia, coord(3857), num, feature }
+  const puntos = [];            // { id, nombre, categoria, nivel, resumen, historia, coord(3857), num, feature, rutas[] }
   const porId = {};
-  const rutasPorId = {};
+  const rutasPorId = {};        // 'ruta-a--b' -> { r, sentido }
+  const colorRuta = new Map();  // ruta -> color mientras hay un lugar abierto
   const esMovil = () => window.matchMedia('(max-width: 760px)').matches;
+  const esPrincipal = (p) => p.nivel !== 'secundario';
 
   /* ---------- utilidades ---------- */
   function metros(a, b) { // a, b en EPSG:3857 -> metros reales
@@ -38,68 +40,87 @@
   const txtDist = (m) => (m < 1000 ? Math.round(m / 10) * 10 + ' m' : (m / 1000).toFixed(1).replace('.', ',') + ' km');
   const minutos = (m) => Math.max(1, Math.round(m / 1000 / VEL_PASEO * 60));
   const txtMin = (min) => (min < 60 ? min + ' min' : Math.floor(min / 60) + ' h ' + (min % 60) + ' min');
+  const zoomDe = (res) => Math.log2(156543.03392804097 / res);
 
-  /* ---------- estilos ---------- */
   const S = ol.style;
-  const fuente = (peso, px) => peso + ' ' + px + 'px "Manrope", "Segoe UI", sans-serif';
+  const fuente = (peso, px, extra) => (extra ? extra + ' ' : '') + peso + ' ' + px + 'px "Manrope", "Segoe UI", sans-serif';
+
+  /* ---------- estilos de lugares ---------- */
   const cacheP = {}, cacheE = {};
   function estiloPunto(f) {
     const p = f.get('p');
     const sel = estado.punto === p;
+    const parada = estado.ruta && (estado.ruta.paradas || []).includes(p.id);
     const oculto = !pasaFiltros(p);
     const vis = esVisitado(p);
-    const k = [p.id, sel, oculto, vis].join('|');
+    const prin = esPrincipal(p);
+    const k = [p.id, sel, oculto, vis, parada].join('|');
     if (!cacheP[k]) {
-      const color = vis ? (oculto ? 'rgba(95,122,52,.35)' : 'rgba(95,122,52,.88)') : (oculto ? 'rgba(168,50,42,.35)' : '#a8322a');
-      cacheP[k] = new S.Style({
-        image: new S.Circle({
-          radius: sel ? 13 : (vis ? 10 : 11),
-          fill: new S.Fill({ color }),
-          stroke: new S.Stroke({ color: sel ? '#e0b04a' : '#fff', width: sel ? 4 : 2.5 }),
-        }),
-        text: new S.Text({ text: vis ? '✓' : String(p.num), font: fuente('700', vis ? 13 : 11), fill: new S.Fill({ color: '#fff' }) }),
-        zIndex: sel ? 20 : 10,
-      });
+      const a = oculto ? 0.35 : 1;
+      if (prin) {
+        const color = vis ? `rgba(95,122,52,${0.88 * a})` : `rgba(168,50,42,${a})`;
+        cacheP[k] = new S.Style({
+          image: new S.Circle({ radius: sel ? 13 : (vis ? 10 : 11), fill: new S.Fill({ color }), stroke: new S.Stroke({ color: sel ? '#e0b04a' : '#fff', width: sel ? 4 : 2.5 }) }),
+          text: new S.Text({ text: vis ? '✓' : String(p.num), font: fuente('700', vis ? 13 : 11), fill: new S.Fill({ color: '#fff' }) }),
+          zIndex: sel ? 20 : 10,
+        });
+      } else {
+        const color = vis ? `rgba(95,122,52,${0.85 * a})` : `rgba(184,134,43,${a})`;
+        cacheP[k] = new S.Style({
+          image: new S.Circle({ radius: sel ? 9 : parada ? 8 : 6, fill: new S.Fill({ color }), stroke: new S.Stroke({ color: sel ? '#a8322a' : '#fff', width: sel || parada ? 3 : 2 }) }),
+          text: vis ? new S.Text({ text: '✓', font: fuente('700', 9), fill: new S.Fill({ color: '#fff' }) }) : undefined,
+          zIndex: sel ? 19 : parada ? 12 : 8,
+        });
+      }
     }
     return cacheP[k];
   }
   function estiloEtiqueta(f, res) {
     const p = f.get('p');
     const sel = estado.punto === p;
-    if (!pasaFiltros(p) || (!sel && view.getZoomForResolution(res) < 14.5)) return null;
-    const k = p.id + '|' + sel;
+    const parada = estado.ruta && (estado.ruta.paradas || []).includes(p.id);
+    const prin = esPrincipal(p);
+    if (!pasaFiltros(p) || (!sel && !parada && zoomDe(res) < (prin ? 14.5 : 15.8))) return null;
+    const k = p.id + '|' + sel + '|' + parada;
     if (!cacheE[k]) {
       cacheE[k] = new S.Style({
         text: new S.Text({
-          text: p.nombre, offsetY: -24, font: fuente(sel ? '700' : '600', sel ? 13.5 : 12.5), fill: new S.Fill({ color: sel ? '#a8322a' : '#22262c' }),
+          text: p.nombre, offsetY: prin ? -24 : -16,
+          font: prin ? fuente(sel ? '700' : '600', sel ? 13.5 : 12.5) : fuente(sel ? '700' : '500', sel ? 12.5 : 11.5, 'italic'),
+          fill: new S.Fill({ color: sel ? '#a8322a' : prin ? '#22262c' : '#5a5246' }),
           stroke: new S.Stroke({ color: '#fffaf1', width: 4 }),
         }),
-        zIndex: sel ? 21 : 11,
+        zIndex: sel ? 21 : prin ? 11 : 9,
       });
     }
     return cacheE[k];
   }
-  // Rutas: red completa en dorado discontinuo, las del lugar elegido en turquesa y la seleccionada en carmesí animado
-  let fase = 0;                       // desplazamiento del trazo animado
-  const flecha = (() => {             // flecha blanca para el sentido de la marcha
+
+  /* ---------- estilos de rutas ---------- */
+  // Red general: trazo fino punteado a pluma; caminos del lugar abierto: un color por camino;
+  // ruta seleccionada: carmesí con contorno, flechas de sentido y trazo animado
+  let fase = 0;
+  const flecha = (() => {
     const c = document.createElement('canvas'); c.width = c.height = 20;
     const g = c.getContext('2d'); g.fillStyle = '#fff'; g.strokeStyle = '#7a1f19'; g.lineWidth = 1.5;
     g.beginPath(); g.moveTo(4, 4); g.lineTo(17, 10); g.lineTo(4, 16); g.lineTo(8, 10); g.closePath(); g.fill(); g.stroke();
     return c;
   })();
+  function geomSentido(r, sentido) {
+    if (sentido !== 'vuelta') return r.feature.getGeometry();
+    if (!r.inversa) r.inversa = new ol.geom.LineString(r.feature.getGeometry().getCoordinates().slice().reverse());
+    return r.inversa;
+  }
   function estiloRuta(f, res) {
     const r = f.get('r');
-    const sel = estado.ruta === r;
-    const delPunto = estado.punto && (r.desde === estado.punto.id || r.hasta === estado.punto.id);
     const bus = r.tipo === 'transporte';
-    if (sel) {
-      const geom = rutaOrientada(r);
+    if (estado.ruta === r) {
+      const geom = geomSentido(r, estado.sentido);
       const est = [
-        new S.Style({ geometry: geom, stroke: new S.Stroke({ color: '#fffaf1', width: 13, lineCap: 'round', lineJoin: 'round' }), zIndex: 40 }),
-        new S.Style({ geometry: geom, stroke: new S.Stroke({ color: bus ? '#5c6f8a' : '#a8322a', width: 8, lineCap: 'round', lineJoin: 'round' }), zIndex: 41 }),
-        new S.Style({ geometry: geom, stroke: new S.Stroke({ color: '#ffd9a8', width: 3, lineDash: [10, 16], lineDashOffset: -fase, lineCap: 'round' }), zIndex: 42 }),
+        new S.Style({ geometry: geom, stroke: new S.Stroke({ color: '#fffaf1', width: 12, lineCap: 'round', lineJoin: 'round' }), zIndex: 40 }),
+        new S.Style({ geometry: geom, stroke: new S.Stroke({ color: bus ? '#5c6f8a' : '#a8322a', width: 7, lineCap: 'round', lineJoin: 'round' }), zIndex: 41 }),
+        new S.Style({ geometry: geom, stroke: new S.Stroke({ color: '#ffd9a8', width: 2.5, lineDash: [10, 16], lineDashOffset: -fase, lineCap: 'round' }), zIndex: 42 }),
       ];
-      // flechas de sentido cada ~120 px de pantalla
       const coords = geom.getCoordinates(), paso = res * 120;
       let acum = 0;
       for (let i = 1; i < coords.length; i++) {
@@ -113,21 +134,17 @@
       }
       return est;
     }
-    if (delPunto) {
-      return [new S.Style({ stroke: new S.Stroke({ color: '#fffaf1', width: 10, lineCap: 'round', lineJoin: 'round' }), zIndex: 30 }),
-              new S.Style({ stroke: new S.Stroke({ color: bus ? '#5c6f8a' : '#1f6f77', width: 6, lineCap: 'round', lineJoin: 'round', lineDash: bus ? [2, 10] : undefined }), zIndex: 31 })];
+    const color = colorRuta.get(r);
+    if (color) {
+      return [new S.Style({ stroke: new S.Stroke({ color: 'rgba(255,250,241,.95)', width: 8, lineCap: 'round', lineJoin: 'round' }), zIndex: 30 }),
+              new S.Style({ stroke: new S.Stroke({ color, width: 4.5, lineCap: 'round', lineJoin: 'round', lineDash: bus ? [2, 9] : undefined }), zIndex: 31 })];
     }
-    if (estado.punto || estado.ruta) {   // resto de la red, en segundo plano pero reconocible
-      return new S.Style({ stroke: new S.Stroke({ color: 'rgba(176,120,28,.6)', width: 2.5, lineCap: 'round', lineDash: bus ? [1, 8] : [7, 7] }), zIndex: 10 });
-    }
-    if (visitados.has(r.desde) && visitados.has(r.hasta)) {   // camino ya recorrido: discreto, que destaquen los pendientes
-      return new S.Style({ stroke: new S.Stroke({ color: 'rgba(95,122,52,.55)', width: 3, lineCap: 'round', lineDash: bus ? [1, 8] : [7, 7] }), zIndex: 9 });
-    }
-    return [new S.Style({ stroke: new S.Stroke({ color: 'rgba(74,40,10,.8)', width: 6.5, lineCap: 'round' }), zIndex: 10 }),
-            new S.Style({ stroke: new S.Stroke({ color: '#f2b538', width: 3.5, lineCap: 'round', lineDash: bus ? [1, 9] : [12, 7] }), zIndex: 11 })];
+    const segundoPlano = estado.punto || estado.ruta;
+    const hecho = visitados.has(r.desde) && visitados.has(r.hasta);
+    const tinta = segundoPlano ? 'rgba(60,48,36,.28)' : hecho ? 'rgba(95,122,52,.6)' : 'rgba(60,48,36,.62)';
+    return [new S.Style({ stroke: new S.Stroke({ color: 'rgba(255,250,241,.75)', width: 4.5, lineCap: 'round' }), zIndex: 9 }),
+            new S.Style({ stroke: new S.Stroke({ color: tinta, width: 1.8, lineCap: 'round', lineDash: bus ? [7, 7] : [0.1, 4.5] }), zIndex: 10 })];
   }
-  // Geometría de la ruta en el sentido de la marcha (desde el lugar abierto hacia el otro)
-  function rutaOrientada(r) { return r.feature.getGeometry(); }   // ya viene ordenada de 'desde' a 'hasta'
   function animar() {
     if (!estado.ruta) return;
     fase = (fase + 0.8) % 26;
@@ -138,28 +155,37 @@
   /* ---------- mapa ---------- */
   function crearMapa() {
     view = new ol.View({ center: ol.proj.fromLonLat([23.3260, 42.6950]), zoom: 15, minZoom: 11, maxZoom: 19 });
-    capaBase = new ol.layer.Tile({ className: 'base-calles', source: new ol.source.XYZ({ url: BASES.calles.url, attributions: BASES.calles.atr, maxZoom: 19 }) });
+    capaSatelite = new ol.layer.Tile({ visible: false, source: new ol.source.XYZ({ url: ESRI_SAT, attributions: 'Imagen: Esri, Maxar, Earthstar Geographics', maxZoom: 19 }) });
     capaRutas = new ol.layer.Vector({ source: new ol.source.Vector(), style: estiloRuta });
     capaPuntos = new ol.layer.Vector({ source: new ol.source.Vector(), style: estiloPunto });
     capaEtiquetas = new ol.layer.Vector({ source: capaPuntos.getSource(), style: estiloEtiqueta, declutter: true });
     capaYo = new ol.layer.Vector({ source: new ol.source.Vector(), zIndex: 50 });
-    map = new ol.Map({ target: 'mapa', view, layers: [capaBase, capaRutas, capaPuntos, capaEtiquetas, capaYo] });
+    map = new ol.Map({ target: 'mapa', view, layers: [capaSatelite, capaRutas, capaPuntos, capaEtiquetas, capaYo] });
     map.addControl(new ol.control.ScaleLine({ units: 'metric' }));
+    // Mapa de calles vectorial; si no carga, OpenStreetMap estándar
+    SofiaComun.capaCalles().catch((e) => {
+      console.warn('Mapa vectorial no disponible, uso OpenStreetMap:', e.message);
+      return new ol.layer.Tile({ className: 'base-calles', source: new ol.source.OSM() });
+    }).then((capa) => { capaCalles = capa; capa.setVisible(estado.base === 'calles'); map.getLayers().insertAt(0, capa); });
 
     map.on('singleclick', (e) => {
       let tocado = null;
-      map.forEachFeatureAtPixel(e.pixel, (f) => { if (!tocado) tocado = f; }, { hitTolerance: 6, layerFilter: (l) => l !== capaYo && l !== capaEtiquetas });
+      map.forEachFeatureAtPixel(e.pixel, (f) => { if (!tocado || (f.get('p') && !tocado.get('p'))) tocado = f; },
+        { hitTolerance: 6, layerFilter: (l) => l === capaPuntos || l === capaRutas });
       if (!tocado) return;
       if (tocado.get('p')) abrirPunto(tocado.get('p'));
-      else if (tocado.get('r')) abrirRuta(tocado.get('r'), estado.punto ? estado.punto.id : estado.origen);
+      else if (tocado.get('r')) {
+        const r = tocado.get('r');
+        const sentido = estado.punto && r.hasta === estado.punto.id ? 'vuelta' : 'ida';
+        abrirRuta(r, sentido, estado.punto ? estado.punto.id : estado.origen);
+      }
     });
     map.on('pointermove', (e) => {
       if (e.dragging) return;
-      map.getTargetElement().style.cursor = map.hasFeatureAtPixel(e.pixel, { hitTolerance: 6, layerFilter: (l) => l !== capaYo && l !== capaEtiquetas }) ? 'pointer' : '';
+      map.getTargetElement().style.cursor = map.hasFeatureAtPixel(e.pixel, { hitTolerance: 6, layerFilter: (l) => l === capaPuntos || l === capaRutas }) ? 'pointer' : '';
     });
-    map.on('pointerdrag', () => { estado.seguir = false; $('gps').classList.remove('activo'); if (estado.yo) $('gps').classList.add('activo'); });
+    map.on('pointerdrag', () => { estado.seguir = false; });
   }
-
   function padding() {
     const m = map.getTargetElement().getBoundingClientRect();
     const p = $('panel').getBoundingClientRect();
@@ -174,9 +200,11 @@
   async function cargar() {
     const fmt = new ol.format.GeoJSON({ featureProjection: 'EPSG:3857' });
     const gp = await (await fetch('datos/puntos.geojson', { cache: 'no-store' })).json();
-    fmt.readFeatures(gp).forEach((f, i) => {
-      const p = Object.assign({}, f.getProperties(), { num: i + 1, coord: f.getGeometry().getCoordinates(), feature: f, rutas: [] });
+    let n = 0;
+    fmt.readFeatures(gp).forEach((f) => {
+      const p = Object.assign({}, f.getProperties(), { coord: f.getGeometry().getCoordinates(), feature: f, rutas: [] });
       delete p.geometry;
+      if (esPrincipal(p)) p.num = ++n;
       f.set('p', p);
       puntos.push(p); porId[p.id] = p;
     });
@@ -187,13 +215,26 @@
         const r = Object.assign({}, f.getProperties(), { feature: f });
         delete r.geometry;
         if (!porId[r.desde] || !porId[r.hasta]) return;
-        r.id = r.id || ('ruta-' + r.desde + '--' + r.hasta);
-        rutasPorId[r.id] = r;
+        r.id = 'ruta-' + r.desde + '--' + r.hasta;
+        rutasPorId[r.id] = { r, sentido: 'ida' };
+        rutasPorId['ruta-' + r.hasta + '--' + r.desde] = { r, sentido: 'vuelta' };
         f.set('r', r);
         porId[r.desde].rutas.push(r); porId[r.hasta].rutas.push(r);
+        (r.paradas || []).forEach((id) => porId[id] && porId[id].rutas.push(r));
         capaRutas.getSource().addFeature(f);
       });
     } catch (e) { console.info('Sin rutas todavía:', e.message); }
+  }
+  // Datos de una ruta en un sentido: textos, id (para el audio y el enlace), extremos y paradas en orden
+  function sentidoDe(r, sentido) {
+    const ida = sentido !== 'vuelta';
+    const t = (ida ? r.ida : r.vuelta) || r.ida || {};
+    return {
+      id: ida ? 'ruta-' + r.desde + '--' + r.hasta : 'ruta-' + r.hasta + '--' + r.desde,
+      a: porId[ida ? r.desde : r.hasta], b: porId[ida ? r.hasta : r.desde],
+      paradas: (ida ? (r.paradas || []) : (r.paradas || []).slice().reverse()).map((id) => porId[id]).filter(Boolean),
+      nombre: t.nombre, descripcion: t.descripcion || [], camino: t.camino || [],
+    };
   }
 
   /* ---------- lista ---------- */
@@ -230,7 +271,6 @@
     b.textContent = v ? 'Visitado' : 'Marcar como visitado';
     b.title = v ? 'Pulsa para desmarcarlo' : 'Guárdalo en este navegador como lugar visitado';
   }
-  // Enlace con los visitados para abrirlo en otro móvil o compartir el viaje
   async function compartirProgreso() {
     const ids = puntos.filter(esVisitado).map((p) => p.id);
     const url = location.origin + location.pathname + '#visitados=' + ids.join(',');
@@ -244,7 +284,6 @@
       prompt('Copia este enlace:', url);
     }
   }
-  // Al abrir un enlace #visitados=... se suman esos lugares a los de este navegador
   function importarVisitados(lista) {
     const nuevos = lista.split(',').map((x) => x.trim()).filter((id) => porId[id] && !visitados.has(id));
     nuevos.forEach((id) => visitados.add(id));
@@ -253,7 +292,6 @@
     alertaSuave(nuevos.length ? 'Se han añadido ' + nuevos.length + ' lugares visitados.' : 'Ya tenías todos esos lugares marcados.');
     pintarProgreso(); pintarLista(); refrescarMapa();
   }
-
   function pintarFiltros() {
     const cont = $('filtros');
     cont.innerHTML = '';
@@ -271,16 +309,21 @@
     ul.innerHTML = '';
     let lista = puntos.filter(pasaFiltros);
     if (estado.yo) lista = lista.slice().sort((a, b) => metros(estado.yo, a.coord) - metros(estado.yo, b.coord));
-    lista.forEach((p) => {
-      const li = document.createElement('li');
-      li.innerHTML = '<span class="num"></span><span><b></b><small></small></span><span class="dist"></span>';
-      li.querySelector('.num').textContent = esVisitado(p) ? '✓' : p.num;
-      if (esVisitado(p)) li.className = 'hecho';
-      li.querySelector('b').textContent = p.nombre;
-      li.querySelector('small').textContent = CATEGORIAS[p.categoria] || '';
-      if (estado.yo) li.querySelector('.dist').textContent = txtDist(metros(estado.yo, p.coord));
-      li.onclick = () => abrirPunto(p);
-      ul.appendChild(li);
+    [['Imprescindibles', lista.filter(esPrincipal)], ['También interesantes', lista.filter((p) => !esPrincipal(p))]].forEach(([titulo, grupo]) => {
+      if (!grupo.length) return;
+      const h = document.createElement('li'); h.className = 'grupo'; h.textContent = titulo; ul.appendChild(h);
+      grupo.forEach((p) => {
+        const li = document.createElement('li');
+        li.innerHTML = '<span class="num"></span><span><b></b><small></small></span><span class="dist"></span>';
+        const prin = esPrincipal(p);
+        li.querySelector('.num').textContent = esVisitado(p) ? '✓' : prin ? p.num : '';
+        li.className = (prin ? '' : 'secundario ') + (esVisitado(p) ? 'hecho' : '');
+        li.querySelector('b').textContent = p.nombre;
+        li.querySelector('small').textContent = CATEGORIAS[p.categoria] || '';
+        if (estado.yo) li.querySelector('.dist').textContent = txtDist(metros(estado.yo, p.coord));
+        li.onclick = () => abrirPunto(p);
+        ul.appendChild(li);
+      });
     });
     if (!lista.length) {
       const li = document.createElement('li'); li.className = 'vacio';
@@ -289,13 +332,14 @@
     }
   }
 
-  /* ---------- ficha ---------- */
+  /* ---------- ficha de lugar ---------- */
   function abrirPunto(p, sinMover) {
+    if (narrador) narrador.parar();
     estado.punto = p; estado.ruta = null; estado.origen = null;
-    $('vista-ruta').hidden = true;
+    $('vista-ruta').hidden = true; $('vista-lista').hidden = true; $('vista-ficha').hidden = false;
     document.body.classList.remove('historia-abierta');
-    $('vista-lista').hidden = true; $('vista-ficha').hidden = false;
-    $('f-categoria').textContent = CATEGORIAS[p.categoria] || '';
+    $('f-categoria').textContent = (esPrincipal(p) ? 'Imprescindible · ' : '') + (CATEGORIAS[p.categoria] || '');
+    $('f-categoria').classList.toggle('secundaria', !esPrincipal(p));
     $('f-nombre').textContent = p.nombre;
     $('f-resumen').textContent = p.resumen || '';
     const h = $('f-historia'); h.innerHTML = '';
@@ -306,7 +350,7 @@
     pintarBotonVisitado();
     $('cuerpo').scrollTop = 0;
     if (esMovil()) $('panel').className = 'panel';
-    capaPuntos.changed(); capaEtiquetas.changed(); capaRutas.changed();
+    refrescarMapa();
     history.replaceState(null, '', '#' + p.id);
     if (!sinMover) {
       const ext = ol.extent.boundingExtent([p.coord]);
@@ -314,11 +358,13 @@
       encuadrar(p.rutas.length ? ext : ol.extent.buffer(ext, 200), 17);
     }
   }
+  // ✕ de la ficha del lugar: lo deselecciona y vuelve a la lista
   function cerrarPunto() {
     estado.punto = null; estado.ruta = null; estado.origen = null;
+    colorRuta.clear();
     if (narrador) narrador.parar();
     $('vista-ficha').hidden = true; $('vista-ruta').hidden = true; $('vista-lista').hidden = false;
-    capaPuntos.changed(); capaEtiquetas.changed(); capaRutas.changed();
+    refrescarMapa();
     history.replaceState(null, '', location.pathname + location.search);
   }
   function pintarDistanciaYo() {
@@ -330,72 +376,93 @@
   }
   function pintarRutas(p) {
     const ul = $('f-rutas'); ul.innerHTML = '';
+    colorRuta.clear();
+    const prin = esPrincipal(p);
+    $('f-rutas-tit').textContent = prin ? 'Caminos a pie desde aquí' : 'Está de paso en estos caminos';
+    $('f-sin-rutas').textContent = prin ? 'Las rutas a pie se están preparando.' : 'No queda de paso en ninguna ruta de la red: acércate por tu cuenta si te interesa.';
     $('f-sin-rutas').hidden = p.rutas.length > 0;
-    p.rutas.slice().sort((a, b) => (a.tipo === 'transporte') - (b.tipo === 'transporte') || a.distancia - b.distancia).forEach((r) => {
-      const otro = porId[r.desde === p.id ? r.hasta : r.desde];
+    const orden = p.rutas.slice().sort((a, b) => (a.tipo === 'transporte') - (b.tipo === 'transporte') || a.distancia - b.distancia);
+    orden.forEach((r, i) => {
+      const color = PALETA[i % PALETA.length];
+      colorRuta.set(r, color);
+      // desde un principal, la ruta sale de él; desde un secundario, se muestra en su sentido principal
+      const sentido = r.hasta === p.id ? 'vuelta' : 'ida';
+      const s = sentidoDe(r, sentido);
       const li = document.createElement('li');
       if (r.tipo === 'transporte') li.className = 'transporte';
-      li.innerHTML = '<div class="ruta-cab"><span><b></b><br><small></small></span><span class="t"><strong></strong></span></div>';
-      li.querySelector('b').textContent = otro.nombre;
-      li.querySelector('small').textContent = r.nombre || '';
+      li.innerHTML = '<div class="ruta-cab"><span class="muestra"></span><span><b></b><br><small></small></span><span class="t"><strong></strong></span></div>';
+      li.querySelector('.muestra').style.background = color;
+      li.querySelector('b').textContent = prin ? s.b.nombre : s.a.nombre + ' → ' + s.b.nombre;
+      li.querySelector('small').textContent = s.nombre || '';
       li.querySelector('strong').textContent = r.tipo === 'transporte' ? 'En transporte' : txtMin(r.minutos || minutos(r.distancia));
       li.querySelector('.t').appendChild(document.createTextNode(txtDist(r.distancia)));
-      li.onclick = () => abrirRuta(r, p.id);
+      li.onclick = () => abrirRuta(r, sentido, p.id);
       ul.appendChild(li);
     });
   }
-  // Ficha propia de una ruta; origen = id del lugar desde el que se recorre
-  function abrirRuta(r, origen, sinMover) {
+
+  /* ---------- ficha de ruta (cada sentido es una entidad con su texto y su audio) ---------- */
+  function abrirRuta(r, sentido, origen, sinMover) {
     if (narrador) narrador.parar();
-    estado.ruta = r;
-    estado.origen = origen && (origen === r.desde || origen === r.hasta) ? origen : r.desde;
-    // La ruta es una entidad con sentido propio (desde -> hasta), como su texto; el origen solo sirve para volver con la ✕
-    const a = porId[r.desde], b = porId[r.hasta];
+    estado.ruta = r; estado.sentido = sentido === 'vuelta' ? 'vuelta' : 'ida';
+    const s = sentidoDe(r, estado.sentido);
+    estado.origen = origen && porId[origen] ? origen : s.a.id;
+    estado.punto = null; colorRuta.clear();
     $('vista-lista').hidden = true; $('vista-ficha').hidden = true; $('vista-ruta').hidden = false;
     $('r-tipo').textContent = r.tipo === 'transporte' ? 'Mejor en transporte' : 'Ruta a pie';
-    $('r-nombre').textContent = r.nombre || (a.nombre + ' – ' + b.nombre);
-    $('r-desde').textContent = a.nombre; $('r-hasta').textContent = b.nombre;
+    $('r-nombre').textContent = s.nombre || (s.a.nombre + ' – ' + s.b.nombre);
+    $('r-desde').textContent = s.a.nombre; $('r-hasta').textContent = s.b.nombre;
     $('r-min').textContent = r.tipo === 'transporte' ? (r.transporte || 'Transporte público') : txtMin(r.minutos || minutos(r.distancia));
     $('r-dist').textContent = (r.tipo === 'transporte' ? 'a ' : 'andando · ') + txtDist(r.distancia);
     const t = $('r-texto'); t.innerHTML = '';
-    (r.descripcion || []).forEach((x) => { const el = document.createElement('p'); el.textContent = x; t.appendChild(el); });
+    s.descripcion.forEach((x) => { const el = document.createElement('p'); el.textContent = x; t.appendChild(el); });
+    const ulp = $('r-paradas'); ulp.innerHTML = '';
+    s.paradas.forEach((p) => {
+      const li = document.createElement('li');
+      const bt = document.createElement('button'); bt.textContent = p.nombre; bt.onclick = () => abrirPunto(p);
+      li.appendChild(bt); ulp.appendChild(li);
+    });
+    $('r-paradas-tit').hidden = !s.paradas.length;
     const ul = $('r-camino'); ul.innerHTML = '';
-    (r.camino || []).forEach((x) => { const el = document.createElement('li'); el.textContent = x; ul.appendChild(el); });
-    $('r-camino-tit').hidden = !(r.camino && r.camino.length);
-    $('r-ir-desde').textContent = 'Ir a ' + b.nombre; $('r-ir-desde').onclick = () => abrirPunto(b);
-    $('r-ir-hasta').textContent = 'Ir a ' + a.nombre; $('r-ir-hasta').onclick = () => abrirPunto(a);
-    if (narrador) narrador.preparar($('narrar-ruta'), r.id);
+    s.camino.forEach((x) => { const el = document.createElement('li'); el.textContent = x; ul.appendChild(el); });
+    $('r-camino-tit').hidden = !s.camino.length;
+    $('invertir').hidden = !r.vuelta;
+    $('r-ir-desde').textContent = 'Ir a ' + s.b.nombre; $('r-ir-desde').onclick = () => abrirPunto(s.b);
+    $('r-ir-hasta').textContent = 'Ir a ' + s.a.nombre; $('r-ir-hasta').onclick = () => abrirPunto(s.a);
+    if (narrador) narrador.preparar($('narrar-ruta'), s.id);
     $('cuerpo').scrollTop = 0;
     if (esMovil()) $('panel').className = 'panel';
-    estado.punto = null; inversasLimpias();
-    capaPuntos.changed(); capaEtiquetas.changed(); capaRutas.changed();
-    history.replaceState(null, '', '#' + r.id + (estado.origen !== r.desde ? '~' + estado.origen : ''));
+    refrescarMapa();
+    history.replaceState(null, '', '#' + s.id);
     requestAnimationFrame(animar);
     if (!sinMover) encuadrar(r.feature.getGeometry().getExtent(), 17.5);
   }
-  function inversasLimpias() { /* las geometrías invertidas se reutilizan; nada que limpiar */ }
-  // ✕ de la ficha de ruta: deja de seleccionarla y vuelve al lugar de origen
+  // ⇄ cambia el sentido de la ruta: otro texto, otro audio y la animación al revés
+  function invertirRuta() {
+    if (!estado.ruta) return;
+    abrirRuta(estado.ruta, estado.sentido === 'ida' ? 'vuelta' : 'ida', estado.origen, true);
+  }
+  // ✕ de la ficha de ruta: la deselecciona y vuelve al lugar desde el que se abrió
   function cerrarRuta() {
     const origen = estado.origen && porId[estado.origen];
     estado.ruta = null; estado.origen = null;
     if (narrador) narrador.parar();
     $('vista-ruta').hidden = true;
     if (origen) abrirPunto(origen, true);
-    else { $('vista-lista').hidden = false; capaRutas.changed(); history.replaceState(null, '', location.pathname + location.search); }
+    else { $('vista-lista').hidden = false; refrescarMapa(); history.replaceState(null, '', location.pathname + location.search); }
   }
 
   /* ---------- GPS ---------- */
-  let vigilancia = null;
   function activarGPS() {
     if (!navigator.geolocation) { alertaSuave('Tu navegador no permite conocer la ubicación.'); return; }
     if (estado.yo) { estado.seguir = true; view.animate({ center: estado.yo, zoom: Math.max(view.getZoom(), 16), duration: 500 }); return; }
     $('gps').classList.add('buscando');
     estado.seguir = true;
-    vigilancia = navigator.geolocation.watchPosition((pos) => {
+    navigator.geolocation.watchPosition((pos) => {
       const c = ol.proj.fromLonLat([pos.coords.longitude, pos.coords.latitude]);
       const primera = !estado.yo;
       estado.yo = c;
-      const factor = 1 / Math.cos(pos.coords.latitude * Math.PI / 180); // metros reales -> unidades 3857
+      const factor = 1 / Math.cos(pos.coords.latitude * Math.PI / 180);
       const src = capaYo.getSource(); src.clear();
       const prec = new ol.Feature(new ol.geom.Circle(c, Math.min(pos.coords.accuracy, 500) * factor));
       prec.setStyle(new S.Style({ fill: new S.Fill({ color: 'rgba(47,127,134,.15)' }), stroke: new S.Stroke({ color: 'rgba(47,127,134,.5)', width: 1 }) }));
@@ -422,34 +489,33 @@
   /* ---------- controles ---------- */
   function enlazar() {
     $('volver-lista').onclick = cerrarPunto;
+    $('cerrar-punto').onclick = cerrarPunto;
     $('cerrar-ruta').onclick = cerrarRuta;
+    $('invertir').onclick = invertirRuta;
     $('visitado').onclick = () => estado.punto && marcarVisitado(estado.punto, !esVisitado(estado.punto));
     $('compartir').onclick = compartirProgreso;
     $('leer-mas').onclick = () => document.body.classList.add('historia-abierta');
     $('gps').onclick = activarGPS;
     $('capa').onclick = () => {
       estado.base = estado.base === 'calles' ? 'satelite' : 'calles';
-      const b = BASES[estado.base];
-      capaBase.setSource(new ol.source.XYZ({ url: b.url, attributions: b.atr, maxZoom: 19 }));
-      map.getTargetElement().classList.toggle('satelite', estado.base === 'satelite');
+      if (capaCalles) capaCalles.setVisible(estado.base === 'calles');
+      capaSatelite.setVisible(estado.base === 'satelite');
       $('capa').title = estado.base === 'calles' ? 'Cambiar a satélite' : 'Cambiar a mapa de calles';
       $('capa').classList.toggle('activo', estado.base === 'satelite');
     };
-    // Hoja inferior en móvil: el tirador alterna entre bajo, medio y alto
     $('tirador').onclick = () => {
       const p = $('panel');
       p.className = p.classList.contains('alto') ? 'panel bajo' : p.classList.contains('bajo') ? 'panel' : 'panel alto';
     };
     window.addEventListener('hashchange', irAlHash);
   }
-
-  // #lugar  o  #ruta-a--b  (opcionalmente ~origen)
+  // #lugar  ·  #ruta-a--b (sentido a→b)  ·  #visitados=a,b,c
   function irAlHash() {
-    const hash = decodeURIComponent(location.hash.slice(1));
-    if (hash.startsWith('visitados=')) { importarVisitados(hash.slice(10)); return false; }
-    const [h, origen] = hash.split('~');
+    const h = decodeURIComponent(location.hash.slice(1));
+    if (h.startsWith('visitados=')) { importarVisitados(h.slice(10)); return false; }
     if (porId[h]) { if (porId[h] !== estado.punto) abrirPunto(porId[h]); return true; }
-    if (rutasPorId[h]) { if (rutasPorId[h] !== estado.ruta) abrirRuta(rutasPorId[h], origen); return true; }
+    const rs = rutasPorId[h];
+    if (rs) { if (rs.r !== estado.ruta || rs.sentido !== estado.sentido) abrirRuta(rs.r, rs.sentido); return true; }
     return false;
   }
 
@@ -463,7 +529,7 @@
     enlazar();
     await cargar();
     pintarProgreso(); pintarFiltros(); pintarLista();
-    if (!irAlHash()) {   // vista inicial: el centro (los lugares a más de 3 km quedan fuera del encuadre)
+    if (!irAlHash()) {
       const c = ol.proj.fromLonLat([23.326, 42.695]);
       encuadrar(ol.extent.boundingExtent(puntos.filter((p) => metros(p.coord, c) < 3000).map((p) => p.coord)), 16);
     }

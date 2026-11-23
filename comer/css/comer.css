@@ -1,0 +1,20 @@
+/* Comer en Sofía: se apoya en el estilo de Viajando y añade la ficha de restaurante */
+.activar-gps { border: 1px solid var(--linea); background: #fffaf1; color: var(--tinta); border-radius: 16px; padding: 6px 13px; font: 600 13px inherit; font-family: inherit; cursor: pointer; margin-bottom: 8px; }
+.activar-gps:hover { border-color: var(--carmesi); color: var(--carmesi); }
+.restaurantes .num { font-size: 12px; }
+.restaurantes small .estrella { color: var(--oro); font-weight: 700; }
+.nota-fuentes { color: var(--suave); font-size: 12px; line-height: 1.45; margin-top: 14px; }
+.foto { height: 130px; border-radius: 12px; margin: 6px 0 10px; display: grid; place-items: center;
+  background: radial-gradient(circle at 30% 30%, #f1e3c6, #e3cfa8 60%, #d7bf93); position: relative; overflow: hidden; }
+.foto svg { width: 84px; height: 84px; opacity: .75; }
+.foto .letra { position: absolute; right: 12px; bottom: 6px; font: 700 34px "Cormorant Garamond", Georgia, serif; color: rgba(122, 31, 25, .35); }
+.datos-rest { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; font-size: 14px; color: var(--suave); margin-bottom: 8px; }
+.datos-rest .nota { font-weight: 700; color: var(--tinta); }
+.datos-rest .nota b { color: var(--oro); }
+.datos-rest .precio { font-weight: 700; color: var(--visitado, #5f7a34); letter-spacing: 1px; }
+.acciones-rest { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 12px; }
+.llevame { display: inline-flex; align-items: center; gap: 6px; background: var(--carmesi); color: #fff; text-decoration: none; border-radius: 18px; padding: 8px 16px; font-weight: 600; font-size: 14px; }
+.llevame svg { width: 16px; height: 16px; }
+.ver-google { display: inline-flex; align-items: center; border: 1.5px solid var(--carmesi); color: var(--carmesi); text-decoration: none; border-radius: 18px; padding: 7px 14px; font-weight: 600; font-size: 13.5px; }
+.resumen-rest { font-size: 14.5px; line-height: 1.55; color: #34383f; margin: 0 0 10px; }
+.platos { margin: 0 0 14px; padding-left: 18px; font-size: 14px; line-height: 1.5; }

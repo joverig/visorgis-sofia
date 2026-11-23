@@ -1,0 +1,354 @@
+{
+"type": "FeatureCollection",
+"features": [
+{
+"type": "Feature",
+"properties": {
+"id": "cosmos",
+"nombre": "Cosmos",
+"cocina": "Búlgara moderna",
+"precio": "€€€",
+"direccion": "Lavele 19",
+"valoracion": {
+"nota": 4.6,
+"opiniones": 3685
+},
+"resumen": "Cocina búlgara de autor: recetas tradicionales reinterpretadas con técnica contemporánea y presentación muy cuidada. Uno de los restaurantes más comentados del centro; conviene reservar.",
+"platos": [
+"Menú degustación de temporada",
+"Reinterpretaciones de platos búlgaros clásicos"
+]
+},
+"geometry": {
+"type": "Point",
+"coordinates": [
+23.31904,
+42.69476
+]
+}
+},
+{
+"type": "Feature",
+"properties": {
+"id": "moma",
+"nombre": "Moma Bulgarian Food & Wine",
+"cocina": "Búlgara tradicional y moderna",
+"precio": "€€",
+"direccion": "Solunska 28",
+"valoracion": {
+"nota": 4.2,
+"opiniones": 5364
+},
+"resumen": "Restaurante amplio, con varias plantas y salas decoradas de forma distinta, que combina platos tradicionales búlgaros con versiones modernas y una buena carta de vinos del país.",
+"platos": [
+"Guiso de cordero en olla de pan",
+"Ensalada shopska",
+"Vinos búlgaros"
+]
+},
+"geometry": {
+"type": "Point",
+"coordinates": [
+23.31892,
+42.693
+]
+}
+},
+{
+"type": "Feature",
+"properties": {
+"id": "hadjidraganov",
+"nombre": "Hadjidraganov's Cellars",
+"cocina": "Búlgara tradicional",
+"precio": "€€",
+"direccion": "Hristo Belchev 18",
+"valoracion": null,
+"resumen": "Una taberna con decoración folclórica, a modo de bodega antigua, considerada uno de los mejores sitios para probar la cocina tradicional búlgara. Elaboran parte de sus embutidos.",
+"platos": [
+"Embutidos de elaboración propia",
+"Carnes a la brasa",
+"Ensalada shopska"
+]
+},
+"geometry": {
+"type": "Point",
+"coordinates": [
+23.3211,
+42.69292
+]
+}
+},
+{
+"type": "Feature",
+"properties": {
+"id": "manastirska",
+"nombre": "Manastirska Magernitsa",
+"cocina": "Búlgara tradicional",
+"precio": "€€",
+"direccion": "Han Asparuh 67",
+"valoracion": null,
+"resumen": "Cocina basada en recetas de monasterios búlgaros e ingredientes de campo, en una calle tranquila del centro.",
+"platos": [
+"Recetas de inspiración monástica",
+"Guisos al horno en cazuela de barro"
+]
+},
+"geometry": {
+"type": "Point",
+"coordinates": [
+23.3246,
+42.68934
+]
+}
+},
+{
+"type": "Feature",
+"properties": {
+"id": "madeinhome",
+"nombre": "Made in Home",
+"cocina": "Casera búlgara y mediterránea",
+"precio": "€€",
+"direccion": "Angel Kanchev 30",
+"valoracion": null,
+"resumen": "Pequeño restaurante familiar de comida casera con influencias búlgaras, mediterráneas y de Oriente Medio. Buena opción para grupos mixtos de vegetarianos y carnívoros.",
+"platos": [
+"Platos caseros del día",
+"Opciones vegetarianas"
+]
+},
+"geometry": {
+"type": "Point",
+"coordinates": [
+23.32166,
+42.68968
+]
+}
+},
+{
+"type": "Feature",
+"properties": {
+"id": "shtastliveca",
+"nombre": "Shtastliveca",
+"cocina": "Búlgara y europea",
+"precio": "€€",
+"direccion": "bulevar Vitosha 27",
+"valoracion": null,
+"resumen": "Restaurante muy popular en pleno bulevar Vitosha que mezcla cocina búlgara y europea en un ambiente animado.",
+"platos": [
+"Típico de la cocina búlgara: ensalada shopska, kavarma, banitsa"
+]
+},
+"geometry": {
+"type": "Point",
+"coordinates": [
+23.32056,
+42.69331
+]
+}
+},
+{
+"type": "Feature",
+"properties": {
+"id": "podlipite",
+"nombre": "Pod Lipite",
+"cocina": "Búlgara tradicional",
+"precio": "€€",
+"direccion": "Elin Pelin 1 (Lozenets)",
+"valoracion": null,
+"resumen": "Abierto en 1926, es uno de los restaurantes más antiguos de Sofía. Cocina tradicional búlgara en un ambiente clásico, algo alejado del centro histórico.",
+"platos": [
+"Típico de la cocina búlgara: carnes a la brasa, guisos y ensaladas"
+]
+},
+"geometry": {
+"type": "Point",
+"coordinates": [
+23.33548,
+42.68176
+]
+}
+},
+{
+"type": "Feature",
+"properties": {
+"id": "oborishte35",
+"nombre": "Oborishte 35",
+"cocina": "Búlgara y europea",
+"precio": "€€",
+"direccion": "Oborishte 35",
+"valoracion": null,
+"resumen": "Restaurante amplio con un jardín fresco en verano, en el barrio tranquilo de Oborishte, cerca de la catedral de Alejandro Nevski.",
+"platos": [
+"Cocina búlgara y europea",
+"Terraza-jardín en verano"
+]
+},
+"geometry": {
+"type": "Point",
+"coordinates": [
+23.34186,
+42.69483
+]
+}
+},
+{
+"type": "Feature",
+"properties": {
+"id": "maminkolio",
+"nombre": "Mamin Kolio",
+"cocina": "Búlgara tradicional",
+"precio": "€",
+"direccion": "Pozitano 40",
+"valoracion": null,
+"resumen": "Taberna de cocina búlgara casera y precios contenidos, en la zona oeste del centro.",
+"platos": [
+"Típico de la cocina búlgara: sopas, guisos y carnes a la parrilla"
+]
+},
+"geometry": {
+"type": "Point",
+"coordinates": [
+23.31562,
+42.69675
+]
+}
+},
+{
+"type": "Feature",
+"properties": {
+"id": "balaban",
+"nombre": "Balaban Wine",
+"cocina": "Vinos búlgaros y cocina",
+"precio": "€€",
+"direccion": "Krakra",
+"valoracion": null,
+"resumen": "Bar de vinos con cocina, buena ocasión para descubrir variedades búlgaras como el mavrud o el melnik.",
+"platos": [
+"Vinos búlgaros por copas",
+"Tablas para compartir"
+]
+},
+"geometry": {
+"type": "Point",
+"coordinates": [
+23.33664,
+42.69285
+]
+}
+},
+{
+"type": "Feature",
+"properties": {
+"id": "chevermeto",
+"nombre": "Chevermeto",
+"cocina": "Búlgara tradicional con folclore",
+"precio": "€€",
+"direccion": "bulevar Vitosha 87",
+"valoracion": null,
+"resumen": "Restaurante de ambiente folclórico, conocido por el chevermé, el cordero asado entero, y por sus espectáculos de música y danza tradicional.",
+"platos": [
+"Chevermé (cordero asado)",
+"Espectáculo folclórico"
+]
+},
+"geometry": {
+"type": "Point",
+"coordinates": [
+23.31607,
+42.68307
+]
+}
+},
+{
+"type": "Feature",
+"properties": {
+"id": "kashti",
+"nombre": "Hadjidraganovite Kashti",
+"cocina": "Búlgara tradicional",
+"precio": "€€",
+"direccion": "Kozloduy",
+"valoracion": null,
+"resumen": "Restaurante tradicional en un conjunto de casas restauradas del siglo XIX, con jardín, cerca de la estación central y con música folclórica en directo.",
+"platos": [
+"Típico de la cocina búlgara: carnes a la brasa, guisos y vinos locales"
+]
+},
+"geometry": {
+"type": "Point",
+"coordinates": [
+23.32261,
+42.70659
+]
+}
+},
+{
+"type": "Feature",
+"properties": {
+"id": "bankovich",
+"nombre": "Bankovich",
+"cocina": "Serbia y búlgara",
+"precio": "€€",
+"direccion": "Dyakon Ignatiy",
+"valoracion": null,
+"resumen": "Cocina de la vecina Serbia, muy parecida a la búlgara y centrada en las carnes a la parrilla.",
+"platos": [
+"Pljeskavica y ćevapi",
+"Carnes a la parrilla"
+]
+},
+"geometry": {
+"type": "Point",
+"coordinates": [
+23.32425,
+42.69309
+]
+}
+},
+{
+"type": "Feature",
+"properties": {
+"id": "raketa",
+"nombre": "Raketa Rakia Bar",
+"cocina": "Búlgara con aire retro",
+"precio": "€€",
+"direccion": "Yanko Sakazov 17",
+"valoracion": null,
+"resumen": "Bar-restaurante decorado con objetos de la época socialista, con una larga carta de rakías, el aguardiente nacional, y cocina búlgara.",
+"platos": [
+"Rakías de muchas regiones",
+"Platos búlgaros para picar"
+]
+},
+"geometry": {
+"type": "Point",
+"coordinates": [
+23.34201,
+42.69828
+]
+}
+},
+{
+"type": "Feature",
+"properties": {
+"id": "egur",
+"nombre": "Egur Egur",
+"cocina": "Armenia",
+"precio": "€€",
+"direccion": "Georgi S. Rakovski 92",
+"valoracion": null,
+"resumen": "Cocina armenia casera muy cerca de la Iglesia rusa y del Teatro Nacional. Una alternativa diferente sin salir del centro.",
+"platos": [
+"Carnes a la brasa",
+"Platos y dulces armenios"
+]
+},
+"geometry": {
+"type": "Point",
+"coordinates": [
+23.32962,
+42.69628
+]
+}
+}
+]
+}
