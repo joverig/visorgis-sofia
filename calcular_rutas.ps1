@@ -23,23 +23,34 @@ $curl = Join-Path $env:SystemRoot 'System32\curl.exe'
 function PedirCurl([string]$url, [string]$cuerpo) {
     if (-not (Test-Path $curl)) { throw 'No hay curl.exe en este Windows' }
     $tmp = [System.IO.Path]::GetTempFileName()
+    $tmpErr = [System.IO.Path]::GetTempFileName()
     $tmpCuerpo = $null
+    # curl escribe sus mensajes en un fichero: en Windows PowerShell 5.1 cualquier linea por
+    # stderr de un programa externo se convierte en error y corta el script.
+    $prefAnterior = $ErrorActionPreference
+    $ErrorActionPreference = 'Continue'
     try {
-        $parametros = @('-sS', '-f', '-L', '--max-time', '120', '-A', $ua, '-o', $tmp)
+        $parametros = @('-s', '-S', '-f', '-L', '--max-time', '120', '-A', $ua, '-o', $tmp, '--stderr', $tmpErr)
         if ($cuerpo) {
             $tmpCuerpo = [System.IO.Path]::GetTempFileName()
             [System.IO.File]::WriteAllText($tmpCuerpo, $cuerpo, $utf8)
             $parametros += @('-H', 'Content-Type: application/x-www-form-urlencoded', '--data-binary', "@$tmpCuerpo")
         }
-        $err = & $curl @args $url 2>&1
-        if ($LASTEXITCODE -eq 35 -or $LASTEXITCODE -eq 60) {
+        & $curl @parametros $url | Out-Null
+        $codigo = $LASTEXITCODE
+        if ($codigo -eq 35 -or $codigo -eq 60) {
             # Fallo de comprobacion de revocacion del certificado (habitual tras proxies): reintento sin ella
-            $err = & $curl '--ssl-no-revoke' @args $url 2>&1
+            & $curl '--ssl-no-revoke' @parametros $url | Out-Null
+            $codigo = $LASTEXITCODE
         }
-        if ($LASTEXITCODE -ne 0) { throw "curl.exe ($LASTEXITCODE): $err" }
+        if ($codigo -ne 0) {
+            $msg = ([System.IO.File]::ReadAllText($tmpErr)).Trim()
+            throw "curl.exe codigo ${codigo}: $msg"
+        }
         return [System.IO.File]::ReadAllText($tmp, $utf8)
     } finally {
-        Remove-Item $tmp -ErrorAction SilentlyContinue
+        $ErrorActionPreference = $prefAnterior
+        Remove-Item $tmp, $tmpErr -ErrorAction SilentlyContinue
         if ($tmpCuerpo) { Remove-Item $tmpCuerpo -ErrorAction SilentlyContinue }
     }
 }
