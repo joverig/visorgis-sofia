@@ -1,0 +1,26 @@
+SOFIA EN EL TIEMPO (POC) - visorgis_sofia
+=========================================
+
+Mismo motor que visorgis_madrid (OpenLayers 10, sin build) con otro estilo y otros datos.
+No hay planos historicos de Sofia como servicio web: hasta 2005 todo son recreaciones
+vectoriales (www\datos_propios\recintos_sofia.geojson); desde 2014, imagenes de satelite del
+archivo de Esri (Wayback), que el visor elige al arrancar segun la fecha de cada paso.
+
+Carpetas
+  www\                  el visor (lo que se publica)
+    js\capas.js         pasos de la linea temporal y textos
+    js\visor.js         logica del visor
+    lib\ol\             OpenLayers en local
+    datos_propios\      limites, puertas, hitos, barrios y yacimientos con fecha (EPSG:4326)
+
+Trabajo diario
+  Arrancar_visor.bat -> http://localhost:8081/ (usa el PHP portable de C:\Trabajo\VisorGIS)
+  Puerto 8081 para poder tenerlo abierto a la vez que Madrid (8080).
+
+Cache del navegador
+  Al publicar, subir el numero ?v= de index.html, VERSION en index.html, www\version.txt y el
+  ?v= de recintos_sofia.geojson en capas.js.
+
+Publicacion (GitHub Pages)
+  Repositorio: https://github.com/joverig/visorgis-sofia (main = proyecto, gh-pages = copia de www\)
+  Web:         https://joverig.github.io/visorgis-sofia/

@@ -1,0 +1,1134 @@
+{
+ "type": "FeatureCollection",
+ "name": "recintos_sofia_aprox",
+ "metadata": {
+  "aviso": "Recreación APROXIMADA de elaboración propia: trazados, fechas y ubicaciones orientativos, no arqueológicos ni oficiales. Recintos de Serdica/Sredets a partir de bibliografía divulgativa; desde la época otomana, mancha urbana aproximada. Propiedades: tipo (recinto|puerta|hito|barrio|yacimiento), desde, hasta, clase. EPSG:4326."
+ },
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "recinto",
+    "desde": 180,
+    "nombre": "Ulpia Serdica (176-180)",
+    "limite": "muralla de Marco Aurelio",
+    "clase": "muralla"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       23.3186,
+       42.6951
+      ],
+      [
+       23.3249,
+       42.6953
+      ],
+      [
+       23.3252,
+       42.6998
+      ],
+      [
+       23.3189,
+       42.7
+      ],
+      [
+       23.3186,
+       42.6951
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "recinto",
+    "desde": 330,
+    "nombre": "Serdica y sus arrabales (s. IV)",
+    "limite": "ciudad intramuros y extramuros",
+    "clase": "urbano"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       23.317,
+       42.694
+      ],
+      [
+       23.326,
+       42.6935
+      ],
+      [
+       23.333,
+       42.695
+      ],
+      [
+       23.3335,
+       42.6985
+      ],
+      [
+       23.327,
+       42.7015
+      ],
+      [
+       23.318,
+       42.7015
+      ],
+      [
+       23.316,
+       42.698
+      ],
+      [
+       23.317,
+       42.694
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "recinto",
+    "desde": 809,
+    "nombre": "Sredets (s. IX-XIV)",
+    "limite": "muralla tardorromana (s. V-VI) reutilizada",
+    "clase": "muralla"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       23.3176,
+       42.6944
+      ],
+      [
+       23.3263,
+       42.6944
+      ],
+      [
+       23.3268,
+       42.7012
+      ],
+      [
+       23.3176,
+       42.7013
+      ],
+      [
+       23.3176,
+       42.6944
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "recinto",
+    "desde": 1500,
+    "nombre": "Sofya otomana (s. XVI-XIX)",
+    "limite": "ciudad abierta, sin murallas",
+    "clase": "urbano"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       23.311,
+       42.6925
+      ],
+      [
+       23.32,
+       42.6905
+      ],
+      [
+       23.33,
+       42.6915
+      ],
+      [
+       23.336,
+       42.695
+      ],
+      [
+       23.334,
+       42.701
+      ],
+      [
+       23.327,
+       42.7045
+      ],
+      [
+       23.317,
+       42.705
+      ],
+      [
+       23.311,
+       42.701
+      ],
+      [
+       23.311,
+       42.6925
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "recinto",
+    "desde": 1900,
+    "nombre": "Sofía hacia 1900",
+    "limite": "mancha urbana aproximada",
+    "clase": "urbano"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       23.302,
+       42.687
+      ],
+      [
+       23.315,
+       42.682
+      ],
+      [
+       23.332,
+       42.684
+      ],
+      [
+       23.345,
+       42.689
+      ],
+      [
+       23.35,
+       42.698
+      ],
+      [
+       23.342,
+       42.706
+      ],
+      [
+       23.328,
+       42.712
+      ],
+      [
+       23.315,
+       42.713
+      ],
+      [
+       23.304,
+       42.708
+      ],
+      [
+       23.299,
+       42.698
+      ],
+      [
+       23.302,
+       42.687
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "recinto",
+    "desde": 1934,
+    "nombre": "Sofía hacia 1934",
+    "limite": "mancha urbana aproximada",
+    "clase": "urbano"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       23.285,
+       42.68
+      ],
+      [
+       23.3,
+       42.67
+      ],
+      [
+       23.325,
+       42.669
+      ],
+      [
+       23.35,
+       42.674
+      ],
+      [
+       23.37,
+       42.685
+      ],
+      [
+       23.37,
+       42.7
+      ],
+      [
+       23.355,
+       42.715
+      ],
+      [
+       23.33,
+       42.723
+      ],
+      [
+       23.305,
+       42.723
+      ],
+      [
+       23.285,
+       42.712
+      ],
+      [
+       23.278,
+       42.695
+      ],
+      [
+       23.285,
+       42.68
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "recinto",
+    "desde": 1960,
+    "nombre": "Sofía hacia 1960",
+    "limite": "mancha urbana aproximada",
+    "clase": "urbano"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       23.265,
+       42.67
+      ],
+      [
+       23.29,
+       42.656
+      ],
+      [
+       23.33,
+       42.655
+      ],
+      [
+       23.365,
+       42.66
+      ],
+      [
+       23.39,
+       42.675
+      ],
+      [
+       23.395,
+       42.695
+      ],
+      [
+       23.375,
+       42.72
+      ],
+      [
+       23.34,
+       42.735
+      ],
+      [
+       23.3,
+       42.738
+      ],
+      [
+       23.27,
+       42.725
+      ],
+      [
+       23.255,
+       42.7
+      ],
+      [
+       23.265,
+       42.67
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "recinto",
+    "desde": 1985,
+    "nombre": "Sofía hacia 1985",
+    "limite": "mancha urbana aproximada",
+    "clase": "urbano"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       23.225,
+       42.705
+      ],
+      [
+       23.245,
+       42.67
+      ],
+      [
+       23.28,
+       42.645
+      ],
+      [
+       23.33,
+       42.64
+      ],
+      [
+       23.375,
+       42.635
+      ],
+      [
+       23.415,
+       42.65
+      ],
+      [
+       23.425,
+       42.68
+      ],
+      [
+       23.41,
+       42.71
+      ],
+      [
+       23.38,
+       42.74
+      ],
+      [
+       23.33,
+       42.755
+      ],
+      [
+       23.28,
+       42.75
+      ],
+      [
+       23.24,
+       42.73
+      ],
+      [
+       23.225,
+       42.705
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "recinto",
+    "desde": 2005,
+    "nombre": "Sofía hoy",
+    "limite": "mancha urbana aproximada",
+    "clase": "urbano"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       23.21,
+       42.71
+      ],
+      [
+       23.23,
+       42.67
+      ],
+      [
+       23.27,
+       42.63
+      ],
+      [
+       23.32,
+       42.615
+      ],
+      [
+       23.38,
+       42.615
+      ],
+      [
+       23.425,
+       42.64
+      ],
+      [
+       23.44,
+       42.68
+      ],
+      [
+       23.425,
+       42.715
+      ],
+      [
+       23.39,
+       42.745
+      ],
+      [
+       23.33,
+       42.76
+      ],
+      [
+       23.27,
+       42.755
+      ],
+      [
+       23.23,
+       42.735
+      ],
+      [
+       23.21,
+       42.71
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "puerta",
+    "desde": 180,
+    "nombre": "Puerta este"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.325,
+     42.6971
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "puerta",
+    "desde": 180,
+    "nombre": "Puerta oeste"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.3187,
+     42.6975
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "puerta",
+    "desde": 180,
+    "nombre": "Puerta norte"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.3221,
+     42.6999
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "puerta",
+    "desde": 180,
+    "nombre": "Puerta sur"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.3218,
+     42.6952
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "yacimiento",
+    "desde": -8000,
+    "nombre": "Aldea neolítica de Slatina",
+    "grupo": "antes",
+    "hasta": 180
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.37,
+     42.685
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "yacimiento",
+    "desde": -8000,
+    "nombre": "Manantiales termales",
+    "grupo": "antes",
+    "hasta": 180
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.3238,
+     42.7003
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "hito",
+    "desde": 180,
+    "nombre": "Foro (pl. Sveta Nedelya)"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.3215,
+     42.6967
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "hito",
+    "desde": 300,
+    "nombre": "Rotonda de San Jorge"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.3233,
+     42.6969
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "hito",
+    "desde": 290,
+    "nombre": "Anfiteatro",
+    "hasta": 600
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.3288,
+     42.6968
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "hito",
+    "desde": 550,
+    "nombre": "Basílica de Santa Sofía"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.3311,
+     42.6964
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "hito",
+    "desde": 1259,
+    "nombre": "Iglesia de Boyana"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.2665,
+     42.6447
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "hito",
+    "desde": 1474,
+    "nombre": "Büyük Camii (Museo Arqueológico)"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.3245,
+     42.6976
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "hito",
+    "desde": 1576,
+    "nombre": "Mezquita de Banya Bashi"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.3226,
+     42.7
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "hito",
+    "desde": 1884,
+    "nombre": "Parlamento"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.3326,
+     42.694
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "hito",
+    "desde": 1884,
+    "nombre": "Parque Borisova Gradina"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.342,
+     42.683
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "hito",
+    "desde": 1888,
+    "nombre": "Estación central"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.3215,
+     42.712
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "hito",
+    "desde": 1907,
+    "nombre": "Teatro Nacional Iván Vázov"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.3265,
+     42.6942
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "hito",
+    "desde": 1912,
+    "nombre": "Catedral de Alejandro Nevski"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.3328,
+     42.6958
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "hito",
+    "desde": 1913,
+    "nombre": "Baños Minerales Centrales"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.324,
+     42.7006
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "hito",
+    "desde": 1953,
+    "nombre": "Estadio Vasil Levski"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.338,
+     42.6876
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "hito",
+    "desde": 1955,
+    "nombre": "Conjunto del Largo"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.324,
+     42.6985
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "hito",
+    "desde": 1981,
+    "nombre": "NDK"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.319,
+     42.6847
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "hito",
+    "desde": 2002,
+    "nombre": "Business Park Sofia"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.3725,
+     42.6265
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "hito",
+    "desde": 2006,
+    "nombre": "Aeropuerto, terminal 2"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.4062,
+     42.6952
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "barrio",
+    "desde": 1890,
+    "nombre": "Poduyane"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.36,
+     42.702
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "barrio",
+    "desde": 1900,
+    "nombre": "Konyovitsa"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.3,
+     42.702
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "barrio",
+    "desde": 1900,
+    "nombre": "Banishora"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.31,
+     42.713
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "barrio",
+    "desde": 1925,
+    "nombre": "Lozenets"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.32,
+     42.676
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "barrio",
+    "desde": 1930,
+    "nombre": "Iztok"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.355,
+     42.672
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "barrio",
+    "desde": 1930,
+    "nombre": "Lagera"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.29,
+     42.687
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "barrio",
+    "desde": 1955,
+    "nombre": "Hadzhi Dimitar"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.355,
+     42.715
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "barrio",
+    "desde": 1958,
+    "nombre": "Krasno Selo"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.285,
+     42.68
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "barrio",
+    "desde": 1960,
+    "nombre": "Zaharna Fabrika"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.285,
+     42.71
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "barrio",
+    "desde": 1968,
+    "nombre": "Mladost"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.38,
+     42.65
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "barrio",
+    "desde": 1970,
+    "nombre": "Druzhba"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.405,
+     42.665
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "barrio",
+    "desde": 1972,
+    "nombre": "Studentski Grad"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.345,
+     42.651
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "barrio",
+    "desde": 1975,
+    "nombre": "Lyulin"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.255,
+     42.715
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "barrio",
+    "desde": 1975,
+    "nombre": "Nadezhda"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.3,
+     42.735
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "barrio",
+    "desde": 1978,
+    "nombre": "Ovcha Kupel"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.25,
+     42.68
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "barrio",
+    "desde": 2005,
+    "nombre": "Manastirski Livadi"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.295,
+     42.66
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "tipo": "barrio",
+    "desde": 2015,
+    "nombre": "Mladost 4"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.375,
+     42.63
+    ]
+   }
+  }
+ ]
+}
