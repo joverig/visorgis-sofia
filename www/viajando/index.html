@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Manrope:wght@400;600&display=swap">
   <script>
     (function () {
-      var VERSION = '202611231116';
+      var VERSION = '202611231149';
       if (location.protocol.indexOf('http') !== 0) return;
       fetch('../version.txt', { cache: 'no-store' }).then(function (r) { return r.ok ? r.text() : ''; }).then(function (v) {
         v = (v || '').trim();
@@ -27,8 +27,8 @@
   <script>
     if (!window.ol) document.write('<script src="https://cdn.jsdelivr.net/npm/ol@10.5.0/dist/ol.js"><\/script>');
   </script>
-  <link rel="stylesheet" href="../comun/comun.css?v=202611231116">
-  <link rel="stylesheet" href="css/viajando.css?v=202611231116">
+  <link rel="stylesheet" href="../comun/comun.css?v=202611231149">
+  <link rel="stylesheet" href="css/viajando.css?v=202611231149">
 </head>
 <body>
   <div id="mapa"></div>
@@ -71,10 +71,30 @@
         <ul class="rutas" id="f-rutas"></ul>
         <p class="sin-rutas" id="f-sin-rutas" hidden>Las rutas a pie se están preparando.</p>
       </section>
+      <!-- Ficha de una ruta (cada camino entre dos lugares es una entidad propia) -->
+      <section id="vista-ruta" hidden>
+        <div class="ruta-barra">
+          <span class="categoria" id="r-tipo">Ruta a pie</span>
+          <button class="cerrar-ruta" id="cerrar-ruta" title="Dejar de seleccionar la ruta" aria-label="Cerrar ruta">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.3 5.7 12 12l6.3 6.3-1.4 1.4L10.6 13.4 4.3 19.7 2.9 18.3 9.2 12 2.9 5.7 4.3 4.3l6.3 6.3 6.3-6.3z"/></svg>
+          </button>
+        </div>
+        <h2 id="r-nombre"></h2>
+        <p class="ruta-extremos"><span id="r-desde"></span><span class="flecha">→</span><span id="r-hasta"></span></p>
+        <div class="ruta-cifras"><strong id="r-min"></strong><span id="r-dist"></span></div>
+        <button id="narrar-ruta" class="narrador" disabled></button>
+        <div class="historia ruta-texto" id="r-texto"></div>
+        <h3 id="r-camino-tit">Por el camino</h3>
+        <ul class="ruta-camino" id="r-camino"></ul>
+        <div class="ruta-ir">
+          <button class="ir" id="r-ir-desde"></button>
+          <button class="ir" id="r-ir-hasta"></button>
+        </div>
+      </section>
     </div>
   </aside>
 
-  <script src="../comun/comun.js?v=202611231116"></script>
-  <script src="js/viajando.js?v=202611231116"></script>
+  <script src="../comun/comun.js?v=202611231149"></script>
+  <script src="js/viajando.js?v=202611231149"></script>
 </body>
 </html>
