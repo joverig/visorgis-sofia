@@ -16,6 +16,7 @@
   const estado = { punto: null, ruta: null, filtro: null, yo: null, seguir: false, base: 'calles' };
   const puntos = [];          // { id, nombre, categoria, resumen, historia, coord(3857), num, feature }
   const porId = {};
+  const rutasPorId = {};
   const esMovil = () => window.matchMedia('(max-width: 760px)').matches;
 
   /* ---------- utilidades ---------- */
@@ -68,19 +69,57 @@
     }
     return cacheE[k];
   }
-  function estiloRuta(f) {
+  // Rutas: red completa en dorado discontinuo, las del lugar elegido en turquesa y la seleccionada en carmesí animado
+  let fase = 0;                       // desplazamiento del trazo animado
+  const flecha = (() => {             // flecha blanca para el sentido de la marcha
+    const c = document.createElement('canvas'); c.width = c.height = 20;
+    const g = c.getContext('2d'); g.fillStyle = '#fff'; g.strokeStyle = '#7a1f19'; g.lineWidth = 1.5;
+    g.beginPath(); g.moveTo(4, 4); g.lineTo(17, 10); g.lineTo(4, 16); g.lineTo(8, 10); g.closePath(); g.fill(); g.stroke();
+    return c;
+  })();
+  function estiloRuta(f, res) {
     const r = f.get('r');
     const sel = estado.ruta === r;
     const delPunto = estado.punto && (r.desde === estado.punto.id || r.hasta === estado.punto.id);
+    const bus = r.tipo === 'transporte';
     if (sel) {
-      return [new S.Style({ stroke: new S.Stroke({ color: '#fffaf1', width: 10 }), zIndex: 30 }),
-              new S.Style({ stroke: new S.Stroke({ color: '#a8322a', width: 6 }), zIndex: 31 })];
+      const geom = rutaOrientada(r);
+      const est = [
+        new S.Style({ geometry: geom, stroke: new S.Stroke({ color: '#fffaf1', width: 13, lineCap: 'round', lineJoin: 'round' }), zIndex: 40 }),
+        new S.Style({ geometry: geom, stroke: new S.Stroke({ color: bus ? '#5c6f8a' : '#a8322a', width: 8, lineCap: 'round', lineJoin: 'round' }), zIndex: 41 }),
+        new S.Style({ geometry: geom, stroke: new S.Stroke({ color: '#ffd9a8', width: 3, lineDash: [10, 16], lineDashOffset: -fase, lineCap: 'round' }), zIndex: 42 }),
+      ];
+      // flechas de sentido cada ~120 px de pantalla
+      const coords = geom.getCoordinates(), paso = res * 120;
+      let acum = 0;
+      for (let i = 1; i < coords.length; i++) {
+        const [x1, y1] = coords[i - 1], [x2, y2] = coords[i], L = Math.hypot(x2 - x1, y2 - y1);
+        acum += L;
+        if (acum >= paso && L > res * 8) {
+          acum = 0;
+          est.push(new S.Style({ geometry: new ol.geom.Point([(x1 + x2) / 2, (y1 + y2) / 2]), zIndex: 43,
+            image: new S.Icon({ img: flecha, imgSize: [20, 20], scale: 0.8, rotation: -Math.atan2(y2 - y1, x2 - x1), rotateWithView: true }) }));
+        }
+      }
+      return est;
     }
     if (delPunto) {
-      return [new S.Style({ stroke: new S.Stroke({ color: '#fffaf1', width: 8 }), zIndex: 20 }),
-              new S.Style({ stroke: new S.Stroke({ color: '#2f7f86', width: 4.5 }), zIndex: 21 })];
+      return [new S.Style({ stroke: new S.Stroke({ color: '#fffaf1', width: 10, lineCap: 'round', lineJoin: 'round' }), zIndex: 30 }),
+              new S.Style({ stroke: new S.Stroke({ color: bus ? '#5c6f8a' : '#1f6f77', width: 6, lineCap: 'round', lineJoin: 'round', lineDash: bus ? [2, 10] : undefined }), zIndex: 31 })];
     }
-    return new S.Style({ stroke: new S.Stroke({ color: estado.punto ? 'rgba(47,127,134,.25)' : 'rgba(47,127,134,.65)', width: 3, lineDash: [1, 7], lineCap: 'round' }) });
+    if (estado.punto || estado.ruta) {   // resto de la red, en segundo plano pero reconocible
+      return new S.Style({ stroke: new S.Stroke({ color: 'rgba(176,120,28,.6)', width: 2.5, lineCap: 'round', lineDash: bus ? [1, 8] : [7, 7] }), zIndex: 10 });
+    }
+    return [new S.Style({ stroke: new S.Stroke({ color: 'rgba(74,40,10,.8)', width: 6.5, lineCap: 'round' }), zIndex: 10 }),
+            new S.Style({ stroke: new S.Stroke({ color: '#f2b538', width: 3.5, lineCap: 'round', lineDash: bus ? [1, 9] : [12, 7] }), zIndex: 11 })];
+  }
+  // Geometría de la ruta en el sentido de la marcha (desde el lugar abierto hacia el otro)
+  function rutaOrientada(r) { return r.feature.getGeometry(); }   // ya viene ordenada de 'desde' a 'hasta'
+  function animar() {
+    if (!estado.ruta) return;
+    fase = (fase + 0.8) % 26;
+    capaRutas.changed();
+    requestAnimationFrame(animar);
   }
 
   /* ---------- mapa ---------- */
@@ -99,7 +138,7 @@
       map.forEachFeatureAtPixel(e.pixel, (f) => { if (!tocado) tocado = f; }, { hitTolerance: 6, layerFilter: (l) => l !== capaYo && l !== capaEtiquetas });
       if (!tocado) return;
       if (tocado.get('p')) abrirPunto(tocado.get('p'));
-      else if (tocado.get('r')) elegirRuta(tocado.get('r'), true);
+      else if (tocado.get('r')) abrirRuta(tocado.get('r'), estado.punto ? estado.punto.id : estado.origen);
     });
     map.on('pointermove', (e) => {
       if (e.dragging) return;
@@ -135,6 +174,8 @@
         const r = Object.assign({}, f.getProperties(), { feature: f });
         delete r.geometry;
         if (!porId[r.desde] || !porId[r.hasta]) return;
+        r.id = r.id || ('ruta-' + r.desde + '--' + r.hasta);
+        rutasPorId[r.id] = r;
         f.set('r', r);
         porId[r.desde].rutas.push(r); porId[r.hasta].rutas.push(r);
         capaRutas.getSource().addFeature(f);
@@ -174,7 +215,8 @@
 
   /* ---------- ficha ---------- */
   function abrirPunto(p, sinMover) {
-    estado.punto = p; estado.ruta = null;
+    estado.punto = p; estado.ruta = null; estado.origen = null;
+    $('vista-ruta').hidden = true;
     document.body.classList.remove('historia-abierta');
     $('vista-lista').hidden = true; $('vista-ficha').hidden = false;
     $('f-categoria').textContent = CATEGORIAS[p.categoria] || '';
@@ -191,14 +233,14 @@
     history.replaceState(null, '', '#' + p.id);
     if (!sinMover) {
       const ext = ol.extent.boundingExtent([p.coord]);
-      p.rutas.forEach((r) => ol.extent.extend(ext, r.feature.getGeometry().getExtent()));
+      p.rutas.filter((r) => r.tipo !== 'transporte').forEach((r) => ol.extent.extend(ext, r.feature.getGeometry().getExtent()));
       encuadrar(p.rutas.length ? ext : ol.extent.buffer(ext, 200), 17);
     }
   }
   function cerrarPunto() {
-    estado.punto = null; estado.ruta = null;
+    estado.punto = null; estado.ruta = null; estado.origen = null;
     if (narrador) narrador.parar();
-    $('vista-ficha').hidden = true; $('vista-lista').hidden = false;
+    $('vista-ficha').hidden = true; $('vista-ruta').hidden = true; $('vista-lista').hidden = false;
     capaPuntos.changed(); capaEtiquetas.changed(); capaRutas.changed();
     history.replaceState(null, '', location.pathname + location.search);
   }
@@ -212,42 +254,57 @@
   function pintarRutas(p) {
     const ul = $('f-rutas'); ul.innerHTML = '';
     $('f-sin-rutas').hidden = p.rutas.length > 0;
-    p.rutas.slice().sort((a, b) => a.distancia - b.distancia).forEach((r) => {
+    p.rutas.slice().sort((a, b) => (a.tipo === 'transporte') - (b.tipo === 'transporte') || a.distancia - b.distancia).forEach((r) => {
       const otro = porId[r.desde === p.id ? r.hasta : r.desde];
       const li = document.createElement('li');
-      li.innerHTML = '<div class="ruta-cab"><span><b></b><br><small></small></span><span class="t"><strong></strong></span></div>' +
-                     '<div class="ruta-det"></div>';
+      if (r.tipo === 'transporte') li.className = 'transporte';
+      li.innerHTML = '<div class="ruta-cab"><span><b></b><br><small></small></span><span class="t"><strong></strong></span></div>';
       li.querySelector('b').textContent = otro.nombre;
-      li.querySelector('small').textContent = CATEGORIAS[otro.categoria] || '';
-      li.querySelector('strong').textContent = txtMin(r.minutos || minutos(r.distancia));
+      li.querySelector('small').textContent = r.nombre || '';
+      li.querySelector('strong').textContent = r.tipo === 'transporte' ? 'En transporte' : txtMin(r.minutos || minutos(r.distancia));
       li.querySelector('.t').appendChild(document.createTextNode(txtDist(r.distancia)));
-      const det = li.querySelector('.ruta-det');
-      if (r.nota) { const n = document.createElement('p'); n.className = 'nota'; n.textContent = r.nota; det.appendChild(n); }
-      if (r.camino && r.camino.length) {
-        const t = document.createElement('p'); t.innerHTML = '<b>Por el camino verás:</b>'; det.appendChild(t);
-        const lu = document.createElement('ul');
-        r.camino.forEach((c) => { const x = document.createElement('li'); x.textContent = c; lu.appendChild(x); });
-        det.appendChild(lu);
-      } else if (!r.nota) {
-        const t = document.createElement('p'); t.textContent = 'Un paseo tranquilo por calles del centro.'; det.appendChild(t);
-      }
-      const ir = document.createElement('button'); ir.className = 'ir'; ir.textContent = 'Ir a ' + otro.nombre;
-      ir.onclick = (e) => { e.stopPropagation(); abrirPunto(otro); };
-      det.appendChild(ir);
-      li.querySelector('.ruta-cab').onclick = () => elegirRuta(r === estado.ruta ? null : r, true);
-      r.li = li;
+      li.onclick = () => abrirRuta(r, p.id);
       ul.appendChild(li);
     });
   }
-  function elegirRuta(r, mover) {
-    if (r && estado.punto && r.desde !== estado.punto.id && r.hasta !== estado.punto.id) {
-      abrirPunto(porId[r.desde], true);
-    }
+  // Ficha propia de una ruta; origen = id del lugar desde el que se recorre
+  function abrirRuta(r, origen, sinMover) {
+    if (narrador) narrador.parar();
     estado.ruta = r;
-    document.querySelectorAll('.rutas > li').forEach((li) => li.classList.remove('activa'));
-    if (r && r.li) { r.li.classList.add('activa'); r.li.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); }
-    capaRutas.changed();
-    if (r && mover) encuadrar(r.feature.getGeometry().getExtent(), 17.5);
+    estado.origen = origen && (origen === r.desde || origen === r.hasta) ? origen : r.desde;
+    // La ruta es una entidad con sentido propio (desde -> hasta), como su texto; el origen solo sirve para volver con la ✕
+    const a = porId[r.desde], b = porId[r.hasta];
+    $('vista-lista').hidden = true; $('vista-ficha').hidden = true; $('vista-ruta').hidden = false;
+    $('r-tipo').textContent = r.tipo === 'transporte' ? 'Mejor en transporte' : 'Ruta a pie';
+    $('r-nombre').textContent = r.nombre || (a.nombre + ' – ' + b.nombre);
+    $('r-desde').textContent = a.nombre; $('r-hasta').textContent = b.nombre;
+    $('r-min').textContent = r.tipo === 'transporte' ? (r.transporte || 'Transporte público') : txtMin(r.minutos || minutos(r.distancia));
+    $('r-dist').textContent = (r.tipo === 'transporte' ? 'a ' : 'andando · ') + txtDist(r.distancia);
+    const t = $('r-texto'); t.innerHTML = '';
+    (r.descripcion || []).forEach((x) => { const el = document.createElement('p'); el.textContent = x; t.appendChild(el); });
+    const ul = $('r-camino'); ul.innerHTML = '';
+    (r.camino || []).forEach((x) => { const el = document.createElement('li'); el.textContent = x; ul.appendChild(el); });
+    $('r-camino-tit').hidden = !(r.camino && r.camino.length);
+    $('r-ir-desde').textContent = 'Ir a ' + b.nombre; $('r-ir-desde').onclick = () => abrirPunto(b);
+    $('r-ir-hasta').textContent = 'Ir a ' + a.nombre; $('r-ir-hasta').onclick = () => abrirPunto(a);
+    if (narrador) narrador.preparar($('narrar-ruta'), r.id);
+    $('cuerpo').scrollTop = 0;
+    if (esMovil()) $('panel').className = 'panel';
+    estado.punto = null; inversasLimpias();
+    capaPuntos.changed(); capaEtiquetas.changed(); capaRutas.changed();
+    history.replaceState(null, '', '#' + r.id + (estado.origen !== r.desde ? '~' + estado.origen : ''));
+    requestAnimationFrame(animar);
+    if (!sinMover) encuadrar(r.feature.getGeometry().getExtent(), 17.5);
+  }
+  function inversasLimpias() { /* las geometrías invertidas se reutilizan; nada que limpiar */ }
+  // ✕ de la ficha de ruta: deja de seleccionarla y vuelve al lugar de origen
+  function cerrarRuta() {
+    const origen = estado.origen && porId[estado.origen];
+    estado.ruta = null; estado.origen = null;
+    if (narrador) narrador.parar();
+    $('vista-ruta').hidden = true;
+    if (origen) abrirPunto(origen, true);
+    else { $('vista-lista').hidden = false; capaRutas.changed(); history.replaceState(null, '', location.pathname + location.search); }
   }
 
   /* ---------- GPS ---------- */
@@ -288,6 +345,7 @@
   /* ---------- controles ---------- */
   function enlazar() {
     $('volver-lista').onclick = cerrarPunto;
+    $('cerrar-ruta').onclick = cerrarRuta;
     $('leer-mas').onclick = () => document.body.classList.add('historia-abierta');
     $('gps').onclick = activarGPS;
     $('capa').onclick = () => {
@@ -303,10 +361,15 @@
       const p = $('panel');
       p.className = p.classList.contains('alto') ? 'panel bajo' : p.classList.contains('bajo') ? 'panel' : 'panel alto';
     };
-    window.addEventListener('hashchange', () => {
-      const p = porId[location.hash.slice(1)];
-      if (p && p !== estado.punto) abrirPunto(p);
-    });
+    window.addEventListener('hashchange', irAlHash);
+  }
+
+  // #lugar  o  #ruta-a--b  (opcionalmente ~origen)
+  function irAlHash() {
+    const [h, origen] = decodeURIComponent(location.hash.slice(1)).split('~');
+    if (porId[h]) { if (porId[h] !== estado.punto) abrirPunto(porId[h]); return true; }
+    if (rutasPorId[h]) { if (rutasPorId[h] !== estado.ruta) abrirRuta(rutasPorId[h], origen); return true; }
+    return false;
   }
 
   async function iniciar() {
@@ -319,9 +382,10 @@
     enlazar();
     await cargar();
     pintarFiltros(); pintarLista();
-    const inicial = porId[location.hash.slice(1)];
-    if (inicial) abrirPunto(inicial);
-    else encuadrar(capaPuntos.getSource().getExtent(), 15);
+    if (!irAlHash()) {   // vista inicial: el centro (los lugares a más de 3 km quedan fuera del encuadre)
+      const c = ol.proj.fromLonLat([23.326, 42.695]);
+      encuadrar(ol.extent.boundingExtent(puntos.filter((p) => metros(p.coord, c) < 3000).map((p) => p.coord)), 16);
+    }
   }
   document.addEventListener('DOMContentLoaded', iniciar);
 })();

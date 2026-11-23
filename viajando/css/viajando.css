@@ -112,8 +112,8 @@ html, body { margin: 0; height: 100%; height: 100dvh; overflow: hidden; backgrou
   .tirador { display: block; width: 44px; height: 5px; border-radius: 3px; background: #c9bfae; margin: 8px auto 0; cursor: grab; flex: none; }
   .panel-cuerpo { padding: 10px 16px 16px; }
   .ol-attribution { display: none; }
-  body:not(.historia-abierta) .historia p:not(:first-child) { display: none; }
-  body:not(.historia-abierta) .historia p:first-child {
+  body:not(.historia-abierta) .historia:not(.ruta-texto) p:not(:first-child) { display: none; }
+  body:not(.historia-abierta) .historia:not(.ruta-texto) p:first-child {
     display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden;
   }
   .leer-mas { display: inline-block; border: 1px solid var(--linea); background: none; color: var(--carmesi);
@@ -124,3 +124,23 @@ html, body { margin: 0; height: 100%; height: 100dvh; overflow: hidden; backgrou
 /* Mapa de calles de OpenStreetMap con un toque cálido para casar con el papel */
 .base-calles canvas { filter: sepia(.22) saturate(.8) brightness(1.02) contrast(.96); }
 #mapa.satelite .base-calles canvas { filter: none; }
+
+/* Lista de rutas en la ficha del lugar: cada una abre su propia ficha */
+.rutas > li { cursor: pointer; }
+.rutas > li:hover { border-color: var(--oro); }
+.rutas .transporte .ruta-cab .t strong { color: #5c6f8a; font-size: 13px; }
+/* Ficha de ruta */
+.ruta-barra { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.cerrar-ruta { width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--linea); background: #fffaf1; color: var(--tinta); display: grid; place-items: center; cursor: pointer; flex: none; }
+.cerrar-ruta:hover { background: var(--carmesi); color: #fff; border-color: var(--carmesi); }
+.cerrar-ruta svg { width: 18px; height: 18px; }
+.ruta-extremos { margin: 2px 0 10px; font-size: 14px; color: var(--suave); display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.ruta-extremos .flecha { color: var(--carmesi); font-weight: 700; }
+.ruta-cifras { display: flex; align-items: baseline; gap: 10px; margin-bottom: 10px; }
+.ruta-cifras strong { font-size: 26px; color: var(--carmesi); font-family: "Cormorant Garamond", Georgia, serif; }
+.ruta-cifras span { color: var(--suave); font-size: 14px; }
+.ruta-camino { margin: 0 0 12px; padding-left: 18px; font-size: 14px; line-height: 1.5; }
+.ruta-camino li { margin: 3px 0; }
+.ruta-ir { display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0 14px; }
+.ruta-ir .ir { border: 0; background: var(--carmesi); color: #fff; border-radius: 16px; padding: 7px 14px; font: 600 13px inherit; font-family: inherit; cursor: pointer; }
+.ruta-ir .ir + .ir { background: transparent; color: var(--carmesi); box-shadow: inset 0 0 0 1.5px var(--carmesi); }
