@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Manrope:wght@400;600&display=swap">
   <script>
     (function () {
-      var VERSION = '202611232027';
+      var VERSION = '202611232011';
       if (location.protocol.indexOf('http') !== 0) return;
       fetch('../version.txt', { cache: 'no-store' }).then(function (r) { return r.ok ? r.text() : ''; }).then(function (v) {
         v = (v || '').trim();
@@ -27,9 +27,9 @@
   <script>
     if (!window.ol) document.write('<script src="https://cdn.jsdelivr.net/npm/ol@10.5.0/dist/ol.js"><\/script>');
   </script>
-  <link rel="stylesheet" href="../comun/comun.css?v=202611232027">
-  <link rel="stylesheet" href="../explora/css/explora.css?v=202611232027">
-  <link rel="stylesheet" href="css/itinerario.css?v=202611232027">
+  <link rel="stylesheet" href="../comun/comun.css?v=202611232011">
+  <link rel="stylesheet" href="../explora/css/explora.css?v=202611232011">
+  <link rel="stylesheet" href="css/itinerario.css?v=202611232011">
 </head>
 <body>
   <div id="mapa"></div>
@@ -49,19 +49,14 @@
       <!-- Un día: pestañas, presentación narrada y lista de paradas y caminos -->
       <section id="vista-dia">
         <nav class="dias" id="dias" aria-label="Días del viaje"></nav>
-        <p class="dia-fecha" id="d-fecha"></p>
+        <span class="categoria" id="d-fecha"></span>
         <h2 id="d-lema"></h2>
-        <dl class="dia-cifras" id="d-cifras"></dl>
-        <div class="dia-acciones">
-          <button id="d-narrar" class="narrador" disabled></button>
-          <div class="zona" id="zona" hidden>
-            <button data-zona="sofia">Sofía</button><button data-zona="plovdiv">Plovdiv</button>
-          </div>
+        <div class="zona" id="zona" hidden>
+          <button data-zona="sofia">Ver Sofía</button><button data-zona="plovdiv">Ver Plovdiv</button>
         </div>
-        <details class="dia-intro">
-          <summary>Leer la presentación del día</summary>
-          <div class="historia ruta-texto" id="d-intro"></div>
-        </details>
+        <button id="d-narrar" class="narrador" disabled></button>
+        <div class="historia" id="d-intro"></div>
+        <button class="leer-mas" id="leer-mas">Leer la presentación completa</button>
         <h3 class="pasos-tit">Paradas y caminos</h3>
         <ul class="pasos" id="pasos"></ul>
         <p class="nota-fuentes">Horarios y precios comprobados en noviembre de 2026; los marcados como estimados pueden variar. Los lugares visitados se comparten con Explora Sofía.</p>
@@ -97,7 +92,7 @@
     </div>
   </aside>
 
-  <script src="../comun/comun.js?v=202611232027"></script>
-  <script src="js/itinerario.js?v=202611232027"></script>
+  <script src="../comun/comun.js?v=202611232011"></script>
+  <script src="js/itinerario.js?v=202611232011"></script>
 </body>
 </html>

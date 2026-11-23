@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Manrope:wght@400;600;700&display=swap">
   <script>
     (function () {
-      var VERSION = '202611232027';
+      var VERSION = '202611232035';
       if (location.protocol.indexOf('http') !== 0) return;
       fetch('../version.txt', { cache: 'no-store' }).then(function (r) { return r.ok ? r.text() : ''; }).then(function (v) {
         v = (v || '').trim();
@@ -27,8 +27,8 @@
   <script>
     if (!window.ol) document.write('<script src="https://cdn.jsdelivr.net/npm/ol@10.5.0/dist/ol.js"><\/script>');
   </script>
-  <link rel="stylesheet" href="../comun/comun.css?v=202611232027">
-  <link rel="stylesheet" href="css/aterrizando.css?v=202611232027">
+  <link rel="stylesheet" href="../comun/comun.css?v=202611232035">
+  <link rel="stylesheet" href="css/aterrizando.css?v=202611232035">
 </head>
 <body>
   <header class="cab">
@@ -43,14 +43,14 @@
 
   <main>
     <details class="tarjeta" id="t-vuelos">
-      <summary><span class="ico-tarjeta" aria-hidden="true">✈</span><span class="cab-tarjeta"><h2>Los vuelos</h2><small id="res-vuelos">Ida vie 4 · 16:50 → 21:20 · Vuelta mar 8 · 17:25 → 20:10</small></span><span class="flecha-tarjeta" aria-hidden="true"></span></summary>
+      <summary><span class="ico-tarjeta" aria-hidden="true">✈</span><span class="cab-tarjeta"><h2>Los vuelos</h2></span><span class="flecha-tarjeta" aria-hidden="true"></span></summary>
       <div class="contenido">
       <div class="vuelos" id="vuelos"></div>
     </div>
     </details>
 
     <details class="tarjeta destacada" id="t-traslado" open>
-      <summary><span class="ico-tarjeta" aria-hidden="true">🚕</span><span class="cab-tarjeta"><h2>Del aeropuerto a casa</h2><small id="res-traslado">Recomendado: 2 taxis, ≈20 min, 13-14 € cada uno · metro M4 0,80 €</small></span><span class="flecha-tarjeta" aria-hidden="true"></span></summary>
+      <summary><span class="ico-tarjeta" aria-hidden="true">🚕</span><span class="cab-tarjeta"><h2>Del aeropuerto a casa</h2></span><span class="flecha-tarjeta" aria-hidden="true"></span></summary>
       <div class="contenido">
       <p class="recomendacion"><b>Nuestra recomendación:</b> con siete personas, maletas facturadas y aterrizando a las 21:20, lo más cómodo y rápido son <b>dos taxis oficiales</b> desde el mostrador de la Terminal 2: unos 20 minutos y 13-14 € por taxi (unos 4 € por persona). Si preferís ahorrar, el metro M4 os deja a cinco minutos de casa por 0,80 €.</p>
       <div class="opciones">
@@ -90,7 +90,7 @@
     </details>
 
     <details class="tarjeta" id="t-casa">
-      <summary><span class="ico-tarjeta" aria-hidden="true">⌂</span><span class="cab-tarjeta"><h2>La casa</h2><small id="res-casa">Sredna Gora 16 · entrada 15:00-00:00 · salida 11:00 · guardan maletas</small></span><span class="flecha-tarjeta" aria-hidden="true"></span></summary>
+      <summary><span class="ico-tarjeta" aria-hidden="true">⌂</span><span class="cab-tarjeta"><h2>La casa</h2></span><span class="flecha-tarjeta" aria-hidden="true"></span></summary>
       <div class="contenido">
       <p class="direccion" id="direccion"></p>
       <dl class="datos-casa" id="datos-casa"></dl>
@@ -102,7 +102,7 @@
     </details>
 
     <details class="tarjeta" id="t-cerca">
-      <summary><span class="ico-tarjeta" aria-hidden="true">🛒</span><span class="cab-tarjeta"><h2>Cerca de casa</h2><small id="res-cerca">Supermercados, farmacias 24 h, urgencias, metro y paradas, en el mapa</small></span><span class="flecha-tarjeta" aria-hidden="true"></span></summary>
+      <summary><span class="ico-tarjeta" aria-hidden="true">🛒</span><span class="cab-tarjeta"><h2>Cerca de casa</h2></span><span class="flecha-tarjeta" aria-hidden="true"></span></summary>
       <div class="contenido">
       <div class="filtros" id="filtros"></div>
       <div class="mapa-caja">
@@ -118,7 +118,7 @@
     </details>
 
     <details class="tarjeta" id="t-tiempo">
-      <summary><span class="ico-tarjeta" aria-hidden="true">🌤</span><span class="cab-tarjeta"><h2>El tiempo en Sofía, 4-8 de diciembre</h2><small id="res-tiempo">Cargando la previsión…</small></span><span class="flecha-tarjeta" aria-hidden="true"></span></summary>
+      <summary><span class="ico-tarjeta" aria-hidden="true">🌤</span><span class="cab-tarjeta"><h2>El tiempo en Sofía, 4-8 de diciembre</h2></span><span class="flecha-tarjeta" aria-hidden="true"></span></summary>
       <div class="contenido">
       <div class="tiempo" id="tiempo"><p class="nota">Cargando la previsión…</p></div>
       <p class="nota" id="tiempo-nota">Previsión de Open-Meteo para el centro de Sofía. Es invierno: abrigo, gorro y calzado que no resbale.</p>
@@ -126,7 +126,7 @@
     </details>
 
     <details class="tarjeta" id="t-saber">
-      <summary><span class="ico-tarjeta" aria-hidden="true">💡</span><span class="cab-tarjeta"><h2>Bueno saber</h2><small id="res-saber">Euro, hora, transporte, gestos y alfabeto</small></span><span class="flecha-tarjeta" aria-hidden="true"></span></summary>
+      <summary><span class="ico-tarjeta" aria-hidden="true">💡</span><span class="cab-tarjeta"><h2>Bueno saber</h2></span><span class="flecha-tarjeta" aria-hidden="true"></span></summary>
       <div class="contenido">
       <ul class="consejos">
         <li><b>Moneda:</b> Bulgaria usa el euro desde el 1 de enero de 2026. Llevad algo de efectivo para bares pequeños y puestos; propina habitual, en torno al 10 %.</li>
@@ -139,8 +139,8 @@
     </details>
   </main>
 
-  <script src="../comun/comun.js?v=202611232027"></script>
-  <script src="js/datos.js?v=202611232027"></script>
-  <script src="js/aterrizando.js?v=202611232027"></script>
+  <script src="../comun/comun.js?v=202611232035"></script>
+  <script src="js/datos.js?v=202611232035"></script>
+  <script src="js/aterrizando.js?v=202611232035"></script>
 </body>
 </html>
