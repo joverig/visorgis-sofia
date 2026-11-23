@@ -1,0 +1,35 @@
+# Funciones comunes para la voz de Azure (las usan muestras_voz.ps1 y generar_audios.ps1).
+# La clave NUNCA va en el codigo ni se sube a GitHub: se lee de voz\azure.txt (excluido en .gitignore).
+$ErrorActionPreference = 'Stop'
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+$utf8 = New-Object System.Text.UTF8Encoding($false)
+
+function Leer-Azure([string]$raiz) {
+    $f = Join-Path $raiz 'voz\azure.txt'
+    if (-not (Test-Path $f)) {
+        [System.IO.File]::WriteAllText($f, "clave=PEGA_AQUI_TU_CLAVE`r`nregion=westeurope`r`n", $utf8)
+        Write-Host "He creado voz\azure.txt. Abrelo, pega tu clave de Azure Speech y la region, guarda y vuelve a lanzar." -ForegroundColor Yellow
+        Start-Process notepad.exe $f
+        exit 1
+    }
+    $cfg = @{}
+    foreach ($l in [System.IO.File]::ReadAllLines($f)) { if ($l -match '^\s*([^=#]+?)\s*=\s*(.+?)\s*$') { $cfg[$matches[1]] = $matches[2] } }
+    if (-not $cfg.clave -or $cfg.clave -like 'PEGA_AQUI*') { Write-Host 'Falta la clave en voz\azure.txt' -ForegroundColor Red; exit 1 }
+    if (-not $cfg.region) { $cfg.region = 'westeurope' }
+    return $cfg
+}
+function Escapar-Xml([string]$t) { return [System.Security.SecurityElement]::Escape($t) }
+function Ssml([string]$voz, [string]$texto, [string]$estilo, [string]$rate, [string]$pitch) {
+    $cuerpo = "<prosody rate='$rate' pitch='$pitch'>" + (Escapar-Xml $texto) + "</prosody>"
+    if ($estilo) { $cuerpo = "<mstts:express-as style='$estilo'>$cuerpo</mstts:express-as>" }
+    return "<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xmlns:mstts='https://www.w3.org/2001/mstts' xml:lang='es-ES'><voice name='$voz'>$cuerpo</voice></speak>"
+}
+function Sintetizar($cfg, [string]$ssml, [string]$destino) {
+    $url = "https://$($cfg.region).tts.speech.microsoft.com/cognitiveservices/v1"
+    $h = @{ 'Ocp-Apim-Subscription-Key' = $cfg.clave; 'X-Microsoft-OutputFormat' = 'audio-24khz-96kbitrate-mono-mp3'; 'User-Agent' = 'visorgis-sofia' }
+    Invoke-WebRequest -Uri $url -Method Post -Headers $h -ContentType 'application/ssml+xml; charset=utf-8' -Body ([System.Text.Encoding]::UTF8.GetBytes($ssml)) -OutFile $destino -UseBasicParsing | Out-Null
+}
+function Voces($cfg) {
+    $url = "https://$($cfg.region).tts.speech.microsoft.com/cognitiveservices/voices/list"
+    return Invoke-RestMethod -Uri $url -Headers @{ 'Ocp-Apim-Subscription-Key' = $cfg.clave } -UseBasicParsing
+}

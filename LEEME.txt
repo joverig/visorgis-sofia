@@ -1,25 +1,40 @@
-SOFIA EN EL TIEMPO (POC) - visorgis_sofia
-=========================================
+SOFIA - PORTAL Y APPS (visorgis_sofia)
+======================================
 
-Mismo motor que visorgis_madrid (OpenLayers 10, sin build) con otro estilo y otros datos.
-No hay planos historicos de Sofia como servicio web: hasta 2005 todo son recreaciones
-vectoriales (www\datos_propios\recintos_sofia.geojson); desde 2014, imagenes de satelite del
-archivo de Esri (Wayback), que el visor elige al arrancar segun la fecha de cada paso.
+Un portal (www\index.html) da acceso a varias apps sobre Sofia; cada app tiene un enlace
+"Portal" para volver. Todo es estatico (OpenLayers 10, sin build).
 
 Carpetas
-  www\                  el visor (lo que se publica)
-    js\capas.js         pasos de la linea temporal y textos
-    js\visor.js         logica del visor
-    lib\ol\             OpenLayers en local
-    datos_propios\      limites, puertas, hitos, barrios y yacimientos con fecha (EPSG:4326)
+  www\index.html          portal (anadir una tarjeta por cada app nueva)
+  www\version.txt         numero de version comun (recarga automatica tras publicar)
+  www\comun\              estilos y JS compartidos (enlace al portal, boton narrador), lib\ol
+  www\en-el-tiempo\       "Sofia en el tiempo": linea temporal con recreaciones y satelite Esri
+  www\viajando\           "Viajando por Sofia": lugares, historia, rutas a pie y GPS
+    datos\puntos.geojson   lugares de interes con su historia
+    datos\rutas.geojson    rutas a pie entre lugares (se genera, ver abajo)
+  www\<app>\audio\        narraciones mp3 + manifest.json (lista de ids con audio)
+  voz\                    configuracion y textos para generar narraciones
 
 Trabajo diario
-  Arrancar_visor.bat -> http://localhost:8081/ (usa el PHP portable de C:\Trabajo\VisorGIS)
-  Puerto 8081 para poder tenerlo abierto a la vez que Madrid (8080).
+  Arrancar_visor.bat -> http://localhost:8081/ (portal; usa el PHP portable de C:\Trabajo\VisorGIS)
+
+Rutas a pie (Viajando por Sofia)
+  2_Calcular_rutas.bat  descarga de OSRM (perfil a pie) los caminos entre lugares cercanos y
+                        los elementos de OSM del entorno a datos_rutas\ (cache; se puede relanzar).
+  Despues Claude elige las rutas que no se cruzan (1 a 4 por lugar segun densidad), calcula
+  tiempos (4,5 km/h) y redacta "por el camino" -> www\viajando\datos\rutas.geojson.
+
+Narrador (Azure)
+  1. Crear un recurso "Speech" en Azure (capa gratuita F0) y copiar clave y region.
+  2. 3_Muestras_voz_Azure.bat -> la primera vez abre voz\azure.txt para pegar clave y region
+     (no se sube a GitHub). Genera voz\muestras\muestras.html para escuchar las voces.
+  3. Poner la voz elegida en voz\config.json.
+  4. 4_Generar_audios.bat -> genera todos los mp3 de voz\textos\*.json en www\<app>\audio\
+     y actualiza manifest.json. Solo regenera los textos que cambian.
+  Mientras no hay audio, el boton muestra "Narracion proximamente".
 
 Cache del navegador
-  Al publicar, subir el numero ?v= de index.html, VERSION en index.html, www\version.txt y el
-  ?v= de recintos_sofia.geojson en capas.js.
+  Al publicar, cambiar el numero de www\version.txt y los VERSION / ?v= de cada index.html.
 
 Publicacion (GitHub Pages)
   Repositorio: https://github.com/joverig/visorgis-sofia (main = proyecto, gh-pages = copia de www\)

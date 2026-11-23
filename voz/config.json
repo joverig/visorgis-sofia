@@ -1,0 +1,7 @@
+{
+  "voz": "",
+  "estilo": "",
+  "rate": "-10%",
+  "pitch": "-6%",
+  "nota": "Rellena 'voz' con el ShortName elegido en las muestras (p. ej. es-ES-...Neural). 'estilo' solo si la voz lo admite."
+}

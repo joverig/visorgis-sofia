@@ -1,2 +1,6 @@
 # Copias de trabajo locales
 /entregas/
+# Clave de Azure (nunca a GitHub) y material de trabajo
+/voz/azure.txt
+/voz/muestras/
+/datos_rutas/

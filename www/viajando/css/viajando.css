@@ -1,0 +1,122 @@
+/* Viajando por Sofía · mismo estilo que «Sofía en el tiempo»: pergamino, tinta y carmesí */
+:root {
+  --papel: rgba(246, 241, 231, 0.96);
+  --tinta: #22262c;
+  --suave: #6b6458;
+  --carmesi: #a8322a;
+  --oro: #b8862b;
+  --turquesa: #2f7f86;
+  --linea: #ddd3c2;
+  font-family: "Manrope", "Segoe UI", system-ui, sans-serif;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; height: 100dvh; overflow: hidden; background: #e9e2d4; color: var(--tinta); }
+#mapa { position: absolute; inset: 0; background: #e9e2d4; }
+
+.cabecera {
+  position: absolute; top: 12px; left: 56px; display: flex; gap: 12px; align-items: center;
+  background: var(--papel); padding: 8px 14px; border-radius: 12px;
+  box-shadow: 0 6px 24px rgba(40, 30, 20, .2); border: 1px solid rgba(168, 50, 42, .12);
+}
+.cabecera h1 { margin: 0; font: 700 21px "Cormorant Garamond", Georgia, serif; white-space: nowrap; }
+.cabecera h1 span { color: var(--carmesi); font-style: italic; }
+
+.botones-mapa { position: absolute; top: 88px; left: 12px; display: grid; gap: 8px; }
+.redondo {
+  width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--linea); background: #fffaf1;
+  color: var(--carmesi); cursor: pointer; display: grid; place-items: center; box-shadow: 0 2px 8px rgba(40, 30, 20, .15);
+}
+.redondo svg { width: 20px; height: 20px; }
+.redondo.activo { background: var(--turquesa); color: #fff; border-color: var(--turquesa); }
+.redondo.buscando { animation: latido 1.2s infinite; }
+@keyframes latido { 50% { box-shadow: 0 0 0 6px rgba(47, 127, 134, .25); } }
+
+/* Panel */
+.panel {
+  position: absolute; top: 12px; right: 12px; bottom: 12px; width: 380px;
+  background: var(--papel); border-radius: 14px; box-shadow: 0 6px 24px rgba(40, 30, 20, .22);
+  border: 1px solid rgba(168, 50, 42, .12); display: flex; flex-direction: column;
+}
+.tirador { display: none; }
+.panel-cuerpo { padding: 16px 18px 18px; overflow-y: auto; -webkit-overflow-scrolling: touch; flex: 1; }
+.intro { margin: 0 0 12px; color: var(--suave); font-size: 14px; line-height: 1.5; }
+
+.filtros { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.filtros button {
+  border: 1px solid var(--linea); background: #fffaf1; color: var(--tinta); border-radius: 14px;
+  padding: 4px 11px; font: 600 12.5px inherit; font-family: inherit; cursor: pointer;
+}
+.filtros button.activo { background: var(--carmesi); color: #fff; border-color: var(--carmesi); }
+
+.lista { list-style: none; margin: 0; padding: 0; }
+.lista li {
+  display: grid; grid-template-columns: 30px 1fr auto; gap: 10px; align-items: center;
+  padding: 9px 4px; border-top: 1px solid var(--linea); cursor: pointer;
+}
+.lista li:hover { background: rgba(168, 50, 42, .05); }
+.num {
+  width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--carmesi); color: #fff; font-size: 12px; font-weight: 600;
+}
+.lista b { display: block; font-size: 14.5px; }
+.lista small { color: var(--suave); font-size: 12px; }
+.lista .dist { font-size: 12px; color: var(--turquesa); font-weight: 600; white-space: nowrap; }
+
+/* Ficha */
+.volver-lista {
+  display: inline-flex; align-items: center; gap: 4px; border: 0; background: none; color: var(--carmesi);
+  font: 600 13px inherit; font-family: inherit; cursor: pointer; padding: 0; margin-bottom: 10px;
+}
+.volver-lista svg { width: 16px; height: 16px; }
+.categoria {
+  display: inline-block; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .8px;
+  color: var(--carmesi); border: 1px solid currentColor; border-radius: 12px; padding: 2px 8px;
+}
+#vista-ficha h2 { font: 700 27px/1.1 "Cormorant Garamond", Georgia, serif; margin: 8px 0 4px; }
+.distancia-yo { margin: 0 0 4px; color: var(--turquesa); font-weight: 600; font-size: 13px; }
+.resumen { font-weight: 600; font-size: 15px; line-height: 1.45; margin: 6px 0; }
+.historia p { margin: 0 0 10px; font-size: 14.5px; line-height: 1.55; color: #34383f; }
+.leer-mas { display: none; }
+#vista-ficha h3 {
+  font: 700 19px "Cormorant Garamond", Georgia, serif; margin: 16px 0 6px; padding-top: 12px; border-top: 1px solid var(--linea);
+}
+.rutas { list-style: none; margin: 0; padding: 0; }
+.rutas > li { border: 1px solid var(--linea); border-radius: 12px; margin-bottom: 8px; background: #fffaf1; overflow: hidden; }
+.ruta-cab { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: center; padding: 10px 12px; cursor: pointer; }
+.ruta-cab b { font-size: 14.5px; }
+.ruta-cab .t { text-align: right; font-size: 12.5px; color: var(--suave); white-space: nowrap; }
+.ruta-cab .t strong { display: block; font-size: 16px; color: var(--turquesa); }
+.rutas > li.activa { border-color: var(--turquesa); box-shadow: 0 0 0 2px rgba(47, 127, 134, .18); }
+.ruta-det { display: none; padding: 0 12px 12px; font-size: 13.5px; line-height: 1.5; }
+.rutas > li.activa .ruta-det { display: block; }
+.ruta-det .nota { background: rgba(184, 134, 43, .12); border-left: 3px solid var(--oro); padding: 7px 10px; border-radius: 0 8px 8px 0; margin: 0 0 8px; }
+.ruta-det ul { margin: 0 0 8px; padding-left: 18px; }
+.ruta-det li { margin: 2px 0; }
+.ruta-det .ir { border: 0; background: var(--carmesi); color: #fff; border-radius: 16px; padding: 6px 14px; font: 600 13px inherit; font-family: inherit; cursor: pointer; }
+.sin-rutas { color: var(--suave); font-size: 13.5px; font-style: italic; }
+
+.ol-zoom { top: 12px; left: 12px; }
+.ol-zoom button { background: #f6f1e7 !important; color: var(--carmesi) !important; }
+.ol-attribution { bottom: 6px; left: 6px; right: auto; }
+
+/* Móvil: panel como hoja inferior */
+@media (max-width: 760px) {
+  .cabecera { left: 50px; right: 10px; top: calc(8px + env(safe-area-inset-top)); padding: 6px 10px; justify-content: space-between; }
+  .cabecera h1 { font-size: 18px; }
+  .ol-zoom { top: calc(8px + env(safe-area-inset-top)); left: 8px; }
+  .botones-mapa { top: calc(84px + env(safe-area-inset-top)); left: 8px; }
+  .panel { top: auto; left: 0; right: 0; bottom: 0; width: auto; height: 42dvh; border-radius: 16px 16px 0 0;
+    transition: height .25s; padding-bottom: env(safe-area-inset-bottom); }
+  .panel.alto { height: 82dvh; }
+  .panel.bajo { height: 120px; }
+  .tirador { display: block; width: 44px; height: 5px; border-radius: 3px; background: #c9bfae; margin: 8px auto 0; cursor: grab; flex: none; }
+  .panel-cuerpo { padding: 10px 16px 16px; }
+  .ol-attribution { display: none; }
+  body:not(.historia-abierta) .historia p:not(:first-child) { display: none; }
+  body:not(.historia-abierta) .historia p:first-child {
+    display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden;
+  }
+  .leer-mas { display: inline-block; border: 1px solid var(--linea); background: none; color: var(--carmesi);
+    border-radius: 16px; padding: 5px 14px; font: 600 13px inherit; font-family: inherit; margin-bottom: 4px; }
+  body.historia-abierta .leer-mas { display: none; }
+}

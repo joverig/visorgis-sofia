@@ -1,31 +1,11 @@
-# Sofía en el tiempo · visorgis_sofia
+# Sofía · portal de apps
 
-Visor web de la evolución histórica de Sofía (Bulgaria): de la aldea neolítica de Slatina y la
-**Serdica romana** al **Sredets** medieval, la **Sofya otomana**, la capital de 1878, la ciudad
-socialista de los grandes barrios de bloques y la imagen de satélite de hoy.
+Pequeño ecosistema de apps web estáticas sobre Sofía (Bulgaria), hechas con OpenLayers.
 
-**Ver online:** https://joverig.github.io/visorgis-sofia/
+- **Portal** — https://joverig.github.io/visorgis-sofia/
+- **Sofía en el tiempo** (`www/en-el-tiempo/`) — línea temporal desde el neolítico hasta hoy: recreaciones de recintos, puertas, hitos y barrios, e imágenes de satélite históricas (Esri Wayback).
+- **Viajando por Sofía** (`www/viajando/`) — lugares de interés con su historia, rutas a pie entre ellos (tiempo y qué se ve por el camino) y posición GPS.
 
-## Funciones
-- Línea temporal con fundido entre épocas, reproducción y atajos (← → año, espacio, H comparar con hoy).
-- Capa de **límites, puertas, hitos y barrios** con fecha: el límite vigente en continuo y los
-  anteriores en discontinuo.
-- Imágenes de satélite del archivo de Esri (World Imagery Wayback) desde 2014.
-- Control de opacidad, botón **Ver hoy**, textos de contexto histórico y diseño adaptado a móvil.
+Cada descripción tiene un botón de narración: los audios se generan con Azure Speech (`4_Generar_audios.bat`) y se publican como mp3 en `www/<app>/audio/`.
 
-## Estructura
-- `www/` — el visor (HTML + CSS + JS, sin build). Es lo que se publica.
-  - `js/capas.js` — pasos de la línea temporal y textos.
-  - `js/visor.js` — lógica (OpenLayers 10, build UMD).
-  - `datos_propios/recintos_sofia.geojson` — límites, puertas, hitos y barrios con fecha (`desde`/`hasta`).
-- `Arrancar_visor.bat` — servidor local en http://localhost:8081/.
-
-## Fuentes y atribuciones
-- Imagen de satélite: Esri, Maxar, Earthstar Geographics y GIS User Community (World Imagery y Wayback).
-- Rótulos de calles: © OpenStreetMap contributors © CARTO.
-- Recreaciones históricas: elaboración propia, **trazados aproximados y orientativos**; no tienen
-  valor arqueológico ni oficial.
-- [OpenLayers](https://openlayers.org/) (BSD-2-Clause).
-
-## Licencia
-Código bajo licencia MIT. Los datos e imágenes mantienen la licencia de su fuente.
+Recreaciones históricas aproximadas. Mapas © OpenStreetMap contributors © CARTO; imágenes Esri, Maxar, Earthstar Geographics.
