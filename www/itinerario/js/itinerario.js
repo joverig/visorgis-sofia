@@ -16,9 +16,9 @@
   const NO_VISITABLES = new Set(['casa', 'aeropuerto', 'avtogara', 'pdv_yug']);
   const GLIFO = { casa: '⌂', aeropuerto: '✈', avtogara: '🚌', pdv_yug: '🚌' };
 
-  let map, view, bases, capaTramos, capaParadas, capaEtq, narrador;
+  let map, view, bases, capaTramos, capaParadas, capaEtq, capaEtqT, narrador, panelM;
   let datos = null;
-  const estado = { dia: null, paso: null, zona: null };
+  const estado = { dia: null, paso: null, zona: null, sobre: null };
   const fmt = new ol.format.Polyline();
 
   /* ---------- utilidades ---------- */
@@ -31,7 +31,7 @@
   const cacheP = {}, cacheE = {}, cacheT = {};
   function estiloParada(f) {
     const p = f.get('p');
-    const sel = estado.paso && estado.paso.lugar === p.lugar;
+    const sel = (estado.paso && estado.paso.lugar === p.lugar) || estado.sobre === p;
     const vis = !NO_VISITABLES.has(p.lugar) && V.tiene(p.lugar);
     const k = p.lugar + p.n + sel + vis;
     if (!cacheP[k]) {
@@ -89,6 +89,10 @@
       }
       return est;
     }
+    if (estado.sobre === t) {
+      return [new S.Style({ stroke: new S.Stroke({ color: '#fffaf1', width: 11, lineCap: 'round', lineJoin: 'round' }), zIndex: 35 }),
+        new S.Style({ stroke: new S.Stroke({ color: t.modo === 'pie' ? 'rgba(168,50,42,.9)' : m.color, width: 6, lineCap: 'round', lineJoin: 'round' }), zIndex: 36 })];
+    }
     const tenue = estado.paso && estado.paso.tipo === 'tramo';
     const k = t.modo + tenue;
     if (!cacheT[k]) {
@@ -111,22 +115,35 @@
     capaTramos = new ol.layer.Vector({ source: new ol.source.Vector(), style: estiloTramo });
     capaParadas = new ol.layer.Vector({ source: new ol.source.Vector(), style: estiloParada });
     capaEtq = new ol.layer.Vector({ source: capaParadas.getSource(), style: estiloEtq, declutter: true });
-    map = new ol.Map({ target: 'mapa', view, layers: [capaTramos, capaParadas, capaEtq] });
+    capaEtqT = new ol.layer.Vector({ source: new ol.source.Vector(), style: estiloEtqTramo, declutter: true });
+    map = new ol.Map({ target: 'mapa', view, layers: [capaTramos, capaEtqT, capaParadas, capaEtq] });
     map.addControl(new ol.control.ScaleLine({ units: 'metric' }));
     bases = SofiaComun.basesMapa(map);
     SofiaComun.botonCapa($('capa'), bases);
     SofiaComun.localizador(map, $('gps'));
-    map.on('singleclick', (e) => {
+    const tocable = (l) => l === capaParadas || l === capaTramos || l === capaEtqT;
+    const queHay = (px) => {
       let f = null;
-      map.forEachFeatureAtPixel(e.pixel, (x) => { if (!f || (x.get('p') && !f.get('p'))) f = x; }, { hitTolerance: 6, layerFilter: (l) => l === capaParadas || l === capaTramos });
-      if (!f) return;
-      if (f.get('p')) abrirPaso(f.get('p'));
-      else abrirPaso(f.get('t'));
+      map.forEachFeatureAtPixel(px, (x) => { if (!f || (x.get('p') && !f.get('p'))) f = x; }, { hitTolerance: SofiaComun.esTactil() ? 12 : 6, layerFilter: tocable });
+      return f;
+    };
+    map.on('singleclick', (e) => {
+      const f = queHay(e.pixel);
+      if (!f) { tocarVacio(); return; }
+      abrirPaso(f.get('p') || f.get('t'));
     });
+    const flotante = SofiaComun.etiquetaFlotante(map);
     map.on('pointermove', (e) => {
-      if (e.dragging) return;
-      map.getTargetElement().style.cursor = map.hasFeatureAtPixel(e.pixel, { hitTolerance: 6, layerFilter: (l) => l === capaParadas || l === capaTramos }) ? 'pointer' : '';
+      if (e.dragging || SofiaComun.esTactil()) return;
+      const f = queHay(e.pixel);
+      map.getTargetElement().style.cursor = f ? 'pointer' : '';
+      const obj = f ? (f.get('p') || f.get('t')) : null;
+      ponerSobre(obj);
+      if (!obj) flotante.ocultar();
+      else if (obj.tipo === 'parada') flotante.mostrar(e.pixel, (obj.hora ? obj.hora + ' · ' : '') + obj.titulo);
+      else flotante.mostrar(e.pixel, MODOS[obj.modo].icono + ' ' + obj.titulo + ' · ' + txtMin(obj.min));
     });
+    map.getViewport().addEventListener('mouseleave', () => { flotante.ocultar(); ponerSobre(null); });
   }
   function padding() {
     const m = map.getTargetElement().getBoundingClientRect(), p = $('panel').getBoundingClientRect();
@@ -136,7 +153,43 @@
     view.cancelAnimations();
     view.fit(ext, { padding: padding(), maxZoom: maxZoom || 17, duration: 600 });
   }
-  function refrescar() { capaParadas.changed(); capaEtq.changed(); capaTramos.changed(); }
+  function refrescar() { capaParadas.changed(); capaEtq.changed(); capaTramos.changed(); capaEtqT.changed(); }
+  // Etiqueta con el medio y los minutos en mitad de cada camino del día: invita a tocarlo
+  const cacheET = {};
+  function estiloEtqTramo(f) {
+    const t = f.get('t');
+    const sel = estado.paso === t, sobre = estado.sobre === t;
+    if (estado.paso && estado.paso.tipo === 'tramo' && !sel) return null;
+    const k = t.audio + sel + sobre;
+    if (!cacheET[k]) {
+      const m = MODOS[t.modo];
+      const activo = sel || sobre;
+      cacheET[k] = new S.Style({ text: new S.Text({ text: m.icono + ' ' + txtMin(t.min), font: fuente('700', 11.5),
+        fill: new S.Fill({ color: activo ? '#fff' : t.modo === 'pie' ? '#5a3a2c' : m.color }),
+        backgroundFill: new S.Fill({ color: activo ? '#a8322a' : '#fffaf1' }), backgroundStroke: new S.Stroke({ color: activo ? '#fff' : t.modo === 'pie' ? 'rgba(110,56,40,.55)' : m.color, width: 1.5 }),
+        padding: [3, 7, 2, 7] }), zIndex: sel ? 45 : 25 });
+    }
+    return cacheET[k];
+  }
+  function ponerSobre(obj) {
+    if (estado.sobre === obj) return;
+    estado.sobre = obj;
+    document.querySelectorAll('.pasos li.sobre').forEach((li) => li.classList.remove('sobre'));
+    if (obj && obj.li) obj.li.classList.add('sobre');
+    refrescar();
+  }
+  function tocarVacio() {
+    if (estado.paso) cerrarPaso();
+    else if (esMovil()) panelM.plegar();
+  }
+  const LEYENDA = '<ul>' +
+    '<li><span class="sim"><svg width="26" height="26"><circle cx="13" cy="13" r="10" fill="#a8322a" stroke="#fff" stroke-width="2.5"/><text x="13" y="17" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">3</text></svg></span>Parada del día, en orden: tócala para ver la hora, el precio y su narración</li>' +
+    '<li><span class="sim"><svg width="26" height="26"><circle cx="13" cy="13" r="10" fill="#2f7f86" stroke="#fff" stroke-width="2.5"/><text x="13" y="17" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">⌂</text></svg></span>Casa, aeropuerto o estación de autobuses</li>' +
+    '<li><span class="sim"><svg width="26" height="26"><circle cx="13" cy="13" r="10" fill="#5f7a34" stroke="#fff" stroke-width="2.5"/><text x="13" y="17" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">✓</text></svg></span>Ya visitado (compartido con Explora Sofía)</li>' +
+    '<li><span class="sim"><svg width="40" height="12"><path d="M2 6h36" stroke="#6e3828" stroke-width="3.2" stroke-dasharray="0.1 7" stroke-linecap="round"/></svg></span>🚶 A pie</li>' +
+    '<li><span class="sim"><svg width="40" height="12"><path d="M2 6h36" stroke="#5c6f8a" stroke-width="3.2" stroke-dasharray="10 7"/></svg></span>🚕 En taxi</li>' +
+    '<li><span class="sim"><svg width="40" height="12"><path d="M2 6h36" stroke="#6b4a7e" stroke-width="3.2" stroke-dasharray="12 6"/></svg></span>Ⓜ En metro · 🚌 en autobús (azul)</li>' +
+    '</ul><p>Toca un camino o su etiqueta de minutos para ver la ruta narrada. Toca el mapa vacío para cerrar la ficha.</p>';
 
   /* ---------- día ---------- */
   function pintarPestanas() {
@@ -173,7 +226,7 @@
   }
   function cargarCapasDia(d) {
     const sp = capaParadas.getSource(), st = capaTramos.getSource();
-    sp.clear(); st.clear();
+    sp.clear(); st.clear(); capaEtqT.getSource().clear();
     const vistos = new Set();
     d.pasos.forEach((p) => {
       if (p.tipo === 'parada') {
@@ -184,6 +237,7 @@
       } else {
         const g = fmt.readGeometry(p.geom, { dataProjection: 'EPSG:4326', featureProjection: 'EPSG:3857' });
         const f = new ol.Feature(g); f.set('t', p); p.feature = f; st.addFeature(f);
+        const et = new ol.Feature(new ol.geom.Point(g.getCoordinateAt(0.5))); et.set('t', p); capaEtqT.getSource().addFeature(et);
       }
     });
   }
@@ -203,7 +257,7 @@
     $('zona').hidden = !(z.plovdiv.length && z.sofia.length);
     pintarPasos(d);
     $('cuerpo').scrollTop = 0;
-    if (esMovil()) $('panel').className = 'panel';
+    if (esMovil()) panelM.normal();
     refrescar();
     history.replaceState(null, '', '#' + d.id);
     if (!sinMover) encuadrarDia(d);
@@ -229,6 +283,9 @@
         li.querySelector('.t').textContent = txtMin(p.min) + ' · ' + txtDist(p.dist);
       }
       li.onclick = () => abrirPaso(p);
+      p.li = li;
+      li.onmouseenter = () => ponerSobre(p.tipo === 'parada' ? capaParadas.getSource().getFeatures().map((f) => f.get('p')).find((x) => x.lugar === p.lugar) || p : p);
+      li.onmouseleave = () => ponerSobre(null);
       ul.appendChild(li);
     });
   }
@@ -278,7 +335,7 @@
     if (ant) { $('p-ant').textContent = '← ' + ant.titulo; $('p-ant').onclick = () => abrirPaso(ant); }
     if (sig) { $('p-sig').textContent = sig.titulo + ' →'; $('p-sig').onclick = () => abrirPaso(sig); }
     $('cuerpo').scrollTop = 0;
-    if (esMovil()) $('panel').className = 'panel';
+    if (esMovil()) panelM.normal();
     refrescar();
     history.replaceState(null, '', '#' + idPaso(p));
     if (!esParada) requestAnimationFrame(animar);
@@ -323,13 +380,17 @@
     if (!window.ol || !window.SofiaComun) { document.body.innerHTML = '<p style="padding:2em">No se pudo cargar el mapa.</p>'; return; }
     SofiaComun.enlacePortal(document.querySelector('.cabecera'));
     narrador = new SofiaComun.Narrador('audio/');
+    panelM = SofiaComun.panelMovil($('panel'));
     crearMapa();
+    SofiaComun.pistaMapa(map, 'itinerario', 'Toca una parada o un camino del mapa para ver la hora, el precio y escuchar su narración');
     datos = await (await fetch('datos/itinerario.json', { cache: 'no-store' })).json();
     $('volver-dia').onclick = cerrarPaso; $('cerrar-paso').onclick = cerrarPaso;
     $('leer-mas').onclick = () => document.body.classList.add('historia-abierta');
     $('p-visitado').onclick = () => { const p = estado.paso; if (!p) return; V.poner(p.lugar, !V.tiene(p.lugar)); pintarVisitado(); refrescar(); };
     $('zona').querySelectorAll('button').forEach((b) => { b.onclick = () => encuadrarDia(estado.dia, b.dataset.zona); });
-    $('tirador').onclick = () => { const p = $('panel'); p.className = p.classList.contains('alto') ? 'panel bajo' : p.classList.contains('bajo') ? 'panel' : 'panel alto'; };
+    $('tirador').onclick = () => panelM.alternar();
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && estado.paso) cerrarPaso(); });
+    SofiaComun.leyenda(document.querySelector('.botones-mapa'), LEYENDA);
     V.alCambiar(() => { pintarVisitado(); if (estado.dia) pintarPasos(estado.dia); refrescar(); });
     window.addEventListener('hashchange', irAlHash);
     if (!irAlHash()) abrirDia(diaInicial());

@@ -30,3 +30,35 @@
 @keyframes sofia-latido { 50% { box-shadow: 0 0 0 6px rgba(47, 127, 134, .25); } }
 @media (max-width: 760px) { .sofia-botones { top: calc(84px + env(safe-area-inset-top)); left: 8px; } }
 .aviso { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); background: #22262c; color: #fff; padding: 9px 16px; border-radius: 10px; font: 13.5px "Manrope", "Segoe UI", sans-serif; z-index: 99; max-width: 90%; box-shadow: 0 6px 20px rgba(0,0,0,.25); }
+
+/* Aviso de primera visita sobre el mapa */
+.pista-mapa { position: fixed; z-index: 40; left: 50%; top: 76px; transform: translateX(-50%); width: min(92vw, 420px);
+  display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: center; background: #22262c; color: #fff;
+  padding: 11px 12px 11px 14px; border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,.3);
+  font: 600 14px/1.35 "Manrope", "Segoe UI", sans-serif; animation: pista-entra .4s ease-out; transition: opacity .3s, transform .3s; }
+.pista-mapa .dedo { font-size: 24px; animation: pista-toca 1.4s ease-in-out infinite; }
+.pista-mapa button { border: 0; background: rgba(255,255,255,.15); color: #fff; width: 30px; height: 30px; border-radius: 50%; font-size: 14px; cursor: pointer; }
+.pista-mapa.fuera { opacity: 0; transform: translate(-50%, -10px); }
+@keyframes pista-entra { from { opacity: 0; transform: translate(-50%, -12px); } }
+@keyframes pista-toca { 50% { transform: translateY(5px) scale(.92); } }
+@media (max-width: 760px) { .pista-mapa { top: auto; bottom: calc(42dvh + 14px); } }
+@media (min-width: 761px) { .pista-mapa { left: calc(50% - 200px); } }
+/* Leyenda «Cómo se usa» */
+.leyenda-caja { position: fixed; z-index: 45; left: 12px; top: 76px; width: min(86vw, 330px); max-height: 70vh; overflow: auto;
+  background: #fffaf1; border: 1px solid #ddd3c2; border-radius: 14px; box-shadow: 0 10px 30px rgba(40,30,20,.25);
+  padding: 12px 14px; font: 13.5px/1.45 "Manrope", "Segoe UI", sans-serif; color: #22262c; }
+.leyenda-caja h3 { margin: 0 0 8px; font: 700 19px "Cormorant Garamond", Georgia, serif; }
+.leyenda-caja ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
+.leyenda-caja li { display: grid; grid-template-columns: 44px 1fr; gap: 8px; align-items: center; }
+.leyenda-caja .sim { display: grid; place-items: center; height: 24px; }
+.leyenda-caja p { margin: 8px 0 0; color: #6b6458; font-size: 12.5px; }
+.cerrar-leyenda { position: absolute; right: 8px; top: 8px; border: 1px solid #ddd3c2; background: #fff; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; }
+/* Etiqueta al pasar el ratón */
+.etiqueta-flotante { position: absolute; z-index: 30; pointer-events: none; background: #22262c; color: #fff; padding: 4px 9px; border-radius: 8px;
+  font: 600 12.5px "Manrope", "Segoe UI", sans-serif; white-space: nowrap; box-shadow: 0 4px 12px rgba(0,0,0,.25); }
+/* Botón «Ver lista» con el panel plegado (móvil) */
+.ver-lista { position: fixed; z-index: 35; left: 50%; transform: translateX(-50%); bottom: calc(132px + env(safe-area-inset-bottom));
+  display: inline-flex; align-items: center; gap: 6px; border: 0; background: #a8322a; color: #fff; border-radius: 22px; padding: 10px 18px;
+  font: 700 14px "Manrope", "Segoe UI", sans-serif; box-shadow: 0 6px 18px rgba(0,0,0,.25); cursor: pointer; }
+.ver-lista svg { width: 18px; height: 18px; }
+@media (min-width: 761px) { .ver-lista { display: none !important; } }

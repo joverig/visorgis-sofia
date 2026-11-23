@@ -63,3 +63,23 @@ main { padding: 0 12px 40px; margin-top: -16px; }
 .consejos li { margin: 4px 0; }
 .cab-nav .portal-volver { background: rgba(255,255,255,.1); color: #fff; border-color: rgba(255,255,255,.3); }
 @media (max-width: 600px) { .cab h1 { font-size: 32px; } .tarjeta { padding: 15px 13px; } .datos-casa { grid-template-columns: 1fr; } .datos-casa dd { margin-bottom: 6px; } }
+
+/* Tarjetas plegables: cerradas muestran un resumen; al tocarlas se despliegan */
+details.tarjeta { padding: 0; overflow: hidden; }
+details.tarjeta > summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: 40px 1fr 28px; gap: 10px; align-items: center;
+  padding: 14px 14px 14px 12px; -webkit-tap-highlight-color: transparent; }
+details.tarjeta > summary::-webkit-details-marker { display: none; }
+details.tarjeta > summary:active { background: rgba(168,50,42,.05); }
+.ico-tarjeta { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; font-size: 20px; background: #fffaf1; border: 1px solid var(--linea); }
+.cab-tarjeta h2 { margin: 0; font-size: 22px; line-height: 1.1; }
+.cab-tarjeta small { display: block; color: var(--suave); font-size: 13px; line-height: 1.35; margin-top: 3px; }
+.flecha-tarjeta { width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--carmesi); position: relative; transition: transform .25s; }
+.flecha-tarjeta::after { content: ''; position: absolute; left: 8px; top: 7px; width: 8px; height: 8px; border-right: 2px solid var(--carmesi); border-bottom: 2px solid var(--carmesi); transform: rotate(45deg); }
+details[open] > summary .flecha-tarjeta { transform: rotate(180deg); background: rgba(168,50,42,.08); }
+details.tarjeta > .contenido { padding: 0 16px 16px; animation: desplegar .25s ease-out; }
+details[open] > summary { border-bottom: 1px solid var(--linea); margin-bottom: 12px; }
+@keyframes desplegar { from { opacity: 0; transform: translateY(-6px); } }
+.toca { margin: 8px 0 0; color: rgba(255,255,255,.7); font-size: 13px; }
+main { margin-top: -14px; }
+details.tarjeta { margin-bottom: 10px; }
+@media (max-width: 600px) { details.tarjeta > summary { padding: 13px 10px; } .cab-tarjeta h2 { font-size: 20px; } details.tarjeta > .contenido { padding: 0 12px 14px; } }

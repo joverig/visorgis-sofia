@@ -12,6 +12,7 @@
   // Colores para distinguir los caminos que salen de un lugar (paleta sobria, legible sobre el papel)
   const PALETA = ['#8c2f39', '#2f5d7c', '#5f7a34', '#a8711c', '#6b4a7e', '#2f7f86', '#7a5a3a'];
 
+  let panelM, capaEtqRutas;
   let map, view, bases, capaPuntos, capaEtiquetas, capaRutas, capaYo, narrador;
   const estado = { punto: null, ruta: null, sentido: 'ida', origen: null, filtro: null, filtroVisita: null, yo: null, seguir: false, base: 'calles' };
 
@@ -51,20 +52,21 @@
     const oculto = !pasaFiltros(p);
     const vis = esVisitado(p);
     const prin = esPrincipal(p);
-    const k = [p.id, sel, oculto, vis, parada].join('|');
+    const sobre = estado.sobre === p;
+    const k = [p.id, sel, oculto, vis, parada, sobre].join('|');
     if (!cacheP[k]) {
       const a = oculto ? 0.35 : 1;
       if (prin) {
         const color = vis ? `rgba(95,122,52,${0.88 * a})` : `rgba(168,50,42,${a})`;
         cacheP[k] = new S.Style({
-          image: new S.Circle({ radius: sel ? 13 : (vis ? 10 : 11), fill: new S.Fill({ color }), stroke: new S.Stroke({ color: sel ? '#e0b04a' : '#fff', width: sel ? 4 : 2.5 }) }),
+          image: new S.Circle({ radius: sel ? 13 : sobre ? 13 : (vis ? 10 : 11), fill: new S.Fill({ color }), stroke: new S.Stroke({ color: sel || sobre ? '#e0b04a' : '#fff', width: sel || sobre ? 4 : 2.5 }) }),
           text: new S.Text({ text: vis ? '✓' : String(p.num), font: fuente('700', vis ? 13 : 11), fill: new S.Fill({ color: '#fff' }) }),
           zIndex: sel ? 20 : 10,
         });
       } else {
         const color = vis ? `rgba(95,122,52,${0.85 * a})` : `rgba(184,134,43,${a})`;
         cacheP[k] = new S.Style({
-          image: new S.Circle({ radius: sel ? 9 : parada ? 8 : 6, fill: new S.Fill({ color }), stroke: new S.Stroke({ color: sel ? '#a8322a' : '#fff', width: sel || parada ? 3 : 2 }) }),
+          image: new S.Circle({ radius: sel || sobre ? 9 : parada ? 8 : 6, fill: new S.Fill({ color }), stroke: new S.Stroke({ color: sel || sobre ? '#a8322a' : '#fff', width: sel || parada || sobre ? 3 : 2 }) }),
           text: vis ? new S.Text({ text: '✓', font: fuente('700', 9), fill: new S.Fill({ color: '#fff' }) }) : undefined,
           zIndex: sel ? 19 : parada ? 12 : 8,
         });
@@ -131,6 +133,10 @@
       }
       return est;
     }
+    if (estado.sobre === r) {
+      return [new S.Style({ stroke: new S.Stroke({ color: '#fffaf1', width: 11, lineCap: 'round', lineJoin: 'round' }), zIndex: 35 }),
+              new S.Style({ stroke: new S.Stroke({ color: 'rgba(168,50,42,.9)', width: 6, lineCap: 'round', lineJoin: 'round', lineDash: bus ? [9, 8] : undefined }), zIndex: 36 })];
+    }
     const color = colorRuta.get(r);
     if (color) {
       return [new S.Style({ stroke: new S.Stroke({ color: 'rgba(255,250,241,.95)', width: 8, lineCap: 'round', lineJoin: 'round' }), zIndex: 30 }),
@@ -158,6 +164,47 @@
     requestAnimationFrame(animar);
   }
 
+
+  // Etiqueta de duración en mitad de cada camino: invita a tocarlo
+  const cacheER = {};
+  function estiloEtqRuta(f, res) {
+    const r = f.get('r');
+    const sel = estado.ruta === r, sobre = estado.sobre === r, color = colorRuta.get(r);
+    if (!sel && !sobre && !color && zoomDe(res) < 15.3) return null;
+    if (estado.ruta && !sel) return null;
+    const bus = r.tipo === 'transporte';
+    const k = r.id + sel + sobre + (color || '');
+    if (!cacheER[k]) {
+      const txt = (bus ? '🚇 ' : '🚶 ') + (bus ? 'transporte' : txtMin(r.minutos || minutos(r.distancia)));
+      const fondo = sel || sobre ? '#a8322a' : color || '#fffaf1';
+      cacheER[k] = new S.Style({ text: new S.Text({ text: txt, font: fuente('700', 11.5), fill: new S.Fill({ color: sel || sobre || color ? '#fff' : '#5a3a2c' }),
+        backgroundFill: new S.Fill({ color: fondo }), backgroundStroke: new S.Stroke({ color: sel || sobre || color ? '#fff' : 'rgba(110,56,40,.55)', width: 1.5 }),
+        padding: [3, 7, 2, 7] }), zIndex: sel ? 45 : 25 });
+    }
+    return cacheER[k];
+  }
+  function ponerSobre(obj) {
+    if (estado.sobre === obj) return;
+    estado.sobre = obj;
+    document.querySelectorAll('.lista li.sobre').forEach((li) => li.classList.remove('sobre'));
+    if (obj && obj.id && porId[obj.id] === obj) { const li = document.querySelector('.lista li[data-id="' + obj.id + '"]'); if (li) li.classList.add('sobre'); }
+    refrescarMapa();
+  }
+  // Tocar el mapa vacío: deselecciona; si no hay nada seleccionado, en el móvil pliega el panel para ver más mapa
+  function tocarVacio() {
+    if (estado.ruta) cerrarRuta();
+    else if (estado.punto) cerrarPunto();
+    else if (esMovil()) panelM.plegar();
+  }
+  const LEYENDA = '<ul>' +
+    '<li><span class="sim"><svg width="26" height="26"><circle cx="13" cy="13" r="10" fill="#a8322a" stroke="#fff" stroke-width="2.5"/><text x="13" y="17" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">1</text></svg></span>Lugar imprescindible: tócalo para ver su historia y los caminos que salen de él</li>' +
+    '<li><span class="sim"><svg width="20" height="20"><circle cx="10" cy="10" r="6" fill="#b8862b" stroke="#fff" stroke-width="2"/></svg></span>Lugar secundario, de paso en los caminos</li>' +
+    '<li><span class="sim"><svg width="26" height="26"><circle cx="13" cy="13" r="10" fill="#5f7a34" stroke="#fff" stroke-width="2.5"/><text x="13" y="17" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">✓</text></svg></span>Ya visitado (también se marca desde el Itinerario)</li>' +
+    '<li><span class="sim"><svg width="40" height="12"><path d="M2 6h36" stroke="#fffaf1" stroke-width="7" stroke-linecap="round"/><path d="M2 6h36" stroke="#6e3828" stroke-width="3.2" stroke-dasharray="0.1 7" stroke-linecap="round"/></svg></span>Camino a pie: tócalo (o su etiqueta de minutos) para ver la ruta narrada</li>' +
+    '<li><span class="sim"><svg width="40" height="12"><path d="M2 6h36" stroke="#a8322a" stroke-width="6" stroke-linecap="round"/></svg></span>Camino seleccionado, con flechas en el sentido de la marcha</li>' +
+    '<li><span class="sim" style="font-weight:700;color:#2f5d7c">❄</span>Planes que solo existen en diciembre</li>' +
+    '</ul><p>Toca el mapa vacío para cerrar la ficha. En el móvil, arrastra o toca la barrita del panel para ver más mapa.</p>';
+
   /* ---------- mapa ---------- */
   function crearMapa() {
     view = new ol.View({ center: ol.proj.fromLonLat([23.3260, 42.6950]), zoom: 15, minZoom: SofiaComun.ZOOM_MIN, maxZoom: 19 });
@@ -165,15 +212,21 @@
     capaPuntos = new ol.layer.Vector({ source: new ol.source.Vector(), style: estiloPunto });
     capaEtiquetas = new ol.layer.Vector({ source: capaPuntos.getSource(), style: estiloEtiqueta, declutter: true });
     capaYo = new ol.layer.Vector({ source: new ol.source.Vector(), zIndex: 50 });
-    map = new ol.Map({ target: 'mapa', view, layers: [capaRutas, capaPuntos, capaEtiquetas, capaYo] });
+    capaEtqRutas = new ol.layer.Vector({ source: new ol.source.Vector(), style: estiloEtqRuta, declutter: true });
+    map = new ol.Map({ target: 'mapa', view, layers: [capaRutas, capaEtqRutas, capaPuntos, capaEtiquetas, capaYo] });
     map.addControl(new ol.control.ScaleLine({ units: 'metric' }));
     bases = SofiaComun.basesMapa(map);
 
-    map.on('singleclick', (e) => {
+    const tocable = (l) => l === capaPuntos || l === capaRutas || l === capaEtqRutas;
+    const tolerancia = () => (SofiaComun.esTactil() ? 12 : 6);
+    const queHay = (px) => {
       let tocado = null;
-      map.forEachFeatureAtPixel(e.pixel, (f) => { if (!tocado || (f.get('p') && !tocado.get('p'))) tocado = f; },
-        { hitTolerance: 6, layerFilter: (l) => l === capaPuntos || l === capaRutas });
-      if (!tocado) return;
+      map.forEachFeatureAtPixel(px, (f) => { if (!tocado || (f.get('p') && !tocado.get('p'))) tocado = f; }, { hitTolerance: tolerancia(), layerFilter: tocable });
+      return tocado;
+    };
+    map.on('singleclick', (e) => {
+      const tocado = queHay(e.pixel);
+      if (!tocado) { tocarVacio(); return; }
       if (tocado.get('p')) abrirPunto(tocado.get('p'));
       else if (tocado.get('r')) {
         const r = tocado.get('r');
@@ -181,10 +234,18 @@
         abrirRuta(r, sentido, estado.punto ? estado.punto.id : estado.origen);
       }
     });
+    const flotante = SofiaComun.etiquetaFlotante(map);
     map.on('pointermove', (e) => {
-      if (e.dragging) return;
-      map.getTargetElement().style.cursor = map.hasFeatureAtPixel(e.pixel, { hitTolerance: 6, layerFilter: (l) => l === capaPuntos || l === capaRutas }) ? 'pointer' : '';
+      if (e.dragging || SofiaComun.esTactil()) return;
+      const f = queHay(e.pixel);
+      map.getTargetElement().style.cursor = f ? 'pointer' : '';
+      const obj = f ? (f.get('p') || f.get('r')) : null;
+      ponerSobre(obj);
+      if (!obj) { flotante.ocultar(); return; }
+      if (obj.nombre && f.get('p')) flotante.mostrar(e.pixel, obj.nombre + ' · toca para ver su historia');
+      else { const s = sentidoDe(obj, 'ida'); flotante.mostrar(e.pixel, s.a.nombre + ' ↔ ' + s.b.nombre + ' · ' + (obj.tipo === 'transporte' ? 'en transporte' : txtMin(obj.minutos || minutos(obj.distancia)))); }
     });
+    map.getViewport().addEventListener('mouseleave', () => { flotante.ocultar(); ponerSobre(null); });
     map.on('pointerdrag', () => { estado.seguir = false; });
   }
   function padding() {
@@ -223,6 +284,8 @@
         porId[r.desde].rutas.push(r); porId[r.hasta].rutas.push(r);
         (r.paradas || []).forEach((id) => porId[id] && porId[id].rutas.push(r));
         capaRutas.getSource().addFeature(f);
+        const g = f.getGeometry(), et = new ol.Feature(new ol.geom.Point(g.getCoordinateAt(0.5)));
+        et.set('r', r); capaEtqRutas.getSource().addFeature(et);
       });
     } catch (e) { console.info('Sin rutas todavía:', e.message); }
   }
@@ -245,7 +308,7 @@
     if (estado.filtroVisita === 'visitados' && !esVisitado(p)) return false;
     return true;
   }
-  function refrescarMapa() { capaPuntos.changed(); capaEtiquetas.changed(); capaRutas.changed(); }
+  function refrescarMapa() { capaPuntos.changed(); capaEtiquetas.changed(); capaRutas.changed(); if (capaEtqRutas) capaEtqRutas.changed(); }
   function pintarProgreso() {
     const n = puntos.filter(esVisitado).length;
     $('prog-n').textContent = n; $('prog-total').textContent = puntos.length;
@@ -322,6 +385,8 @@
         li.querySelector('small').textContent = (CATEGORIAS[p.categoria] || '') + (p.temporada && p.categoria !== 'temporada' ? ' · solo en diciembre' : '');
         if (estado.yo) li.querySelector('.dist').textContent = txtDist(metros(estado.yo, p.coord));
         li.onclick = () => abrirPunto(p);
+        li.dataset.id = p.id;
+        li.onmouseenter = () => ponerSobre(p); li.onmouseleave = () => ponerSobre(null);
         ul.appendChild(li);
       });
     });
@@ -350,7 +415,7 @@
     if (narrador) narrador.preparar($('narrar'), p.id);
     pintarBotonVisitado();
     $('cuerpo').scrollTop = 0;
-    if (esMovil()) $('panel').className = 'panel';
+    if (esMovil()) panelM.normal();
     refrescarMapa();
     history.replaceState(null, '', '#' + p.id);
     if (!sinMover) {
@@ -432,7 +497,7 @@
     $('r-ir-hasta').textContent = 'Ir a ' + s.a.nombre; $('r-ir-hasta').onclick = () => abrirPunto(s.a);
     if (narrador) narrador.preparar($('narrar-ruta'), s.id);
     $('cuerpo').scrollTop = 0;
-    if (esMovil()) $('panel').className = 'panel';
+    if (esMovil()) panelM.normal();
     refrescarMapa();
     history.replaceState(null, '', '#' + s.id);
     requestAnimationFrame(animar);
@@ -493,10 +558,9 @@
     $('gps').onclick = activarGPS;
     SofiaComun.botonCapa($('capa'), bases);
     SofiaComun.visitados.alCambiar(() => { pintarProgreso(); pintarLista(); pintarBotonVisitado(); refrescarMapa(); });
-    $('tirador').onclick = () => {
-      const p = $('panel');
-      p.className = p.classList.contains('alto') ? 'panel bajo' : p.classList.contains('bajo') ? 'panel' : 'panel alto';
-    };
+    $('tirador').onclick = () => panelM.alternar();
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { if (estado.ruta) cerrarRuta(); else if (estado.punto) cerrarPunto(); } });
+    SofiaComun.leyenda(document.querySelector('.botones-mapa'), LEYENDA);
     window.addEventListener('hashchange', irAlHash);
   }
   // #lugar  ·  #ruta-a--b (sentido a→b)  ·  #visitados=a,b,c
@@ -515,8 +579,10 @@
       SofiaComun.enlacePortal(document.querySelector('.cabecera'));
       narrador = new SofiaComun.Narrador('audio/');
     }
+    panelM = SofiaComun.panelMovil($('panel'));
     crearMapa();
     enlazar();
+    SofiaComun.pistaMapa(map, 'explora', 'Toca un punto o un camino del mapa para ver su historia y la ruta narrada');
     await cargar();
     pintarProgreso(); pintarFiltros(); pintarLista();
     if (!irAlHash()) {

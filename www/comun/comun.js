@@ -256,5 +256,57 @@
   // Zoom mínimo común: se puede alejar hasta ver toda Europa
   const ZOOM_MIN = 4;
 
-  window.SofiaComun = { enlacePortal, Narrador, ICONO, capaCalles, visitados, basesMapa, botonCapa, localizador, aviso, ZOOM_MIN };
+  /* ---------- ayudas para descubrir el mapa (pensadas sobre todo para el móvil) ---------- */
+  // Aviso de primera visita: «toca un punto o un camino». Se cierra al tocar algo y no vuelve a salir.
+  function pistaMapa(map, clave, texto) {
+    const k = 'sofia-pista-' + clave;
+    try { if (localStorage.getItem(k)) return; } catch (e) { return; }
+    const d = document.createElement('div');
+    d.className = 'pista-mapa';
+    d.innerHTML = '<span class="dedo" aria-hidden="true">👆</span><span class="txt"></span><button aria-label="Cerrar aviso">✕</button>';
+    d.querySelector('.txt').textContent = texto;
+    const cerrar = () => { d.classList.add('fuera'); setTimeout(() => d.remove(), 350); try { localStorage.setItem(k, '1'); } catch (e) {} };
+    d.querySelector('button').onclick = cerrar;
+    document.body.appendChild(d);
+    map.once('singleclick', cerrar);
+    return cerrar;
+  }
+  // Botón ⓘ con la leyenda de símbolos
+  function leyenda(contenedor, html) {
+    if (!contenedor) return;
+    const b = document.createElement('button');
+    b.className = contenedor.classList.contains('sofia-botones') ? 'sofia-redondo' : 'redondo';
+    b.title = 'Cómo se usa'; b.setAttribute('aria-label', 'Cómo se usa');
+    b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2zm0-8h-2V7h2z"/></svg>';
+    const caja = document.createElement('div');
+    caja.className = 'leyenda-caja'; caja.hidden = true;
+    caja.innerHTML = '<button class="cerrar-leyenda" aria-label="Cerrar">✕</button><h3>Cómo se usa</h3>' + html;
+    caja.querySelector('.cerrar-leyenda').onclick = () => { caja.hidden = true; };
+    b.onclick = (e) => { e.stopPropagation(); caja.hidden = !caja.hidden; };
+    contenedor.appendChild(b);
+    document.body.appendChild(caja);
+  }
+  // Etiqueta flotante al pasar el ratón (solo con ratón; en el móvil no estorba)
+  function etiquetaFlotante(map) {
+    const el = document.createElement('div');
+    el.className = 'etiqueta-flotante'; el.hidden = true;
+    map.getTargetElement().appendChild(el);
+    return {
+      mostrar(px, texto) { el.textContent = texto; el.hidden = false; el.style.left = (px[0] + 14) + 'px'; el.style.top = (px[1] - 10) + 'px'; },
+      ocultar() { el.hidden = true; },
+    };
+  }
+  // En el móvil: botón «Ver lista» cuando el panel está plegado
+  function panelMovil(panel) {
+    const b = document.createElement('button');
+    b.className = 'ver-lista'; b.hidden = true;
+    b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg>Ver lista';
+    document.body.appendChild(b);
+    const poner = (clase) => { panel.className = 'panel' + (clase ? ' ' + clase : ''); b.hidden = clase !== 'bajo'; };
+    b.onclick = () => poner('');
+    return { plegar: () => poner('bajo'), normal: () => poner(''), alternar: () => poner(panel.classList.contains('alto') ? 'bajo' : panel.classList.contains('bajo') ? '' : 'alto'), poner };
+  }
+  const esTactil = () => window.matchMedia('(pointer: coarse)').matches;
+
+  window.SofiaComun = { enlacePortal, Narrador, ICONO, capaCalles, visitados, basesMapa, botonCapa, localizador, aviso, ZOOM_MIN, pistaMapa, leyenda, etiquetaFlotante, panelMovil, esTactil };
 })();
