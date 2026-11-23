@@ -83,7 +83,7 @@
       const b = document.createElement('button');
       b.textContent = t ? TIPOS[t][0] + ' ' + TIPOS[t][1] : 'Todo';
       b.className = filtro.t === t ? 'activo' : '';
-      b.onclick = () => { filtro.t = t; lista(); capa.changed(); };
+      b.onclick = () => { filtro.t = t; lista(); if (capa) capa.changed(); };
       f.appendChild(b);
     });
     const ul = $('servicios'); ul.innerHTML = '';
@@ -122,6 +122,8 @@
         titulo = 'Todavía es pronto para la previsión del viaje (se publica unos 16 días antes). Mientras, así están los próximos días en Sofía:';
       }
       const d = j.daily;
+      if (!titulo) { const [ico, txt] = wmo(d.weather_code[0]); $('res-tiempo').textContent = ico + ' Llegada: ' + Math.round(d.temperature_2m_max[0]) + '° / ' + Math.round(d.temperature_2m_min[0]) + '°, ' + txt.toLowerCase() + ' · toca para ver los 5 días'; }
+      else $('res-tiempo').textContent = 'La previsión del viaje se publica unos 16 días antes';
       cont.innerHTML = (titulo ? '<p class="nota">' + titulo + '</p>' : '') + '<div class="dias-tiempo"></div>';
       const fila = cont.querySelector('.dias-tiempo');
       d.time.forEach((t, i) => {
@@ -138,6 +140,7 @@
         fila.appendChild(el);
       });
     } catch (e) {
+      $('res-tiempo').textContent = 'Máximas de 2 a 8 °C y mínimas de -4 a 2 °C';
       cont.innerHTML = '<p class="nota">No se ha podido cargar la previsión. Lo normal a principios de diciembre: máximas de 2 a 8 °C y mínimas de -4 a 2 °C, nublado y a veces niebla.</p>';
     }
   }
@@ -145,6 +148,10 @@
   document.addEventListener('DOMContentLoaded', () => {
     SofiaComun.enlacePortal(document.querySelector('.cab-nav'));
     cuentaAtras(); vuelos(); casa(); lista(); tiempo();
-    if (window.ol) crearMapa();
+    // El mapa de «Cerca de casa» se crea al abrir la tarjeta (dentro de una tarjeta cerrada no tiene tamaño)
+    const tc = $('t-cerca');
+    const preparar = () => { if (!window.ol) return; if (!map) crearMapa(); else map.updateSize(); };
+    tc.addEventListener('toggle', () => { if (tc.open) setTimeout(preparar, 30); });
+    if (tc.open) preparar();
   });
 })();

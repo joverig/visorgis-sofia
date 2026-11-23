@@ -4,7 +4,7 @@
   const $ = (id) => document.getElementById(id);
   const S = ol.style;
   const esMovil = () => window.matchMedia('(max-width: 760px)').matches;
-  let map, view, capaRest, capaEtq, capaYo, bases;
+  let map, view, capaRest, capaEtq, capaYo, bases, panelM;
   const rest = [], porId = {};
   const estado = { sel: null, yo: null, filtro: null };
   const TIPOS = { restaurante: 'Restaurantes', bar: 'Bares y copas', desayuno: 'Desayuno', mercado: 'Mercado' };
@@ -52,8 +52,10 @@
     map.addControl(new ol.control.ScaleLine({ units: 'metric' }));
     bases = SofiaComun.basesMapa(map);
     map.on('singleclick', (e) => {
-      const f = map.forEachFeatureAtPixel(e.pixel, (x) => x, { hitTolerance: 6, layerFilter: (l) => l === capaRest });
+      const f = map.forEachFeatureAtPixel(e.pixel, (x) => x, { hitTolerance: SofiaComun.esTactil() ? 12 : 6, layerFilter: (l) => l === capaRest });
       if (f) abrir(f.get('r'));
+      else if (estado.sel) cerrar();
+      else if (esMovil()) panelM.plegar();
     });
     map.on('pointermove', (e) => {
       map.getTargetElement().style.cursor = map.hasFeatureAtPixel(e.pixel, { layerFilter: (l) => l === capaRest }) ? 'pointer' : '';
@@ -143,7 +145,7 @@
     $('r-google').href = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(r.nombre + ', ' + r.direccion + ', ' + (r.ciudad || 'Sofia'));
     pintarYo();
     $('cuerpo').scrollTop = 0;
-    if (esMovil()) $('panel').className = 'panel';
+    if (esMovil()) panelM.normal();
     capaRest.changed(); capaEtq.changed();
     history.replaceState(null, '', '#' + r.id);
     view.animate({ center: r.coord, zoom: Math.max(view.getZoom(), 16.5), duration: 500 });
@@ -185,6 +187,7 @@
   }
 
   async function iniciar() {
+    panelM = SofiaComun.panelMovil($('panel'));
     if (window.SofiaComun) SofiaComun.enlacePortal(document.querySelector('.cabecera'));
     crearMapa();
     await cargar();
@@ -192,7 +195,8 @@
     $('volver-lista').onclick = cerrar; $('cerrar').onclick = cerrar;
     $('gps').onclick = activarGPS; $('activar-gps').onclick = activarGPS;
     SofiaComun.botonCapa($('capa'), bases);
-    $('tirador').onclick = () => { const p = $('panel'); p.className = p.classList.contains('alto') ? 'panel bajo' : p.classList.contains('bajo') ? 'panel' : 'panel alto'; };
+    $('tirador').onclick = () => panelM.alternar();
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && estado.sel) cerrar(); });
     const r = porId[location.hash.slice(1)];
     if (r) abrir(r);
     else view.fit(ol.extent.boundingExtent(rest.filter((x) => !x.ciudad && metros(x.coord, ol.proj.fromLonLat([23.324, 42.694])) < 4000).map((x) => x.coord)), { padding: padding(), maxZoom: 16 });
