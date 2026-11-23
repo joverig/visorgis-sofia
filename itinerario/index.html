@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Manrope:wght@400;600&display=swap">
   <script>
     (function () {
-      var VERSION = '202611232229';
+      var VERSION = '202611232233';
       if (location.protocol.indexOf('http') !== 0) return;
       fetch('../version.txt', { cache: 'no-store' }).then(function (r) { return r.ok ? r.text() : ''; }).then(function (v) {
         v = (v || '').trim();
@@ -27,9 +27,9 @@
   <script>
     if (!window.ol) document.write('<script src="https://cdn.jsdelivr.net/npm/ol@10.5.0/dist/ol.js"><\/script>');
   </script>
-  <link rel="stylesheet" href="../comun/comun.css?v=202611232229">
-  <link rel="stylesheet" href="../explora/css/explora.css?v=202611232229">
-  <link rel="stylesheet" href="css/itinerario.css?v=202611232229">
+  <link rel="stylesheet" href="../comun/comun.css?v=202611232233">
+  <link rel="stylesheet" href="../explora/css/explora.css?v=202611232233">
+  <link rel="stylesheet" href="css/itinerario.css?v=202611232233">
 </head>
 <body>
   <div id="mapa"></div>
@@ -82,6 +82,7 @@
           <div class="ruta-cifras" id="p-cifras"><strong id="p-min"></strong><span id="p-dist"></span></div>
         </div>
         <p class="sub" id="p-sub"></p>
+        <a class="btn-pedir" id="p-pedir" hidden><span aria-hidden="true">🍽</span> Qué pedir</a>
         <p class="precio-paso" id="p-precio" hidden></p>
         <p class="alternativa" id="p-alt" hidden></p>
         <div class="acciones-ficha">
@@ -95,7 +96,7 @@
     </div>
   </aside>
 
-  <script src="../comun/comun.js?v=202611232229"></script>
-  <script src="js/itinerario.js?v=202611232229"></script>
+  <script src="../comun/comun.js?v=202611232233"></script>
+  <script src="js/itinerario.js?v=202611232233"></script>
 </body>
 </html>
