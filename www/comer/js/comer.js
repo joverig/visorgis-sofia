@@ -10,7 +10,6 @@
   const TIPOS = { restaurante: 'Restaurantes', bar: 'Bares y copas', desayuno: 'Desayuno', mercado: 'Mercado' };
   const EMOJI = { restaurante: '🍴', bar: '🍸', desayuno: '☕', mercado: '🧺' };
   const pasa = (r) => !estado.filtro || r.categoria === estado.filtro;
-  const PLATO = '<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="34" r="20" fill="none" stroke="#7a1f19" stroke-width="2.5"/><circle cx="32" cy="34" r="12" fill="none" stroke="#7a1f19" stroke-width="1.5" opacity=".6"/><path d="M8 10v14c0 3 2 5 4 5v25M12 10v12M16 10v14c0 3-2 5-4 5" fill="none" stroke="#7a1f19" stroke-width="2.5" stroke-linecap="round"/><path d="M54 10c-4 2-6 8-6 14 0 4 2 6 4 6v24" fill="none" stroke="#7a1f19" stroke-width="2.5" stroke-linecap="round"/></svg>';
 
   function metros(a, b) {
     const l1 = ol.proj.toLonLat(a), l2 = ol.proj.toLonLat(b), r = Math.PI / 180;
@@ -108,24 +107,9 @@
       cont.appendChild(b);
     });
   }
-  // Foto representativa del tipo de comida (Wikimedia Commons, con su autoría y licencia)
-  function pintarFoto(r) {
-    const cont = $('r-foto');
-    const respaldo = PLATO + '<span class="letra">' + esc(r.nombre.charAt(0)) + '</span>';
-    if (!r.foto) { cont.className = 'foto'; cont.innerHTML = respaldo; $('r-credito').hidden = true; return; }
-    cont.className = 'foto con-imagen';
-    cont.innerHTML = '<img alt="" loading="lazy">';
-    const img = cont.querySelector('img');
-    img.alt = r.foto.alt; img.src = r.foto.url;
-    img.onerror = () => { cont.className = 'foto'; cont.innerHTML = respaldo; $('r-credito').hidden = true; };
-    const c = $('r-credito'); c.hidden = false;
-    c.innerHTML = 'Imagen orientativa: ' + esc(r.foto.alt) + ' · <a target="_blank" rel="noopener"></a>';
-    const a = c.querySelector('a'); a.href = r.foto.fuente; a.textContent = r.foto.autor + ', ' + r.foto.licencia + ' (Wikimedia Commons)';
-  }
   function abrir(r) {
     estado.sel = r;
     $('vista-lista').hidden = true; $('vista-ficha').hidden = false;
-    pintarFoto(r);
     $('r-cocina').textContent = r.cocina;
     $('r-nombre').textContent = r.nombre;
     const n = notaTxt(r);
