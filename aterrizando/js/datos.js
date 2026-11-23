@@ -1,7 +1,6 @@
 /* Aterrizando · datos del viaje (sin nombres ni números de reserva) */
 window.ATERRIZA = {
-  casa: { nombre: 'La casa', direccion: 'ulitsa Sredna Gora 16, 1303 Sofía (barrio de Vazrazhdane)', coord: [23.31025, 42.69675],
-    nota: 'Posición aproximada en el mapa (a la altura del número 16).' },
+  casa: { nombre: 'La casa', direccion: 'ulitsa Sredna Gora 16, 1303 Sofía (barrio de Vazrazhdane)', coord: [23.31025, 42.69675] },
   aeropuerto: { coord: [23.41558, 42.68863] },
   vuelos: [
     { sentido: 'Ida', codigo: 'FR6410', fecha: '2026-12-04', dia: 'Viernes 4 dic', sale: '16:50', llega: '21:20', desde: 'Madrid-Barajas (MAD)', hasta: 'Sofía (SOF), Terminal 2',
@@ -15,7 +14,7 @@ window.ATERRIZA = {
     ['Maletas', 'Se pueden dejar guardadas el último día hasta la hora de ir al aeropuerto'],
     ['Metro más cercano', 'Opalchenska (M1 y M4), a unos 5 minutos: la M4 va directa al aeropuerto'],
   ],
-  // Servicios cercanos (OpenStreetMap, noviembre de 2026). Horarios orientativos: comprobadlos in situ.
+  // Servicios cercanos (datos de OpenStreetMap, noviembre de 2026)
   servicios: [
     { tipo: 'super', nombre: 'Lidl', horario: 'L-S 7:30-21:30 · D 8:00-21:00', coord: [23.30965, 42.69555] },
     { tipo: 'super', nombre: 'Billa', horario: 'Todos los días 8:00-22:00', coord: [23.30879, 42.69809] },
