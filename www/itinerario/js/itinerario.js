@@ -372,11 +372,8 @@
     history.replaceState(null, '', '#' + idPaso(p));
     if (!esParada) requestAnimationFrame(animar);
     if (!sinMover) {
-      if (esParada && estado.siguiente && estado.siguiente.modo !== 'bus') {
-        const ext = ol.extent.boundingExtent([coordDe(p.lugar)]);
-        ol.extent.extend(ext, estado.siguiente.feature.getGeometry().getExtent());
-        encuadrar(ext, 17);
-      } else if (esParada) view.animate({ center: coordDe(p.lugar), zoom: Math.max(view.getZoom(), 16), duration: 500 });
+      // Centrar en la parada elegida, en la parte del mapa que deja libre el panel
+      if (esParada) encuadrar(ol.extent.boundingExtent([coordDe(p.lugar)]), Math.min(18, Math.max(view.getZoom(), 16)));
       else encuadrar(p.feature.getGeometry().getExtent(), p.modo === 'bus' ? 9 : 17);
     }
   }
