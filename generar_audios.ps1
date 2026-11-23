@@ -15,7 +15,10 @@ $sha = [System.Security.Cryptography.SHA1]::Create()
 function Huella([string]$t) { return [BitConverter]::ToString($sha.ComputeHash([System.Text.Encoding]::UTF8.GetBytes($t))).Replace('-', '').Substring(0, 16) }
 
 $items = @()
-Get-ChildItem (Join-Path $raiz 'voz\textos') -Filter *.json | ForEach-Object { $items += @([System.IO.File]::ReadAllText($_.FullName, $utf8) | ConvertFrom-Json) }
+foreach ($f in Get-ChildItem (Join-Path $raiz 'voz\textos') -Filter *.json) {
+    $lista = ConvertFrom-Json ([System.IO.File]::ReadAllText($f.FullName, $utf8))
+    foreach ($x in $lista) { $items += $x }   # en PowerShell 5.1 el array JSON llega como un unico objeto
+}
 Write-Host "Textos: $($items.Count) - voz $($voz.voz) $($voz.estilo) $($voz.rate) $($voz.pitch)"
 $n = 0; $err = 0
 foreach ($it in $items) {
@@ -25,11 +28,19 @@ foreach ($it in $items) {
     $clave = "$($it.app)/$($it.id)"
     $h = Huella ($voz.voz + '|' + $voz.estilo + '|' + $voz.rate + '|' + $voz.pitch + '|' + $it.texto)
     if ((Test-Path $dest) -and $hechos[$clave] -eq $h) { continue }
-    try {
-        Sintetizar $cfg (Ssml $voz.voz $it.texto $voz.estilo $voz.rate $voz.pitch) $dest
-        $hechos[$clave] = $h; $n++
-        Write-Host "  OK $clave"
-    } catch { $err++; Write-Host "  ERROR $clave : $($_.Exception.Message)" -ForegroundColor Red }
+    $ok = $false
+    for ($intento = 1; $intento -le 4 -and -not $ok; $intento++) {
+        try {
+            Sintetizar $cfg (Ssml $voz.voz $it.texto $voz.estilo $voz.rate $voz.pitch) $dest
+            $hechos[$clave] = $h; $n++; $ok = $true
+            Write-Host "  OK $clave"
+        } catch {
+            $msg = $_.Exception.Message
+            if ($msg -match '429' -and $intento -lt 4) { Write-Host "  (limite de la capa gratuita, espero 30 s)" -ForegroundColor Yellow; Start-Sleep -Seconds 30 }
+            else { $err++; Write-Host "  ERROR $clave : $msg" -ForegroundColor Red; break }
+        }
+    }
+    Start-Sleep -Milliseconds 3500   # la capa gratuita admite unas 20 peticiones por minuto
 }
 # manifest.json de cada app: ids que tienen audio
 $items | Group-Object app | ForEach-Object {
