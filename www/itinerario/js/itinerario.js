@@ -364,7 +364,6 @@
     const i = estado.dia.pasos.indexOf(p);
     const ant = estado.dia.pasos[i - 1], sig = estado.dia.pasos[i + 1];
     $('p-ant').disabled = !ant; $('p-sig').disabled = !sig;
-    $('p-ant').title = ant ? 'Anterior: ' + ant.titulo : ''; $('p-sig').title = sig ? 'Siguiente: ' + sig.titulo : '';
     $('p-ant').onclick = () => ant && abrirPaso(ant); $('p-sig').onclick = () => sig && abrirPaso(sig);
     $('p-cuenta').textContent = (i + 1) + '/' + estado.dia.pasos.length;
     $('cuerpo').scrollTop = 0;
