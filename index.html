@@ -12,7 +12,7 @@
   <script>
     // Recarga si el navegador tiene un portal antiguo en caché (version.txt cambia en cada publicación)
     (function () {
-      var VERSION = '202611232204';
+      var VERSION = '202611232217';
       if (location.protocol.indexOf('http') !== 0) return;
       fetch('version.txt', { cache: 'no-store' }).then(function (r) { return r.ok ? r.text() : ''; }).then(function (v) {
         v = (v || '').trim();
