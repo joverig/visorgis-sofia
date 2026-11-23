@@ -65,16 +65,23 @@
       <section id="vista-paso" hidden>
         <div class="ruta-barra">
           <button class="volver-lista" id="volver-dia">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M14.5 5.5 8 12l6.5 6.5 1.5-1.5-5-5 5-5z"/></svg>Todo el día
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M14.5 5.5 8 12l6.5 6.5 1.5-1.5-5-5 5-5z"/></svg>El día
           </button>
+          <div class="nav-pasos">
+            <button class="paso-flecha" id="p-ant" aria-label="Paso anterior"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M14.5 5.5 8 12l6.5 6.5 1.5-1.5-5-5 5-5z"/></svg></button>
+            <span class="paso-cuenta" id="p-cuenta"></span>
+            <button class="paso-flecha" id="p-sig" aria-label="Paso siguiente"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9.5 5.5 16 12l-6.5 6.5L8 17l5-5-5-5z"/></svg></button>
+          </div>
           <button class="cerrar-ruta" id="cerrar-paso" title="Volver al día" aria-label="Cerrar">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.3 5.7 12 12l6.3 6.3-1.4 1.4L10.6 13.4 4.3 19.7 2.9 18.3 9.2 12 2.9 5.7 4.3 4.3l6.3 6.3 6.3-6.3z"/></svg>
           </button>
         </div>
         <span class="categoria" id="p-tipo"></span>
         <h2 id="p-titulo"></h2>
+        <div class="fila-escuchar" id="p-fila" hidden>
+          <div class="ruta-cifras" id="p-cifras"><strong id="p-min"></strong><span id="p-dist"></span></div>
+        </div>
         <p class="sub" id="p-sub"></p>
-        <div class="ruta-cifras" id="p-cifras" hidden><strong id="p-min"></strong><span id="p-dist"></span></div>
         <p class="precio-paso" id="p-precio" hidden></p>
         <p class="alternativa" id="p-alt" hidden></p>
         <div class="acciones-ficha">
@@ -84,10 +91,6 @@
         <ul class="datos-paso" id="p-datos" hidden></ul>
         <div class="historia ruta-texto" id="p-texto"></div>
         <div class="acciones-rest" id="p-ir"></div>
-        <div class="anterior-siguiente">
-          <button id="p-ant" class="paso-nav"></button>
-          <button id="p-sig" class="paso-nav sig"></button>
-        </div>
       </section>
     </div>
   </aside>

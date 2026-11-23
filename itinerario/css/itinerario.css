@@ -43,3 +43,17 @@
   body:not(.historia-abierta) #d-intro p:not(:first-child) { display: none; }
   body:not(.historia-abierta) #d-intro p:first-child { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; }
 }
+
+/* Anterior / siguiente arriba, en la barra fija de la ficha */
+#vista-paso .ruta-barra { gap: 6px; }
+#vista-paso .volver-lista { margin-bottom: 0; }
+.nav-pasos { display: inline-flex; align-items: center; gap: 4px; margin-left: auto; }
+.paso-flecha { width: 40px; height: 40px; border-radius: 50%; border: 1.5px solid var(--linea); background: #fffaf1; color: var(--carmesi); display: grid; place-items: center; cursor: pointer; }
+.paso-flecha svg { width: 22px; height: 22px; }
+.paso-flecha:disabled { opacity: .35; cursor: default; }
+.paso-flecha:not(:disabled):active { background: var(--carmesi); color: #fff; }
+.paso-cuenta { min-width: 34px; text-align: center; font-size: 12px; font-weight: 700; color: var(--suave); }
+/* Escuchar junto a los minutos, a la vista sin desplazar */
+.fila-escuchar { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin: 2px 0 6px; }
+.fila-escuchar .ruta-cifras { margin: 0; }
+.fila-escuchar .narrador { margin: 0; }

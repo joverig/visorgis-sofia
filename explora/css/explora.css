@@ -207,3 +207,8 @@ html, body { margin: 0; height: 100%; height: 100dvh; overflow: hidden; backgrou
 }
 /* Lista ↔ mapa: la fila del elemento señalado en el mapa */
 .lista li.sobre, .pasos li.sobre { background: rgba(184, 134, 43, .14); }
+
+/* Ficha de camino: Escuchar junto a los minutos, a la vista sin desplazar */
+.fila-escuchar { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin: 2px 0 8px; }
+.fila-escuchar .ruta-cifras { margin: 0; }
+.fila-escuchar .narrador { margin: 0; }
