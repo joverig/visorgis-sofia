@@ -20,14 +20,7 @@
      "De postre, el famoso dulce de rosa búlgara"
     ],
     "categoria": "restaurante",
-    "nota_pedir": "Cocina de autor: reservad, y contad con un precio alto para Sofía.",
-    "foto": {
-     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Pan_seared_scallops_with_grilled_asparagus_fine_dining_appetizer.jpg/960px-Pan_seared_scallops_with_grilled_asparagus_fine_dining_appetizer.jpg",
-     "alt": "Plato de alta cocina",
-     "autor": "Wiki.cullin",
-     "licencia": "CC0",
-     "fuente": "https://commons.wikimedia.org/wiki/File:Pan_seared_scallops_with_grilled_asparagus_fine_dining_appetizer.jpg"
-    }
+    "nota_pedir": "Cocina de autor: reservad, y contad con un precio alto para Sofía."
    },
    "geometry": {
     "type": "Point",
@@ -57,14 +50,7 @@
     ],
     "categoria": "restaurante",
     "horario": "12:30-23:30 (últimas comandas 22:30)",
-    "telefono": "+359 885 622 020",
-    "foto": {
-     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Patatnik.jpg/960px-Patatnik.jpg",
-     "alt": "Patatnik",
-     "autor": "K kapustin",
-     "licencia": "CC BY-SA 3.0",
-     "fuente": "https://commons.wikimedia.org/wiki/File:Patatnik.jpg"
-    }
+    "telefono": "+359 885 622 020"
    },
    "geometry": {
     "type": "Point",
@@ -89,14 +75,7 @@
      "Ensalada de la casa para empezar",
      "Tarta de miel (medena torta) de postre"
     ],
-    "categoria": "restaurante",
-    "foto": {
-     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Bulgarian_cuisine_Moussaka%2C_Lukanka%2C_Kashkaval_%281%29.jpg/960px-Bulgarian_cuisine_Moussaka%2C_Lukanka%2C_Kashkaval_%281%29.jpg",
-     "alt": "Musaka, lukanka y kashkaval",
-     "autor": "EvelinaRibarova",
-     "licencia": "CC BY-SA 4.0",
-     "fuente": "https://commons.wikimedia.org/wiki/File:Bulgarian_cuisine_Moussaka%2C_Lukanka%2C_Kashkaval_%281%29.jpg"
-    }
+    "categoria": "restaurante"
    },
    "geometry": {
     "type": "Point",
@@ -124,14 +103,7 @@
     "categoria": "restaurante",
     "horario": "12:00-23:00",
     "telefono": "+359 899 949 400",
-    "itinerario": "Lunes 7 · comida",
-    "foto": {
-     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Turkish_earthenware_pots_or_guvech.jpg/960px-Turkish_earthenware_pots_or_guvech.jpg",
-     "alt": "Cazuelas de barro (gyuveche)",
-     "autor": "E4024",
-     "licencia": "CC BY-SA 3.0",
-     "fuente": "https://commons.wikimedia.org/wiki/File:Turkish_earthenware_pots_or_guvech.jpg"
-    }
+    "itinerario": "Lunes 7 · comida"
    },
    "geometry": {
     "type": "Point",
@@ -157,14 +129,7 @@
      "La sopa de pollo y los siropes caseros de frambuesa o saúco"
     ],
     "categoria": "restaurante",
-    "nota_pedir": "Solo efectivo y suele llenarse: id antes de las 19:00 o reservad.",
-    "foto": {
-     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Kyopoolu_bg.jpg/960px-Kyopoolu_bg.jpg",
-     "alt": "Kyopolou",
-     "autor": "Ikonact",
-     "licencia": "CC BY-SA 3.0",
-     "fuente": "https://commons.wikimedia.org/wiki/File:Kyopoolu_bg.jpg"
-    }
+    "nota_pedir": "Solo efectivo y suele llenarse: id antes de las 19:00 o reservad."
    },
    "geometry": {
     "type": "Point",
@@ -191,14 +156,7 @@
     ],
     "categoria": "restaurante",
     "telefono": "+359 2 441 1155",
-    "nota_pedir": "Carta larguísima y numerada: mejor ir a lo clásico.",
-    "foto": {
-     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Kavarma.jpeg/960px-Kavarma.jpeg",
-     "alt": "Kavarma",
-     "autor": "Jeroen Kransen",
-     "licencia": "CC BY-SA 2.5",
-     "fuente": "https://commons.wikimedia.org/wiki/File:Kavarma.jpeg"
-    }
+    "nota_pedir": "Carta larguísima y numerada: mejor ir a lo clásico."
    },
    "geometry": {
     "type": "Point",
@@ -227,14 +185,7 @@
     "horario": "12:00-23:00",
     "telefono": "+359 886 801 227",
     "itinerario": "Lunes 7 · cena",
-    "nota_pedir": "Abierto desde 1926; reservad mesa para 7.",
-    "foto": {
-     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Cheverme.JPG/960px-Cheverme.JPG",
-     "alt": "Chevermé",
-     "autor": "Иван",
-     "licencia": "CC BY-SA 3.0",
-     "fuente": "https://commons.wikimedia.org/wiki/File:Cheverme.JPG"
-    }
+    "nota_pedir": "Abierto desde 1926; reservad mesa para 7."
    },
    "geometry": {
     "type": "Point",
@@ -259,14 +210,7 @@
      "Platos de cocina búlgara y europea a la carta",
      "Una copa de vino del país"
     ],
-    "categoria": "restaurante",
-    "foto": {
-     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Chopska.jpg/960px-Chopska.jpg",
-     "alt": "Ensalada shopska",
-     "autor": "Popo le Chien",
-     "licencia": "CC0",
-     "fuente": "https://commons.wikimedia.org/wiki/File:Chopska.jpg"
-    }
+    "categoria": "restaurante"
    },
    "geometry": {
     "type": "Point",
@@ -291,14 +235,7 @@
      "Sopas y guisos caseros del día",
      "Kebapche y kyufte a la parrilla"
     ],
-    "categoria": "restaurante",
-    "foto": {
-     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Bulgarians_Gotta_Love_Sarmi.JPG/960px-Bulgarians_Gotta_Love_Sarmi.JPG",
-     "alt": "Sarmi",
-     "autor": "CaptainPiggles",
-     "licencia": "CC BY-SA 4.0",
-     "fuente": "https://commons.wikimedia.org/wiki/File:Bulgarians_Gotta_Love_Sarmi.JPG"
-    }
+    "categoria": "restaurante"
    },
    "geometry": {
     "type": "Point",
@@ -322,14 +259,7 @@
      "Copas de mavrud, melnik o rubin, uvas autóctonas búlgaras",
      "Tablas de quesos y embutidos para acompañar"
     ],
-    "categoria": "bar",
-    "foto": {
-     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Mavrud_E1.jpg/960px-Mavrud_E1.jpg",
-     "alt": "Uva mavrud",
-     "autor": "Elena Chochkova",
-     "licencia": "CC BY-SA 3.0",
-     "fuente": "https://commons.wikimedia.org/wiki/File:Mavrud_E1.jpg"
-    }
+    "categoria": "bar"
    },
    "geometry": {
     "type": "Point",
@@ -353,14 +283,7 @@
      "El chevermé, el cordero asado entero que da nombre al local",
      "Espectáculo folclórico durante la cena"
     ],
-    "categoria": "restaurante",
-    "foto": {
-     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Cheverme.JPG/960px-Cheverme.JPG",
-     "alt": "Chevermé",
-     "autor": "Иван",
-     "licencia": "CC BY-SA 3.0",
-     "fuente": "https://commons.wikimedia.org/wiki/File:Cheverme.JPG"
-    }
+    "categoria": "restaurante"
    },
    "geometry": {
     "type": "Point",
@@ -388,14 +311,7 @@
     "categoria": "restaurante",
     "horario": "11:30-23:30",
     "telefono": "+359 899 917 837",
-    "itinerario": "Sábado 5 · cena",
-    "foto": {
-     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Cheverme.JPG/960px-Cheverme.JPG",
-     "alt": "Chevermé",
-     "autor": "Иван",
-     "licencia": "CC BY-SA 3.0",
-     "fuente": "https://commons.wikimedia.org/wiki/File:Cheverme.JPG"
-    }
+    "itinerario": "Sábado 5 · cena"
    },
    "geometry": {
     "type": "Point",
@@ -420,14 +336,7 @@
      "Ćevapi con cebolla y kajmak",
      "Ensalada de pimientos asados"
     ],
-    "categoria": "restaurante",
-    "foto": {
-     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Pleskavitsa.JPG/960px-Pleskavitsa.JPG",
-     "alt": "Pljeskavica",
-     "autor": "Biso",
-     "licencia": "CC BY 3.0",
-     "fuente": "https://commons.wikimedia.org/wiki/File:Pleskavitsa.JPG"
-    }
+    "categoria": "restaurante"
    },
    "geometry": {
     "type": "Point",
@@ -457,14 +366,7 @@
     "horario": "cocina 12:00-23:00, barra hasta medianoche",
     "telefono": "+359 2 444 6111",
     "itinerario": "Viernes 4 · cena",
-    "nota_pedir": "Decoración de la época socialista y platos de metal como los de las abuelas.",
-    "foto": {
-     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Rakia%2C_Sofia_%28_1070644%29.jpg/960px-Rakia%2C_Sofia_%28_1070644%29.jpg",
-     "alt": "Rakía en Sofía",
-     "autor": "Matti Blume",
-     "licencia": "CC BY-SA 4.0",
-     "fuente": "https://commons.wikimedia.org/wiki/File:Rakia%2C_Sofia_%28_1070644%29.jpg"
-    }
+    "nota_pedir": "Decoración de la época socialista y platos de metal como los de las abuelas."
    },
    "geometry": {
     "type": "Point",
@@ -488,14 +390,7 @@
      "Khorovats, la parrillada armenia",
      "Dulces armenios de postre"
     ],
-    "categoria": "restaurante",
-    "foto": {
-     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Khorovats_in_Sevan.jpg/960px-Khorovats_in_Sevan.jpg",
-     "alt": "Khorovats armenio",
-     "autor": "2colored",
-     "licencia": "CC BY-SA 2.0",
-     "fuente": "https://commons.wikimedia.org/wiki/File:Khorovats_in_Sevan.jpg"
-    }
+    "categoria": "restaurante"
    },
    "geometry": {
     "type": "Point",
@@ -515,13 +410,6 @@
     "precio": "€",
     "direccion": "bulevar Knyaginya Maria Luiza 25",
     "horario": "7:00-23:00",
-    "foto": {
-     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Banitsa_and_yogurt.jpg/960px-Banitsa_and_yogurt.jpg",
-     "alt": "Banitsa con yogur",
-     "autor": "Biso",
-     "licencia": "CC BY 3.0",
-     "fuente": "https://commons.wikimedia.org/wiki/File:Banitsa_and_yogurt.jpg"
-    },
     "itinerario": "Sábado 5 · comida",
     "resumen": "El mercado cubierto de 1911, junto a la mezquita: en la planta alta y en el sótano hay puestos donde comer barato y rápido, perfecto para que cada uno pique lo que quiera.",
     "platos": [
@@ -549,13 +437,6 @@
     "precio": "€",
     "direccion": "Graf Ignatiev 7",
     "horario": "De lunes a viernes, 7:00-15:00",
-    "foto": {
-     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Boza_bg.jpg/960px-Boza_bg.jpg",
-     "alt": "Boza",
-     "autor": "Ikonact",
-     "licencia": "CC BY-SA 3.0",
-     "fuente": "https://commons.wikimedia.org/wiki/File:Boza_bg.jpg"
-    },
     "itinerario": "Martes 8 · desayuno",
     "resumen": "Un mostrador de los de toda la vida que solo hace una cosa, y la borda: banitsa, el hojaldre de queso que desayunan los búlgaros, acompañada de boza.",
     "platos": [
@@ -583,13 +464,6 @@
     "direccion": "Slavyanska 18",
     "horario": "11:00-23:00",
     "telefono": "+359 889 895 533",
-    "foto": {
-     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Bulgarian_drob_sarma.jpg/960px-Bulgarian_drob_sarma.jpg",
-     "alt": "Drob sarma",
-     "autor": "Biser Todorov",
-     "licencia": "CC BY 4.0",
-     "fuente": "https://commons.wikimedia.org/wiki/File:Bulgarian_drob_sarma.jpg"
-    },
     "resumen": "Taberna en un sótano acogedor, con recetas búlgaras casi olvidadas y precios razonables. Alternativa del plan si queréis bajar el gasto.",
     "nota_pedir": "Conviene reservar.",
     "platos": [
@@ -616,13 +490,6 @@
     "categoria": "restaurante",
     "precio": "€€€",
     "direccion": "Dragalevtsi, a los pies del Vitosha",
-    "foto": {
-     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Cheverme.JPG/960px-Cheverme.JPG",
-     "alt": "Chevermé",
-     "autor": "Иван",
-     "licencia": "CC BY-SA 3.0",
-     "fuente": "https://commons.wikimedia.org/wiki/File:Cheverme.JPG"
-    },
     "resumen": "Un viejo molino de agua en el bosque, fuera del centro, con espectáculo folclórico que termina con los nestinari bailando descalzos sobre las brasas. Taxi y reserva imprescindibles.",
     "platos": [
      "Cordero, que las reseñas describen como «se deshace en la boca»",
@@ -649,13 +516,6 @@
     "precio": "€",
     "direccion": "6 de Septiembre 22 (al fondo del callejón)",
     "horario": "aprox. 21:00-3:00, lun-sáb",
-    "foto": {
-     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Candle_Light_Lounge_in_Treme.jpg/960px-Candle_Light_Lounge_in_Treme.jpg",
-     "alt": "Bar a la luz de las velas",
-     "autor": "Derek Bridges",
-     "licencia": "CC BY 2.0",
-     "fuente": "https://commons.wikimedia.org/wiki/File:Candle_Light_Lounge_in_Treme.jpg"
-    },
     "itinerario": "Viernes 4 · copa",
     "resumen": "El «granero»: un bar sin cartel ni electricidad, iluminado solo con velas, al fondo de un callejón oscuro. Fue refugio de intelectuales en la época comunista. Hay que llamar a la puerta de madera.",
     "nota_pedir": "Solo efectivo. Es pequeño: con 7, llegad pronto.",
@@ -682,13 +542,6 @@
     "categoria": "bar",
     "precio": "€€",
     "direccion": "Tsar Shishman 12",
-    "foto": {
-     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Elegant_cocktail_garnished_with_citrus_twist_presented_in_a_stylish_glass_on_a_wooden_bar.jpg/960px-Elegant_cocktail_garnished_with_citrus_twist_presented_in_a_stylish_glass_on_a_wooden_bar.jpg",
-     "alt": "Cóctel",
-     "autor": "Shixart1985",
-     "licencia": "CC BY 2.0",
-     "fuente": "https://commons.wikimedia.org/wiki/File:Elegant_cocktail_garnished_with_citrus_twist_presented_in_a_stylish_glass_on_a_wooden_bar.jpg"
-    },
     "itinerario": "Sábado 5 · copas",
     "resumen": "Cócteles en una casa antigua con encanto, en plena calle Tsar Shishman. El favorito de las guías locales para empezar la noche.",
     "platos": [
@@ -714,13 +567,6 @@
     "categoria": "bar",
     "precio": "€€",
     "direccion": "Tsar Shishman 15",
-    "foto": {
-     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Elegant_cocktail_garnished_with_citrus_twist_presented_in_a_stylish_glass_on_a_wooden_bar.jpg/960px-Elegant_cocktail_garnished_with_citrus_twist_presented_in_a_stylish_glass_on_a_wooden_bar.jpg",
-     "alt": "Cóctel",
-     "autor": "Shixart1985",
-     "licencia": "CC BY 2.0",
-     "fuente": "https://commons.wikimedia.org/wiki/File:Elegant_cocktail_garnished_with_citrus_twist_presented_in_a_stylish_glass_on_a_wooden_bar.jpg"
-    },
     "itinerario": "Sábado 5 · copas",
     "resumen": "Speakeasy de cócteles creativos a unos pasos del One More Bar, en la calle de los bares.",
     "platos": [
@@ -746,13 +592,6 @@
     "precio": "€",
     "direccion": "General Gurko 21",
     "horario": "22:00-6:00",
-    "foto": {
-     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Glass_of_beer_at_The_Tombs.jpg/960px-Glass_of_beer_at_The_Tombs.jpg",
-     "alt": "Cerveza",
-     "autor": "Ser Amantio di Nicolao",
-     "licencia": "CC BY-SA 4.0",
-     "fuente": "https://commons.wikimedia.org/wiki/File:Glass_of_beer_at_The_Tombs.jpg"
-    },
     "itinerario": "Sábado 5 · si hay marcha",
     "resumen": "Si el grupo quiere bailar hasta tarde, aquí se alarga la noche.",
     "platos": [
@@ -777,13 +616,6 @@
     "categoria": "bar",
     "precio": "€€€",
     "direccion": "Tsar Osvoboditel 16 (Sense Hotel)",
-    "foto": {
-     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Wine_being_poured_into_a_glass.jpg/960px-Wine_being_poured_into_a_glass.jpg",
-     "alt": "Vino tinto",
-     "autor": "Fabio Ingrosso",
-     "licencia": "CC BY 2.0",
-     "fuente": "https://commons.wikimedia.org/wiki/File:Wine_being_poured_into_a_glass.jpg"
-    },
     "itinerario": "Domingo 6 · noche",
     "resumen": "La azotea del Sense Hotel, con la catedral de Alejandro Nevski iluminada enfrente. Para una copa tranquila con vistas.",
     "platos": [
@@ -809,13 +641,6 @@
     "precio": "€€",
     "direccion": "Zlatarska 7, Kapana (Plovdiv)",
     "ciudad": "Plovdiv",
-    "foto": {
-     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/%D0%9E%D1%85%D1%80%D0%B8%D0%B4%D1%81%D0%BA%D0%B8_%D0%BA%D1%80%D0%B0%D0%BF_%28%D0%BF%D0%BE%D0%BB%D0%BD%D0%B5%D1%82%29.jpg/960px-%D0%9E%D1%85%D1%80%D0%B8%D0%B4%D1%81%D0%BA%D0%B8_%D0%BA%D1%80%D0%B0%D0%BF_%28%D0%BF%D0%BE%D0%BB%D0%BD%D0%B5%D1%82%29.jpg",
-     "alt": "Carpa rellena",
-     "autor": "Alextrajcheski",
-     "licencia": "CC BY-SA 4.0",
-     "fuente": "https://commons.wikimedia.org/wiki/File:%D0%9E%D1%85%D1%80%D0%B8%D0%B4%D1%81%D0%BA%D0%B8_%D0%BA%D1%80%D0%B0%D0%BF_%28%D0%BF%D0%BE%D0%BB%D0%BD%D0%B5%D1%82%29.jpg"
-    },
     "itinerario": "Domingo 6 · comida en Plovdiv",
     "resumen": "El restaurante que repiten todas las reseñas de Plovdiv, en el corazón del barrio de Kapana: cocina búlgara con un giro moderno, producto fresco del día y pan casero. Siempre lleno.",
     "platos": [
