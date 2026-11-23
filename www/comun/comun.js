@@ -65,7 +65,20 @@
 
   /* ---------- mapa base vectorial (OpenFreeMap) con rótulos en castellano o en alfabeto latino ---------- */
   const zoomDe = (res) => Math.log2(156543.03392804097 / res);
-  const nombreLatino = (f) => f.get('name:es') || f.get('name:latin') || f.get('name_en') || f.get('name') || '';
+  // Transliteración oficial búlgara (sistema de 2009) para los nombres que solo están en cirílico
+  const TRANS = { а: 'a', б: 'b', в: 'v', г: 'g', д: 'd', е: 'e', ж: 'zh', з: 'z', и: 'i', й: 'y', к: 'k', л: 'l', м: 'm', н: 'n', о: 'o', п: 'p',
+    р: 'r', с: 's', т: 't', у: 'u', ф: 'f', х: 'h', ц: 'ts', ч: 'ch', ш: 'sh', щ: 'sht', ъ: 'a', ь: 'y', ю: 'yu', я: 'ya' };
+  function transliterar(t) {
+    return t.replace(/[а-яА-Я]/g, (c) => {
+      const l = TRANS[c.toLowerCase()] || c;
+      return c === c.toLowerCase() ? l : l.charAt(0).toUpperCase() + l.slice(1);
+    });
+  }
+  const esLatino = (t) => t && !/[а-яА-Я]/.test(t);
+  const nombreLatino = (f) => {
+    const es = f.get('name:es'), lat = f.get('name:latin'), en = f.get('name_en'), n = f.get('name') || '';
+    return es || (esLatino(lat) && lat) || (esLatino(en) && en) || transliterar(n);
+  };
   const S = window.ol && ol.style;
   const fuente = (peso, px, extra) => (extra ? extra + ' ' : '') + peso + ' ' + px + 'px "Manrope", "Segoe UI", sans-serif';
   const cacheBase = {};
