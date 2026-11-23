@@ -28,7 +28,7 @@
   window.VISOR_CONFIG = {
     centro: [23.3219, 42.6977], // plaza Sveta Nedelya
     zoom: 15,
-    minZoom: 9,
+    minZoom: 4,
     maxZoom: 19,
     transicionSeg: 1.4,
     pausaSeg: 1.8,

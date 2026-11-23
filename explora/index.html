@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#a8322a">
+  <meta name="description" content="Los lugares imprescindibles de Sofía, su historia y rutas a pie entre ellos.">
+  <title>Explora Sofía</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Manrope:wght@400;600&display=swap">
+  <script>
+    (function () {
+      var VERSION = '202611231940';
+      if (location.protocol.indexOf('http') !== 0) return;
+      fetch('../version.txt', { cache: 'no-store' }).then(function (r) { return r.ok ? r.text() : ''; }).then(function (v) {
+        v = (v || '').trim();
+        if (v && v !== VERSION && sessionStorage.getItem('recargado') !== v) {
+          try { sessionStorage.setItem('recargado', v); } catch (e) {}
+          location.replace(location.pathname + '?v=' + v + location.hash);
+        }
+      }).catch(function () {});
+    })();
+  </script>
+  <link rel="stylesheet" href="../comun/lib/ol/ol.css">
+  <script src="../comun/lib/ol/ol.js"></script>
+  <script>
+    if (!window.ol) document.write('<script src="https://cdn.jsdelivr.net/npm/ol@10.5.0/dist/ol.js"><\/script>');
+  </script>
+  <link rel="stylesheet" href="../comun/comun.css?v=202611231940">
+  <link rel="stylesheet" href="css/explora.css?v=202611231940">
+</head>
+<body>
+  <div id="mapa"></div>
+
+  <header class="cabecera">
+    <h1>Explora <span>Sofía</span></h1>
+  </header>
+
+  <div class="botones-mapa">
+    <button id="gps" class="redondo" title="Mi posición" aria-label="Mi posición">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm9 3h-2.06A7 7 0 0 0 13 5.06V3h-2v2.06A7 7 0 0 0 5.06 11H3v2h2.06A7 7 0 0 0 11 18.94V21h2v-2.06A7 7 0 0 0 18.94 13H21zm-9 6a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"/></svg>
+    </button>
+    <button id="capa" class="redondo" title="Cambiar a satélite" aria-label="Cambiar mapa base">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="m12 3 9 5-9 5-9-5zm-7.2 8.6L12 15.6l7.2-4 1.8 1L12 17.6l-9-5zm0 4L12 19.6l7.2-4 1.8 1L12 21.6l-9-5z"/></svg>
+    </button>
+  </div>
+
+  <aside class="panel" id="panel">
+    <div class="tirador" id="tirador" aria-hidden="true"></div>
+    <div class="panel-cuerpo" id="cuerpo">
+      <!-- Portada: lista de lugares -->
+      <section id="vista-lista">
+        <p class="intro">Toca un lugar en el mapa o en la lista para conocer su historia y los caminos a pie que salen de él.</p>
+        <div class="progreso" id="progreso">
+          <div class="progreso-txt"><span><b id="prog-n">0</b> de <span id="prog-total">0</span> lugares visitados</span>
+            <button class="compartir" id="compartir" title="Copiar un enlace con tus lugares visitados para abrirlo en otro móvil o compartirlo">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18 16a3 3 0 0 0-2.4 1.2l-6.7-3.4a3 3 0 0 0 0-1.6l6.7-3.4A3 3 0 1 0 15 7l-6.7 3.4a3 3 0 1 0 0 3.2L15 17a3 3 0 1 0 3-1z"/></svg>Compartir progreso</button>
+          </div>
+          <div class="barra-prog"><i id="prog-barra"></i></div>
+        </div>
+        <div class="filtros filtros-estado" id="filtros-estado"></div>
+        <div class="filtros" id="filtros"></div>
+        <ul class="lista" id="lista"></ul>
+      </section>
+      <!-- Ficha de un lugar -->
+      <section id="vista-ficha" hidden>
+        <div class="ruta-barra">
+          <button class="volver-lista" id="volver-lista">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M14.5 5.5 8 12l6.5 6.5 1.5-1.5-5-5 5-5z"/></svg>Todos los lugares
+          </button>
+          <button class="cerrar-ruta" id="cerrar-punto" title="Dejar de seleccionar el lugar" aria-label="Cerrar lugar">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.3 5.7 12 12l6.3 6.3-1.4 1.4L10.6 13.4 4.3 19.7 2.9 18.3 9.2 12 2.9 5.7 4.3 4.3l6.3 6.3 6.3-6.3z"/></svg>
+          </button>
+        </div>
+        <span class="categoria" id="f-categoria"></span> <span class="chip-temporada" id="f-temporada" hidden>Solo en diciembre</span>
+        <h2 id="f-nombre"></h2>
+        <p class="distancia-yo" id="f-yo" hidden></p>
+        <p class="resumen" id="f-resumen"></p>
+        <div class="acciones-ficha">
+          <button id="narrar" class="narrador" disabled></button>
+          <button id="visitado" class="btn-visitado" aria-pressed="false"></button>
+        </div>
+        <div class="historia" id="f-historia"></div>
+        <button class="leer-mas" id="leer-mas">Leer la historia completa</button>
+        <h3 id="f-rutas-tit">Caminos a pie desde aquí</h3>
+        <ul class="rutas" id="f-rutas"></ul>
+        <p class="sin-rutas" id="f-sin-rutas" hidden>Las rutas a pie se están preparando.</p>
+      </section>
+      <!-- Ficha de una ruta (cada camino entre dos lugares es una entidad propia) -->
+      <section id="vista-ruta" hidden>
+        <div class="ruta-barra">
+          <span class="categoria" id="r-tipo">Ruta a pie</span>
+          <button class="cerrar-ruta" id="cerrar-ruta" title="Dejar de seleccionar la ruta" aria-label="Cerrar ruta">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.3 5.7 12 12l6.3 6.3-1.4 1.4L10.6 13.4 4.3 19.7 2.9 18.3 9.2 12 2.9 5.7 4.3 4.3l6.3 6.3 6.3-6.3z"/></svg>
+          </button>
+        </div>
+        <h2 id="r-nombre"></h2>
+        <div class="ruta-sentido">
+          <p class="ruta-extremos"><span id="r-desde"></span><span class="flecha">→</span><span id="r-hasta"></span></p>
+          <button class="invertir" id="invertir" title="Recorrer la ruta en el sentido contrario">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 7h11l-3-3 1.4-1.4L21.8 8l-5.4 5.4L15 12l3-3H7zm10 10H6l3 3-1.4 1.4L2.2 16l5.4-5.4L9 12l-3 3h11z"/></svg>Cambiar sentido</button>
+        </div>
+        <div class="ruta-cifras"><strong id="r-min"></strong><span id="r-dist"></span></div>
+        <button id="narrar-ruta" class="narrador" disabled></button>
+        <div class="historia ruta-texto" id="r-texto"></div>
+        <h3 id="r-paradas-tit">Paradas en el camino</h3>
+        <ul class="ruta-paradas" id="r-paradas"></ul>
+        <h3 id="r-camino-tit">Por el camino</h3>
+        <ul class="ruta-camino" id="r-camino"></ul>
+        <div class="ruta-ir">
+          <button class="ir" id="r-ir-desde"></button>
+          <button class="ir" id="r-ir-hasta"></button>
+        </div>
+      </section>
+    </div>
+  </aside>
+
+  <script src="../comun/comun.js?v=202611231940"></script>
+  <script src="js/explora.js?v=202611231940"></script>
+</body>
+</html>

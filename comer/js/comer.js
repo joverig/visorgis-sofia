@@ -1,12 +1,15 @@
-/* Comer en Sofía · restaurantes recomendados del centro, distancia desde el usuario y enlace a Google Maps */
+/* Comer en Sofía · restaurantes, bares y desayunos recomendados, qué pedir, distancia desde el usuario y enlace a Google Maps */
 (function () {
   'use strict';
   const $ = (id) => document.getElementById(id);
   const S = ol.style;
   const esMovil = () => window.matchMedia('(max-width: 760px)').matches;
-  let map, view, capaRest, capaEtq, capaYo;
+  let map, view, capaRest, capaEtq, capaYo, bases;
   const rest = [], porId = {};
-  const estado = { sel: null, yo: null };
+  const estado = { sel: null, yo: null, filtro: null };
+  const TIPOS = { restaurante: 'Restaurantes', bar: 'Bares y copas', desayuno: 'Desayuno', mercado: 'Mercado' };
+  const EMOJI = { restaurante: '🍴', bar: '🍸', desayuno: '☕', mercado: '🧺' };
+  const pasa = (r) => !estado.filtro || r.categoria === estado.filtro;
   const PLATO = '<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="34" r="20" fill="none" stroke="#7a1f19" stroke-width="2.5"/><circle cx="32" cy="34" r="12" fill="none" stroke="#7a1f19" stroke-width="1.5" opacity=".6"/><path d="M8 10v14c0 3 2 5 4 5v25M12 10v12M16 10v14c0 3-2 5-4 5" fill="none" stroke="#7a1f19" stroke-width="2.5" stroke-linecap="round"/><path d="M54 10c-4 2-6 8-6 14 0 4 2 6 4 6v24" fill="none" stroke="#7a1f19" stroke-width="2.5" stroke-linecap="round"/></svg>';
 
   function metros(a, b) {
@@ -21,12 +24,15 @@
   const cache = {};
   function estilo(f, res) {
     const r = f.get('r'), sel = estado.sel === r, z = Math.log2(156543.03392804097 / res);
-    const k = r.id + sel + (z >= 15);
+    const oculto = !pasa(r);
+    const k = r.id + sel + oculto;
     if (!cache[k]) {
+      const color = r.categoria === 'bar' ? '#2f5d7c' : r.categoria === 'desayuno' || r.categoria === 'mercado' ? '#a8711c' : '#7a1f19';
       const st = [new S.Style({
-        image: new S.Circle({ radius: sel ? 12 : 9, fill: new S.Fill({ color: sel ? '#a8322a' : '#7a1f19' }), stroke: new S.Stroke({ color: sel ? '#e0b04a' : '#fff', width: sel ? 3.5 : 2.5 }) }),
-        text: new S.Text({ text: '🍴', font: (sel ? 12 : 10) + 'px sans-serif' }), zIndex: sel ? 20 : 10,
+        image: new S.Circle({ radius: sel ? 12 : 9, fill: new S.Fill({ color: sel ? '#a8322a' : color }), stroke: new S.Stroke({ color: sel ? '#e0b04a' : '#fff', width: sel ? 3.5 : 2.5 }) }),
+        text: new S.Text({ text: EMOJI[r.categoria] || '🍴', font: (sel ? 12 : 10) + 'px sans-serif' }), zIndex: sel ? 20 : 10,
       })];
+      if (oculto) st[0].getImage().setOpacity(0.3);
       cache[k] = st;
     }
     return cache[k];
@@ -34,18 +40,17 @@
 
   function estiloEtq(f, res) {
     const r = f.get('r'), sel = estado.sel === r;
-    if (!sel && Math.log2(156543.03392804097 / res) < 15) return null;
+    if (!pasa(r) || (!sel && Math.log2(156543.03392804097 / res) < 15)) return null;
     return new S.Style({ text: new S.Text({ text: r.nombre, offsetY: -20, font: '600 12px "Manrope", sans-serif', fill: new S.Fill({ color: sel ? '#a8322a' : '#22262c' }), stroke: new S.Stroke({ color: '#fffaf1', width: 4 }) }), zIndex: sel ? 21 : 11 });
   }
   function crearMapa() {
-    view = new ol.View({ center: ol.proj.fromLonLat([23.324, 42.693]), zoom: 14.5, minZoom: 11, maxZoom: 19 });
+    view = new ol.View({ center: ol.proj.fromLonLat([23.324, 42.693]), zoom: 14.5, minZoom: SofiaComun.ZOOM_MIN, maxZoom: 19 });
     capaRest = new ol.layer.Vector({ source: new ol.source.Vector(), style: estilo });
     capaEtq = new ol.layer.Vector({ source: capaRest.getSource(), style: estiloEtq, declutter: true });
     capaYo = new ol.layer.Vector({ source: new ol.source.Vector(), zIndex: 50 });
     map = new ol.Map({ target: 'mapa', view, layers: [capaRest, capaEtq, capaYo] });
     map.addControl(new ol.control.ScaleLine({ units: 'metric' }));
-    SofiaComun.capaCalles().catch(() => new ol.layer.Tile({ source: new ol.source.OSM() }))
-      .then((c) => map.getLayers().insertAt(0, c));
+    bases = SofiaComun.basesMapa(map);
     map.on('singleclick', (e) => {
       const f = map.forEachFeatureAtPixel(e.pixel, (x) => x, { hitTolerance: 6, layerFilter: (l) => l === capaRest });
       if (f) abrir(f.get('r'));
@@ -72,7 +77,8 @@
 
   function pintarLista() {
     const ul = $('lista'); ul.innerHTML = '';
-    let l = rest.slice();
+    pintarFiltros();
+    let l = rest.filter(pasa);
     if (estado.yo) l.sort((a, b) => metros(estado.yo, a.coord) - metros(estado.yo, b.coord));
     else l.sort((a, b) => ((b.valoracion && b.valoracion.nota) || 0) - ((a.valoracion && a.valoracion.nota) || 0));
     l.forEach((r, i) => {
@@ -81,7 +87,7 @@
       li.querySelector('.num').textContent = i + 1;
       li.querySelector('b').textContent = r.nombre;
       const n = notaTxt(r);
-      li.querySelector('small').innerHTML = (n ? '<span class="estrella">★ ' + n + '</span> · ' : '') + r.cocina + ' · ' + r.precio;
+      li.querySelector('small').innerHTML = (n ? '<span class="estrella">★ ' + n + '</span> · ' : '') + esc(r.cocina) + ' · ' + r.precio + (r.ciudad ? ' · <b class="ciudad">' + esc(r.ciudad) + '</b>' : '') + (r.itinerario ? '<span class="en-plan">' + esc(r.itinerario) + '</span>' : '');
       if (estado.yo) li.querySelector('.dist').textContent = txtDist(metros(estado.yo, r.coord));
       li.onclick = () => abrir(r);
       ul.appendChild(li);
@@ -89,23 +95,52 @@
     $('activar-gps').hidden = !!estado.yo;
   }
 
+  const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  function pintarFiltros() {
+    const cont = $('filtros'); cont.innerHTML = '';
+    [null].concat(Object.keys(TIPOS).filter((t) => rest.some((r) => r.categoria === t))).forEach((t) => {
+      const b = document.createElement('button');
+      b.textContent = t ? EMOJI[t] + ' ' + TIPOS[t] : 'Todos';
+      b.className = estado.filtro === t ? 'activo' : '';
+      b.onclick = () => { estado.filtro = t; pintarLista(); capaRest.changed(); capaEtq.changed(); };
+      cont.appendChild(b);
+    });
+  }
+  // Foto representativa del tipo de comida (Wikimedia Commons, con su autoría y licencia)
+  function pintarFoto(r) {
+    const cont = $('r-foto');
+    const respaldo = PLATO + '<span class="letra">' + esc(r.nombre.charAt(0)) + '</span>';
+    if (!r.foto) { cont.className = 'foto'; cont.innerHTML = respaldo; $('r-credito').hidden = true; return; }
+    cont.className = 'foto con-imagen';
+    cont.innerHTML = '<img alt="" loading="lazy">';
+    const img = cont.querySelector('img');
+    img.alt = r.foto.alt; img.src = r.foto.url;
+    img.onerror = () => { cont.className = 'foto'; cont.innerHTML = respaldo; $('r-credito').hidden = true; };
+    const c = $('r-credito'); c.hidden = false;
+    c.innerHTML = 'Imagen orientativa: ' + esc(r.foto.alt) + ' · <a target="_blank" rel="noopener"></a>';
+    const a = c.querySelector('a'); a.href = r.foto.fuente; a.textContent = r.foto.autor + ', ' + r.foto.licencia + ' (Wikimedia Commons)';
+  }
   function abrir(r) {
     estado.sel = r;
     $('vista-lista').hidden = true; $('vista-ficha').hidden = false;
-    $('r-foto').innerHTML = PLATO + '<span class="letra">' + r.nombre.charAt(0) + '</span>';
+    pintarFoto(r);
     $('r-cocina').textContent = r.cocina;
     $('r-nombre').textContent = r.nombre;
     const n = notaTxt(r);
     $('r-nota').innerHTML = n ? '<b>★</b> ' + n + ' <small>(' + r.valoracion.opiniones.toLocaleString('es-ES') + ' opiniones)</small>' : '<small>Puntuación pendiente</small>';
     $('r-precio').textContent = r.precio;
     $('r-dir').textContent = r.direccion;
+    $('r-horario').hidden = !r.horario; $('r-horario').textContent = r.horario ? 'Horario: ' + r.horario : '';
+    $('r-tel').hidden = !r.telefono; if (r.telefono) { $('r-tel').href = 'tel:' + r.telefono.replace(/\s/g, ''); $('r-tel').textContent = 'Reservas: ' + r.telefono; }
+    $('r-plan').hidden = !r.itinerario; $('r-plan').textContent = r.itinerario ? 'En el itinerario: ' + r.itinerario : '';
+    $('r-nota-pedir').hidden = !r.nota_pedir; $('r-nota-pedir').textContent = r.nota_pedir || '';
     $('r-resumen').textContent = r.resumen;
     const ul = $('r-platos'); ul.innerHTML = '';
     (r.platos || []).forEach((p) => { const li = document.createElement('li'); li.textContent = p; ul.appendChild(li); });
     const [lon, lat] = ol.proj.toLonLat(r.coord);
     // «Llévame»: abre Google Maps con la ruta a pie ya cargada (desde la posición actual del usuario)
     $('r-llevame').href = 'https://www.google.com/maps/dir/?api=1&travelmode=walking&destination=' + lat.toFixed(6) + ',' + lon.toFixed(6);
-    $('r-google').href = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(r.nombre + ', ' + r.direccion + ', Sofia');
+    $('r-google').href = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(r.nombre + ', ' + r.direccion + ', ' + (r.ciudad || 'Sofia'));
     pintarYo();
     $('cuerpo').scrollTop = 0;
     if (esMovil()) $('panel').className = 'panel';
@@ -129,6 +164,7 @@
 
   function activarGPS() {
     if (!navigator.geolocation) return;
+    if (estado.yo) { view.animate({ center: estado.yo, zoom: Math.max(view.getZoom(), 16), duration: 500 }); return; }
     $('gps').classList.add('buscando');
     navigator.geolocation.watchPosition((pos) => {
       const c = ol.proj.fromLonLat([pos.coords.longitude, pos.coords.latitude]);
@@ -155,10 +191,11 @@
     pintarLista();
     $('volver-lista').onclick = cerrar; $('cerrar').onclick = cerrar;
     $('gps').onclick = activarGPS; $('activar-gps').onclick = activarGPS;
+    SofiaComun.botonCapa($('capa'), bases);
     $('tirador').onclick = () => { const p = $('panel'); p.className = p.classList.contains('alto') ? 'panel bajo' : p.classList.contains('bajo') ? 'panel' : 'panel alto'; };
     const r = porId[location.hash.slice(1)];
     if (r) abrir(r);
-    else view.fit(capaRest.getSource().getExtent(), { padding: padding(), maxZoom: 16 });
+    else view.fit(ol.extent.boundingExtent(rest.filter((x) => !x.ciudad && metros(x.coord, ol.proj.fromLonLat([23.324, 42.694])) < 4000).map((x) => x.coord)), { padding: padding(), maxZoom: 16 });
   }
   document.addEventListener('DOMContentLoaded', iniciar);
 })();

@@ -1,0 +1,45 @@
+/* Itinerario: se apoya en el estilo de Explora y añade días, pasos y modos de transporte */
+.dias { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 12px; }
+.dias button { border: 1px solid var(--linea); background: #fffaf1; border-radius: 12px; padding: 5px 0 6px; cursor: pointer; font-family: inherit; color: var(--tinta); line-height: 1.1; }
+.dias button small { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: .6px; color: var(--suave); }
+.dias button b { font: 700 20px "Cormorant Garamond", Georgia, serif; }
+.dias button.activo { background: var(--carmesi); border-color: var(--carmesi); color: #fff; }
+.dias button.activo small { color: rgba(255,255,255,.8); }
+#vista-dia h2, #vista-paso h2 { font: 700 27px/1.1 "Cormorant Garamond", Georgia, serif; margin: 8px 0 4px; }
+.zona { display: inline-flex; border: 1px solid var(--linea); border-radius: 16px; overflow: hidden; margin: 4px 0 6px; }
+.zona button { border: 0; background: #fffaf1; padding: 5px 12px; font: 600 12.5px inherit; font-family: inherit; cursor: pointer; color: var(--tinta); }
+.zona button.activo { background: var(--turquesa); color: #fff; }
+.pasos-tit { font: 700 19px "Cormorant Garamond", Georgia, serif; margin: 14px 0 6px; padding-top: 12px; border-top: 1px solid var(--linea); }
+.pasos { list-style: none; margin: 0; padding: 0; position: relative; }
+.pasos li { cursor: pointer; }
+.pasos li.parada { display: grid; grid-template-columns: 30px 1fr; gap: 10px; align-items: center; padding: 8px 4px; border-radius: 10px; }
+.pasos li.parada:hover, .pasos li.tramo:hover { background: rgba(168, 50, 42, .06); }
+.pasos li.parada b { display: block; font-size: 14.5px; line-height: 1.25; }
+.pasos li.parada small { color: var(--suave); font-size: 12px; }
+.pasos li.parada .hora { display: block; font-size: 11.5px; font-weight: 700; color: var(--carmesi); letter-spacing: .3px; }
+.pasos li.parada .num { width: 28px; height: 28px; font-size: 12.5px; }
+.pasos li.logistica .num { background: var(--turquesa); }
+.pasos li.hecho .num { background: var(--visitado); }
+.pasos li.tramo { display: grid; grid-template-columns: 30px 1fr auto; gap: 10px; align-items: center; padding: 3px 4px; margin-left: 0; font-size: 12.5px; color: var(--suave); border-radius: 8px; }
+.pasos li.tramo .ico { justify-self: center; width: 22px; text-align: center; font-size: 13px; position: relative; }
+.pasos li.tramo .ico::before, .pasos li.tramo .ico::after { content: ''; position: absolute; left: 50%; width: 0; height: 7px; border-left: 2px dotted #b9a98f; }
+.pasos li.tramo .ico::before { bottom: 100%; } .pasos li.tramo .ico::after { top: 100%; }
+.pasos li.tramo .t { font-weight: 600; color: var(--turquesa); white-space: nowrap; }
+.pasos li.modo-taxi .t { color: #5c6f8a; } .pasos li.modo-metro .t { color: #6b4a7e; } .pasos li.modo-bus .t { color: #2f5d7c; }
+.sub { margin: 0 0 8px; color: var(--suave); font-size: 14px; font-weight: 600; }
+.precio-paso { display: inline-block; margin: 0 0 8px; background: rgba(95,122,52,.12); color: #46602a; border-radius: 12px; padding: 4px 10px; font-size: 13px; font-weight: 700; }
+.alternativa { margin: 0 0 8px; font-size: 13.5px; color: var(--suave); font-style: italic; }
+.datos-paso { margin: 4px 0 12px; padding: 10px 12px 10px 28px; background: #fffaf1; border: 1px solid var(--linea); border-radius: 10px; font-size: 13.5px; line-height: 1.5; }
+.acciones-rest { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 12px; }
+.llevame { display: inline-flex; align-items: center; gap: 6px; background: var(--carmesi); color: #fff; text-decoration: none; border-radius: 18px; padding: 8px 16px; font-weight: 600; font-size: 14px; }
+.ver-google { display: inline-flex; align-items: center; border: 1.5px solid var(--carmesi); color: var(--carmesi); text-decoration: none; border-radius: 18px; padding: 7px 14px; font-weight: 600; font-size: 13.5px; }
+.anterior-siguiente { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 10px 0 6px; padding-top: 12px; border-top: 1px solid var(--linea); }
+.paso-nav { border: 1px solid var(--linea); background: #fffaf1; border-radius: 12px; padding: 8px 10px; font: 600 12.5px inherit; font-family: inherit; cursor: pointer; text-align: left; color: var(--tinta); line-height: 1.3; }
+.paso-nav.sig { text-align: right; grid-column: 2; }
+.paso-nav:hover { border-color: var(--carmesi); color: var(--carmesi); }
+.nota-fuentes { color: var(--suave); font-size: 12px; line-height: 1.45; margin-top: 14px; }
+@media (max-width: 760px) {
+  #vista-dia h2, #vista-paso h2 { font-size: 23px; }
+  body:not(.historia-abierta) #d-intro p:not(:first-child) { display: none; }
+  body:not(.historia-abierta) #d-intro p:first-child { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; }
+}

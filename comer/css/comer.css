@@ -18,3 +18,12 @@
 .ver-google { display: inline-flex; align-items: center; border: 1.5px solid var(--carmesi); color: var(--carmesi); text-decoration: none; border-radius: 18px; padding: 7px 14px; font-weight: 600; font-size: 13.5px; }
 .resumen-rest { font-size: 14.5px; line-height: 1.55; color: #34383f; margin: 0 0 10px; }
 .platos { margin: 0 0 14px; padding-left: 18px; font-size: 14px; line-height: 1.5; }
+.foto.con-imagen { height: 180px; background: #e3cfa8; }
+.foto.con-imagen img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.credito-foto { margin: -6px 0 10px; font-size: 11px; color: var(--suave); line-height: 1.35; }
+.credito-foto a { color: var(--suave); }
+.plan-chip { display: inline-block; margin: 0 0 8px; background: rgba(168,50,42,.1); color: var(--carmesi); border-radius: 12px; padding: 4px 10px; font-size: 12.5px; font-weight: 700; }
+.horario-rest { margin: 0 0 8px; font-size: 13.5px; color: var(--suave); }
+.nota-pedir { background: rgba(184,134,43,.12); border-left: 3px solid var(--oro); padding: 7px 10px; border-radius: 0 8px 8px 0; font-size: 13.5px; line-height: 1.45; margin: 0 0 12px; }
+.lista small .en-plan { display: inline-block; margin-left: 6px; color: var(--carmesi); font-weight: 700; }
+.lista small .ciudad { color: var(--turquesa); }

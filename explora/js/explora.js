@@ -1,4 +1,4 @@
-/* Viajando por Sofía · lugares (principales y secundarios), red de rutas a pie en los dos sentidos,
+/* Explora Sofía · lugares (principales y secundarios), red de rutas a pie en los dos sentidos,
    lugares visitados y posición GPS (OpenLayers UMD) */
 (function () {
   'use strict';
@@ -7,21 +7,18 @@
   const CATEGORIAS = {
     religioso: 'Iglesias y templos', roma: 'Serdica romana', museo: 'Museos', monumento: 'Monumentos',
     edificio: 'Edificios históricos', parque: 'Parques', mercado: 'Mercados',
+    temporada: 'Solo en diciembre', visita: 'Visitas guiadas', plovdiv: 'Plovdiv (excursión)',
   };
   // Colores para distinguir los caminos que salen de un lugar (paleta sobria, legible sobre el papel)
   const PALETA = ['#8c2f39', '#2f5d7c', '#5f7a34', '#a8711c', '#6b4a7e', '#2f7f86', '#7a5a3a'];
-  const ESRI_SAT = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
 
-  let map, view, capaCalles, capaSatelite, capaPuntos, capaEtiquetas, capaRutas, capaYo, narrador;
+  let map, view, bases, capaPuntos, capaEtiquetas, capaRutas, capaYo, narrador;
   const estado = { punto: null, ruta: null, sentido: 'ida', origen: null, filtro: null, filtroVisita: null, yo: null, seguir: false, base: 'calles' };
 
   /* ---------- lugares visitados: se guardan solo en este navegador (localStorage) ---------- */
-  const CLAVE_VISITADOS = 'sofia-viajando-visitados';
-  const visitados = new Set((() => { try { return JSON.parse(localStorage.getItem(CLAVE_VISITADOS)) || []; } catch (e) { return []; } })());
-  function guardarVisitados() {
-    try { localStorage.setItem(CLAVE_VISITADOS, JSON.stringify([...visitados])); } catch (e) { /* modo privado: solo dura la sesión */ }
-  }
-  const esVisitado = (p) => visitados.has(p.id);
+  // Almacén compartido con el Itinerario (SofiaComun.visitados)
+  const V = SofiaComun.visitados;
+  const esVisitado = (p) => V.tiene(p.id);
   const puntos = [];            // { id, nombre, categoria, nivel, resumen, historia, coord(3857), num, feature, rutas[] }
   const porId = {};
   const rutasPorId = {};        // 'ruta-a--b' -> { r, sentido }
@@ -140,10 +137,19 @@
               new S.Style({ stroke: new S.Stroke({ color, width: 4.5, lineCap: 'round', lineJoin: 'round', lineDash: bus ? [2, 9] : undefined }), zIndex: 31 })];
     }
     const segundoPlano = estado.punto || estado.ruta;
-    const hecho = visitados.has(r.desde) && visitados.has(r.hasta);
-    const tinta = segundoPlano ? 'rgba(60,48,36,.28)' : hecho ? 'rgba(95,122,52,.6)' : 'rgba(60,48,36,.62)';
-    return [new S.Style({ stroke: new S.Stroke({ color: 'rgba(255,250,241,.75)', width: 4.5, lineCap: 'round' }), zIndex: 9 }),
-            new S.Style({ stroke: new S.Stroke({ color: tinta, width: 1.8, lineCap: 'round', lineDash: bus ? [7, 7] : [0.1, 4.5] }), zIndex: 10 })];
+    const hecho = V.tiene(r.desde) && V.tiene(r.hasta);
+    return estiloRed(segundoPlano ? 'fondo' : hecho ? 'hecho' : 'normal', bus);
+  }
+  // Red de caminos sin resaltar: punteado grueso de tinta con halo de papel, bien visible sobre el mapa
+  const cacheRed = {};
+  function estiloRed(modo, bus) {
+    const k = modo + bus;
+    if (!cacheRed[k]) {
+      const tinta = modo === 'fondo' ? 'rgba(110,56,40,.38)' : modo === 'hecho' ? 'rgba(95,122,52,.85)' : 'rgba(110,56,40,.82)';
+      cacheRed[k] = [new S.Style({ stroke: new S.Stroke({ color: 'rgba(255,250,241,.9)', width: 7, lineCap: 'round', lineJoin: 'round' }), zIndex: 9 }),
+        new S.Style({ stroke: new S.Stroke({ color: tinta, width: 3.2, lineCap: 'round', lineJoin: 'round', lineDash: bus ? [9, 8] : [0.1, 7] }), zIndex: 10 })];
+    }
+    return cacheRed[k];
   }
   function animar() {
     if (!estado.ruta) return;
@@ -154,19 +160,14 @@
 
   /* ---------- mapa ---------- */
   function crearMapa() {
-    view = new ol.View({ center: ol.proj.fromLonLat([23.3260, 42.6950]), zoom: 15, minZoom: 11, maxZoom: 19 });
-    capaSatelite = new ol.layer.Tile({ visible: false, source: new ol.source.XYZ({ url: ESRI_SAT, attributions: 'Imagen: Esri, Maxar, Earthstar Geographics', maxZoom: 19 }) });
+    view = new ol.View({ center: ol.proj.fromLonLat([23.3260, 42.6950]), zoom: 15, minZoom: SofiaComun.ZOOM_MIN, maxZoom: 19 });
     capaRutas = new ol.layer.Vector({ source: new ol.source.Vector(), style: estiloRuta });
     capaPuntos = new ol.layer.Vector({ source: new ol.source.Vector(), style: estiloPunto });
     capaEtiquetas = new ol.layer.Vector({ source: capaPuntos.getSource(), style: estiloEtiqueta, declutter: true });
     capaYo = new ol.layer.Vector({ source: new ol.source.Vector(), zIndex: 50 });
-    map = new ol.Map({ target: 'mapa', view, layers: [capaSatelite, capaRutas, capaPuntos, capaEtiquetas, capaYo] });
+    map = new ol.Map({ target: 'mapa', view, layers: [capaRutas, capaPuntos, capaEtiquetas, capaYo] });
     map.addControl(new ol.control.ScaleLine({ units: 'metric' }));
-    // Mapa de calles vectorial; si no carga, OpenStreetMap estándar
-    SofiaComun.capaCalles().catch((e) => {
-      console.warn('Mapa vectorial no disponible, uso OpenStreetMap:', e.message);
-      return new ol.layer.Tile({ className: 'base-calles', source: new ol.source.OSM() });
-    }).then((capa) => { capaCalles = capa; capa.setVisible(estado.base === 'calles'); map.getLayers().insertAt(0, capa); });
+    bases = SofiaComun.basesMapa(map);
 
     map.on('singleclick', (e) => {
       let tocado = null;
@@ -259,8 +260,7 @@
     });
   }
   function marcarVisitado(p, valor) {
-    if (valor) visitados.add(p.id); else visitados.delete(p.id);
-    guardarVisitados();
+    V.poner(p.id, valor);
     pintarBotonVisitado(); pintarProgreso(); pintarLista(); refrescarMapa();
   }
   function pintarBotonVisitado() {
@@ -276,7 +276,7 @@
     const url = location.origin + location.pathname + '#visitados=' + ids.join(',');
     const texto = 'Mis lugares visitados en Sofía (' + ids.length + ' de ' + puntos.length + ')';
     try {
-      if (navigator.share && esMovil()) { await navigator.share({ title: 'Viajando por Sofía', text: texto, url }); return; }
+      if (navigator.share && esMovil()) { await navigator.share({ title: 'Explora Sofía', text: texto, url }); return; }
       await navigator.clipboard.writeText(url);
       alertaSuave('Enlace copiado. Ábrelo en otro dispositivo para llevar allí tus lugares visitados.');
     } catch (e) {
@@ -285,9 +285,9 @@
     }
   }
   function importarVisitados(lista) {
-    const nuevos = lista.split(',').map((x) => x.trim()).filter((id) => porId[id] && !visitados.has(id));
-    nuevos.forEach((id) => visitados.add(id));
-    guardarVisitados();
+    const nuevos = lista.split(',').map((x) => x.trim()).filter((id) => porId[id] && !V.tiene(id));
+    nuevos.forEach((id) => V.set.add(id));
+    V.guardar();
     history.replaceState(null, '', location.pathname + location.search);
     alertaSuave(nuevos.length ? 'Se han añadido ' + nuevos.length + ' lugares visitados.' : 'Ya tenías todos esos lugares marcados.');
     pintarProgreso(); pintarLista(); refrescarMapa();
@@ -319,7 +319,7 @@
         li.querySelector('.num').textContent = esVisitado(p) ? '✓' : prin ? p.num : '';
         li.className = (prin ? '' : 'secundario ') + (esVisitado(p) ? 'hecho' : '');
         li.querySelector('b').textContent = p.nombre;
-        li.querySelector('small').textContent = CATEGORIAS[p.categoria] || '';
+        li.querySelector('small').textContent = (CATEGORIAS[p.categoria] || '') + (p.temporada && p.categoria !== 'temporada' ? ' · solo en diciembre' : '');
         if (estado.yo) li.querySelector('.dist').textContent = txtDist(metros(estado.yo, p.coord));
         li.onclick = () => abrirPunto(p);
         ul.appendChild(li);
@@ -339,6 +339,7 @@
     $('vista-ruta').hidden = true; $('vista-lista').hidden = true; $('vista-ficha').hidden = false;
     document.body.classList.remove('historia-abierta');
     $('f-categoria').textContent = (esPrincipal(p) ? 'Imprescindible · ' : '') + (CATEGORIAS[p.categoria] || '');
+    $('f-temporada').hidden = !p.temporada;
     $('f-categoria').classList.toggle('secundaria', !esPrincipal(p));
     $('f-nombre').textContent = p.nombre;
     $('f-resumen').textContent = p.resumen || '';
@@ -478,13 +479,7 @@
       alertaSuave(err.code === 1 ? 'Has denegado el acceso a la ubicación. Puedes activarlo en los permisos del navegador.' : 'No se ha podido obtener tu ubicación.');
     }, { enableHighAccuracy: true, maximumAge: 10000, timeout: 20000 });
   }
-  function alertaSuave(txt) {
-    document.querySelectorAll('.aviso').forEach((x) => x.remove());
-    const d = document.createElement('div');
-    d.className = 'aviso'; d.textContent = txt;
-    document.body.appendChild(d);
-    setTimeout(() => d.remove(), 4000);
-  }
+  const alertaSuave = (txt) => SofiaComun.aviso(txt);
 
   /* ---------- controles ---------- */
   function enlazar() {
@@ -496,13 +491,8 @@
     $('compartir').onclick = compartirProgreso;
     $('leer-mas').onclick = () => document.body.classList.add('historia-abierta');
     $('gps').onclick = activarGPS;
-    $('capa').onclick = () => {
-      estado.base = estado.base === 'calles' ? 'satelite' : 'calles';
-      if (capaCalles) capaCalles.setVisible(estado.base === 'calles');
-      capaSatelite.setVisible(estado.base === 'satelite');
-      $('capa').title = estado.base === 'calles' ? 'Cambiar a satélite' : 'Cambiar a mapa de calles';
-      $('capa').classList.toggle('activo', estado.base === 'satelite');
-    };
+    SofiaComun.botonCapa($('capa'), bases);
+    SofiaComun.visitados.alCambiar(() => { pintarProgreso(); pintarLista(); pintarBotonVisitado(); refrescarMapa(); });
     $('tirador').onclick = () => {
       const p = $('panel');
       p.className = p.classList.contains('alto') ? 'panel bajo' : p.classList.contains('bajo') ? 'panel' : 'panel alto';
