@@ -144,3 +144,27 @@ html, body { margin: 0; height: 100%; height: 100dvh; overflow: hidden; backgrou
 .ruta-ir { display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0 14px; }
 .ruta-ir .ir { border: 0; background: var(--carmesi); color: #fff; border-radius: 16px; padding: 7px 14px; font: 600 13px inherit; font-family: inherit; cursor: pointer; }
 .ruta-ir .ir + .ir { background: transparent; color: var(--carmesi); box-shadow: inset 0 0 0 1.5px var(--carmesi); }
+
+/* Lugares visitados (se guardan solo en este navegador) */
+:root { --visitado: #5f7a34; }
+.progreso { background: #fffaf1; border: 1px solid var(--linea); border-radius: 12px; padding: 10px 12px; margin-bottom: 10px; }
+.progreso-txt { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 13.5px; color: var(--suave); flex-wrap: wrap; }
+.progreso-txt b { color: var(--visitado); font-size: 18px; }
+.barra-prog { height: 6px; border-radius: 3px; background: #e8dfcf; margin-top: 8px; overflow: hidden; }
+.barra-prog i { display: block; height: 100%; width: 0; background: var(--visitado); border-radius: 3px; transition: width .4s; }
+.compartir { display: inline-flex; align-items: center; gap: 5px; border: 1px solid var(--linea); background: none; color: var(--tinta); border-radius: 14px; padding: 4px 10px; font: 600 12px inherit; font-family: inherit; cursor: pointer; }
+.compartir svg { width: 14px; height: 14px; }
+.compartir:hover { border-color: var(--visitado); color: var(--visitado); }
+.filtros-estado button.activo { background: var(--visitado); border-color: var(--visitado); }
+.lista li.hecho .num { background: var(--visitado); }
+.lista li.hecho b { color: #4a4f45; }
+.lista li.hecho small::after { content: ' · ✓ visitado'; color: var(--visitado); font-weight: 600; }
+.acciones-ficha { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 10px; }
+.acciones-ficha .narrador { margin-bottom: 0; }
+.btn-visitado { display: inline-flex; align-items: center; gap: 6px; border: 1.5px solid var(--visitado); color: var(--visitado); background: #fff; border-radius: 18px; padding: 6px 13px; font: 600 13px inherit; font-family: inherit; cursor: pointer; }
+.btn-visitado::before { content: ''; width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid currentColor; box-sizing: border-box; }
+.btn-visitado[aria-pressed="true"] { background: var(--visitado); color: #fff; }
+.btn-visitado[aria-pressed="true"]::before { content: '✓'; border: 0; width: auto; height: auto; font-size: 13px; line-height: 1; }
+.aviso { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); background: #22262c; color: #fff; padding: 9px 16px; border-radius: 10px; font-size: 13.5px; z-index: 99; max-width: 90%; box-shadow: 0 6px 20px rgba(0,0,0,.25); }
+@media (max-width: 760px) { .aviso { bottom: auto; top: 70px; } }
+.lista li.vacio { color: var(--suave); font-style: italic; cursor: default; display: block; }

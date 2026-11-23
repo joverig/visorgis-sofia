@@ -13,7 +13,15 @@
   };
 
   let map, view, capaBase, capaPuntos, capaEtiquetas, capaRutas, capaYo, narrador;
-  const estado = { punto: null, ruta: null, filtro: null, yo: null, seguir: false, base: 'calles' };
+  const estado = { punto: null, ruta: null, filtro: null, filtroVisita: null, yo: null, seguir: false, base: 'calles' };
+
+  /* ---------- lugares visitados: se guardan solo en este navegador (localStorage) ---------- */
+  const CLAVE_VISITADOS = 'sofia-viajando-visitados';
+  const visitados = new Set((() => { try { return JSON.parse(localStorage.getItem(CLAVE_VISITADOS)) || []; } catch (e) { return []; } })());
+  function guardarVisitados() {
+    try { localStorage.setItem(CLAVE_VISITADOS, JSON.stringify([...visitados])); } catch (e) { /* modo privado: solo dura la sesión */ }
+  }
+  const esVisitado = (p) => visitados.has(p.id);
   const puntos = [];          // { id, nombre, categoria, resumen, historia, coord(3857), num, feature }
   const porId = {};
   const rutasPorId = {};
@@ -38,16 +46,18 @@
   function estiloPunto(f) {
     const p = f.get('p');
     const sel = estado.punto === p;
-    const oculto = estado.filtro && p.categoria !== estado.filtro;
-    const k = [p.id, sel, oculto].join('|');
+    const oculto = !pasaFiltros(p);
+    const vis = esVisitado(p);
+    const k = [p.id, sel, oculto, vis].join('|');
     if (!cacheP[k]) {
+      const color = vis ? (oculto ? 'rgba(95,122,52,.35)' : 'rgba(95,122,52,.88)') : (oculto ? 'rgba(168,50,42,.35)' : '#a8322a');
       cacheP[k] = new S.Style({
         image: new S.Circle({
-          radius: sel ? 13 : 11,
-          fill: new S.Fill({ color: oculto ? 'rgba(168,50,42,.35)' : '#a8322a' }),
+          radius: sel ? 13 : (vis ? 10 : 11),
+          fill: new S.Fill({ color }),
           stroke: new S.Stroke({ color: sel ? '#e0b04a' : '#fff', width: sel ? 4 : 2.5 }),
         }),
-        text: new S.Text({ text: String(p.num), font: fuente('700', 11), fill: new S.Fill({ color: '#fff' }) }),
+        text: new S.Text({ text: vis ? '✓' : String(p.num), font: fuente('700', vis ? 13 : 11), fill: new S.Fill({ color: '#fff' }) }),
         zIndex: sel ? 20 : 10,
       });
     }
@@ -56,7 +66,7 @@
   function estiloEtiqueta(f, res) {
     const p = f.get('p');
     const sel = estado.punto === p;
-    if ((estado.filtro && p.categoria !== estado.filtro) || (!sel && view.getZoomForResolution(res) < 14.5)) return null;
+    if (!pasaFiltros(p) || (!sel && view.getZoomForResolution(res) < 14.5)) return null;
     const k = p.id + '|' + sel;
     if (!cacheE[k]) {
       cacheE[k] = new S.Style({
@@ -109,6 +119,9 @@
     }
     if (estado.punto || estado.ruta) {   // resto de la red, en segundo plano pero reconocible
       return new S.Style({ stroke: new S.Stroke({ color: 'rgba(176,120,28,.6)', width: 2.5, lineCap: 'round', lineDash: bus ? [1, 8] : [7, 7] }), zIndex: 10 });
+    }
+    if (visitados.has(r.desde) && visitados.has(r.hasta)) {   // camino ya recorrido: discreto, que destaquen los pendientes
+      return new S.Style({ stroke: new S.Stroke({ color: 'rgba(95,122,52,.55)', width: 3, lineCap: 'round', lineDash: bus ? [1, 8] : [7, 7] }), zIndex: 9 });
     }
     return [new S.Style({ stroke: new S.Stroke({ color: 'rgba(74,40,10,.8)', width: 6.5, lineCap: 'round' }), zIndex: 10 }),
             new S.Style({ stroke: new S.Stroke({ color: '#f2b538', width: 3.5, lineCap: 'round', lineDash: bus ? [1, 9] : [12, 7] }), zIndex: 11 })];
@@ -184,33 +197,96 @@
   }
 
   /* ---------- lista ---------- */
+  function pasaFiltros(p) {
+    if (estado.filtro && p.categoria !== estado.filtro) return false;
+    if (estado.filtroVisita === 'pendientes' && esVisitado(p)) return false;
+    if (estado.filtroVisita === 'visitados' && !esVisitado(p)) return false;
+    return true;
+  }
+  function refrescarMapa() { capaPuntos.changed(); capaEtiquetas.changed(); capaRutas.changed(); }
+  function pintarProgreso() {
+    const n = puntos.filter(esVisitado).length;
+    $('prog-n').textContent = n; $('prog-total').textContent = puntos.length;
+    $('prog-barra').style.width = (100 * n / puntos.length) + '%';
+    $('compartir').hidden = n === 0;
+    const cont = $('filtros-estado'); cont.innerHTML = '';
+    [[null, 'Todos'], ['pendientes', 'Pendientes'], ['visitados', 'Visitados (' + n + ')']].forEach(([v, t]) => {
+      const b = document.createElement('button');
+      b.textContent = t; b.className = estado.filtroVisita === v ? 'activo' : '';
+      b.onclick = () => { estado.filtroVisita = v; pintarProgreso(); pintarLista(); refrescarMapa(); };
+      cont.appendChild(b);
+    });
+  }
+  function marcarVisitado(p, valor) {
+    if (valor) visitados.add(p.id); else visitados.delete(p.id);
+    guardarVisitados();
+    pintarBotonVisitado(); pintarProgreso(); pintarLista(); refrescarMapa();
+  }
+  function pintarBotonVisitado() {
+    const p = estado.punto, b = $('visitado');
+    if (!p) return;
+    const v = esVisitado(p);
+    b.setAttribute('aria-pressed', String(v));
+    b.textContent = v ? 'Visitado' : 'Marcar como visitado';
+    b.title = v ? 'Pulsa para desmarcarlo' : 'Guárdalo en este navegador como lugar visitado';
+  }
+  // Enlace con los visitados para abrirlo en otro móvil o compartir el viaje
+  async function compartirProgreso() {
+    const ids = puntos.filter(esVisitado).map((p) => p.id);
+    const url = location.origin + location.pathname + '#visitados=' + ids.join(',');
+    const texto = 'Mis lugares visitados en Sofía (' + ids.length + ' de ' + puntos.length + ')';
+    try {
+      if (navigator.share && esMovil()) { await navigator.share({ title: 'Viajando por Sofía', text: texto, url }); return; }
+      await navigator.clipboard.writeText(url);
+      alertaSuave('Enlace copiado. Ábrelo en otro dispositivo para llevar allí tus lugares visitados.');
+    } catch (e) {
+      if (e && e.name === 'AbortError') return;
+      prompt('Copia este enlace:', url);
+    }
+  }
+  // Al abrir un enlace #visitados=... se suman esos lugares a los de este navegador
+  function importarVisitados(lista) {
+    const nuevos = lista.split(',').map((x) => x.trim()).filter((id) => porId[id] && !visitados.has(id));
+    nuevos.forEach((id) => visitados.add(id));
+    guardarVisitados();
+    history.replaceState(null, '', location.pathname + location.search);
+    alertaSuave(nuevos.length ? 'Se han añadido ' + nuevos.length + ' lugares visitados.' : 'Ya tenías todos esos lugares marcados.');
+    pintarProgreso(); pintarLista(); refrescarMapa();
+  }
+
   function pintarFiltros() {
     const cont = $('filtros');
     cont.innerHTML = '';
     const usadas = Object.keys(CATEGORIAS).filter((c) => puntos.some((p) => p.categoria === c));
     [null].concat(usadas).forEach((c) => {
       const b = document.createElement('button');
-      b.textContent = c ? CATEGORIAS[c] : 'Todos';
+      b.textContent = c ? CATEGORIAS[c] : 'Todos los tipos';
       b.className = estado.filtro === c ? 'activo' : '';
-      b.onclick = () => { estado.filtro = c; pintarFiltros(); pintarLista(); capaPuntos.changed(); capaEtiquetas.changed(); };
+      b.onclick = () => { estado.filtro = c; pintarFiltros(); pintarLista(); refrescarMapa(); };
       cont.appendChild(b);
     });
   }
   function pintarLista() {
     const ul = $('lista');
     ul.innerHTML = '';
-    let lista = puntos.filter((p) => !estado.filtro || p.categoria === estado.filtro);
+    let lista = puntos.filter(pasaFiltros);
     if (estado.yo) lista = lista.slice().sort((a, b) => metros(estado.yo, a.coord) - metros(estado.yo, b.coord));
     lista.forEach((p) => {
       const li = document.createElement('li');
       li.innerHTML = '<span class="num"></span><span><b></b><small></small></span><span class="dist"></span>';
-      li.querySelector('.num').textContent = p.num;
+      li.querySelector('.num').textContent = esVisitado(p) ? '✓' : p.num;
+      if (esVisitado(p)) li.className = 'hecho';
       li.querySelector('b').textContent = p.nombre;
       li.querySelector('small').textContent = CATEGORIAS[p.categoria] || '';
       if (estado.yo) li.querySelector('.dist').textContent = txtDist(metros(estado.yo, p.coord));
       li.onclick = () => abrirPunto(p);
       ul.appendChild(li);
     });
+    if (!lista.length) {
+      const li = document.createElement('li'); li.className = 'vacio';
+      li.textContent = estado.filtroVisita === 'visitados' ? 'Todavía no has marcado ningún lugar como visitado.' : '¡Lo has visitado todo! 🎉';
+      ul.appendChild(li);
+    }
   }
 
   /* ---------- ficha ---------- */
@@ -227,6 +303,7 @@
     pintarDistanciaYo();
     pintarRutas(p);
     if (narrador) narrador.preparar($('narrar'), p.id);
+    pintarBotonVisitado();
     $('cuerpo').scrollTop = 0;
     if (esMovil()) $('panel').className = 'panel';
     capaPuntos.changed(); capaEtiquetas.changed(); capaRutas.changed();
@@ -335,9 +412,9 @@
     }, { enableHighAccuracy: true, maximumAge: 10000, timeout: 20000 });
   }
   function alertaSuave(txt) {
+    document.querySelectorAll('.aviso').forEach((x) => x.remove());
     const d = document.createElement('div');
-    d.textContent = txt;
-    d.style.cssText = 'position:absolute;left:50%;top:70px;transform:translateX(-50%);background:#22262c;color:#fff;padding:8px 14px;border-radius:10px;font-size:13px;z-index:99;max-width:90%;';
+    d.className = 'aviso'; d.textContent = txt;
     document.body.appendChild(d);
     setTimeout(() => d.remove(), 4000);
   }
@@ -346,6 +423,8 @@
   function enlazar() {
     $('volver-lista').onclick = cerrarPunto;
     $('cerrar-ruta').onclick = cerrarRuta;
+    $('visitado').onclick = () => estado.punto && marcarVisitado(estado.punto, !esVisitado(estado.punto));
+    $('compartir').onclick = compartirProgreso;
     $('leer-mas').onclick = () => document.body.classList.add('historia-abierta');
     $('gps').onclick = activarGPS;
     $('capa').onclick = () => {
@@ -366,7 +445,9 @@
 
   // #lugar  o  #ruta-a--b  (opcionalmente ~origen)
   function irAlHash() {
-    const [h, origen] = decodeURIComponent(location.hash.slice(1)).split('~');
+    const hash = decodeURIComponent(location.hash.slice(1));
+    if (hash.startsWith('visitados=')) { importarVisitados(hash.slice(10)); return false; }
+    const [h, origen] = hash.split('~');
     if (porId[h]) { if (porId[h] !== estado.punto) abrirPunto(porId[h]); return true; }
     if (rutasPorId[h]) { if (rutasPorId[h] !== estado.ruta) abrirRuta(rutasPorId[h], origen); return true; }
     return false;
@@ -381,7 +462,7 @@
     crearMapa();
     enlazar();
     await cargar();
-    pintarFiltros(); pintarLista();
+    pintarProgreso(); pintarFiltros(); pintarLista();
     if (!irAlHash()) {   // vista inicial: el centro (los lugares a más de 3 km quedan fuera del encuadre)
       const c = ol.proj.fromLonLat([23.326, 42.695]);
       encuadrar(ol.extent.boundingExtent(puntos.filter((p) => metros(p.coord, c) < 3000).map((p) => p.coord)), 16);
