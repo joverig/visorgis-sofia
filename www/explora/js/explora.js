@@ -408,6 +408,8 @@
     $('f-categoria').classList.toggle('secundaria', !esPrincipal(p));
     $('f-nombre').textContent = p.nombre;
     $('f-resumen').textContent = p.resumen || '';
+    $('f-itin').hidden = true;
+    SofiaComun.enItinerario('explora').then((m) => { if (estado.punto === p) SofiaComun.chipsItinerario($('f-itin'), m[p.id]); });
     const h = $('f-historia'); h.innerHTML = '';
     (p.historia || []).forEach((t) => { const el = document.createElement('p'); el.textContent = t; h.appendChild(el); });
     pintarDistanciaYo();

@@ -308,5 +308,106 @@
   }
   const esTactil = () => window.matchMedia('(pointer: coarse)').matches;
 
-  window.SofiaComun = { enlacePortal, Narrador, ICONO, capaCalles, visitados, basesMapa, botonCapa, localizador, aviso, ZOOM_MIN, pistaMapa, leyenda, etiquetaFlotante, panelMovil, esTactil };
+
+  /* ---------- Saltos entre apps: cortinilla de entrada + botón «Volver a …» ----------
+   * Al pulsar un enlace que lleva a otra app (p. ej. Itinerario → Comer en Sofía) se guarda
+   * en sessionStorage de dónde venía el usuario. La app de destino muestra una cortinilla con
+   * su nombre y color (para que se note el cambio de entorno) y un botón para volver justo
+   * al punto de partida (la URL con su #ficha). */
+  const BA = 'fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
+  const APPS = {
+    itinerario: { nombre: 'Itinerario', lema: 'El plan del viaje, día a día', color: '#a8322a',
+      ico: '<g ' + BA + '><circle cx="6" cy="18" r="2.2"/><circle cx="18" cy="6" r="2.2"/><path d="M8.2 18H15a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h6.8" stroke-dasharray="2.6 2.4"/></g>' },
+    explora: { nombre: 'Explora Sofía', lema: 'Lugares, historia y caminos a pie', color: '#2f7f86',
+      ico: '<g ' + BA + '><circle cx="12" cy="12" r="9"/></g><path d="m15.8 8.2-2.2 5.4-5.4 2.2 2.2-5.4z" fill="#fff"/>' },
+    comer: { nombre: 'Comer en Sofía', lema: 'Dónde comer y qué pedir', color: '#7a1f19',
+      ico: '<g ' + BA + '><path d="M5.5 3v5.5a3 3 0 0 0 6 0V3M8.5 3v5.5M8.5 11.5V21M18 21V3c-2.3 1.3-3.5 4.2-3.5 7.8 0 2 1.4 3 3.5 3"/></g>' },
+    aterrizando: { nombre: 'Aterrizando', lema: 'Vuelos, traslado y casa', color: '#2f5d7c',
+      ico: '<path d="M21 15.5v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0v5l-8 5v2l8-2.5V18l-2 1.5V21l3.5-1 3.5 1v-1.5L13 18v-5z" fill="#fff"/>' },
+    'en-el-tiempo': { nombre: 'Sofía en el tiempo', lema: 'La ciudad a lo largo de los siglos', color: '#6b4a7e',
+      ico: '<g ' + BA + '><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></g>' }
+  };
+  const CLAVE_SALTO = 'sofia-salto';
+  const appDe = (url) => { const m = new URL(url, location.href).pathname.match(/\/([^/]+)\/(?:index\.html)?$/); return m && APPS[m[1]] ? m[1] : null; };
+  const leerSalto = () => { try { return JSON.parse(sessionStorage.getItem(CLAVE_SALTO)); } catch (e) { return null; } };
+  const guardarSalto = (v) => { try { v ? sessionStorage.setItem(CLAVE_SALTO, JSON.stringify(v)) : sessionStorage.removeItem(CLAVE_SALTO); } catch (e) { /* sin almacenamiento */ } };
+  const svgApp = (id, tam) => '<svg viewBox="0 0 24 24" width="' + tam + '" height="' + tam + '" aria-hidden="true">' + APPS[id].ico + '</svg>';
+
+  function salir(href) {
+    document.body.classList.add('sofia-saliendo');
+    setTimeout(() => { location.href = href; }, 220);
+  }
+  function cortinilla(id, desde) {
+    const a = APPS[id], c = document.createElement('div');
+    c.className = 'sofia-cortinilla'; c.style.background = a.color;
+    c.innerHTML = '<div class="sc-caja"><span class="sc-ico">' + svgApp(id, 44) + '</span><strong></strong><span class="sc-lema"></span>' +
+      (desde ? '<small></small>' : '') + '</div>';
+    c.querySelector('strong').textContent = a.nombre;
+    c.querySelector('.sc-lema').textContent = a.lema;
+    if (desde) c.querySelector('small').textContent = 'Vienes de ' + APPS[desde].nombre;
+    document.body.appendChild(c);
+    const quitar = () => { if (!c.parentNode) return; c.classList.add('fuera'); setTimeout(() => c.remove(), 450); };
+    c.onclick = quitar; setTimeout(quitar, 1300);
+  }
+  function botonVolver(s) {
+    const a = APPS[s.desde], b = document.createElement('div');
+    b.className = 'sofia-volver-app';
+    b.style.setProperty('--app', a.color);
+    b.innerHTML = '<a><span class="sv-ico">' + svgApp(s.desde, 16) + '</span><span class="sv-txt">Volver a <b></b></span></a><button type="button" aria-label="Quitar">✕</button>';
+    b.querySelector('b').textContent = a.nombre;
+    const enlace = b.querySelector('a'); enlace.href = s.url;
+    enlace.onclick = (e) => { e.preventDefault(); guardarSalto({ desde: s.hacia, hacia: s.desde, regreso: true, t: Date.now() }); salir(s.url); };
+    b.querySelector('button').onclick = () => { guardarSalto(null); b.classList.add('fuera'); setTimeout(() => b.remove(), 300); };
+    document.body.appendChild(b);
+    requestAnimationFrame(() => requestAnimationFrame(() => b.classList.add('visible')));
+  }
+  function iniciarSaltos() {
+    const aqui = appDe(location.href);
+    if (!aqui) { guardarSalto(null); return; }           // portal u otra página: se olvida el salto
+    document.addEventListener('click', (e) => {
+      const a = e.target.closest && e.target.closest('a[href]');
+      if (!a || a.target === '_blank' || e.ctrlKey || e.metaKey || e.shiftKey) return;
+      const u = new URL(a.href, location.href);
+      if (u.origin !== location.origin) return;
+      const destino = appDe(u.href);
+      if (!destino) { if (/\/$/.test(u.pathname) && !destino) guardarSalto(null); return; }   // Menú
+      if (destino === aqui) return;
+      e.preventDefault();
+      guardarSalto({ desde: aqui, url: location.href, hacia: destino, t: Date.now() });
+      salir(u.href);
+    }, true);
+    const s = leerSalto();
+    if (!s || s.hacia !== aqui || Date.now() - s.t > 6 * 3600e3) { if (s && s.desde === aqui) guardarSalto(null); return; }
+    if (!s.vista) { cortinilla(aqui, s.regreso ? null : s.desde); s.vista = true; guardarSalto(s.regreso ? null : s); }
+    if (!s.regreso) botonVolver(s);
+  }
+  // Al volver con el botón «atrás» del navegador (bfcache) se quita el fundido de salida
+  window.addEventListener('pageshow', () => document.body && document.body.classList.remove('sofia-saliendo'));
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', iniciarSaltos); else iniciarSaltos();
+
+  /* Paradas del itinerario que enlazan con una ficha de Explora o de Comer: { id → [{ href, txt }] } */
+  let itinPromesa = null;
+  function enItinerario(campo) {
+    itinPromesa = itinPromesa || fetch('../itinerario/datos/itinerario.json').then((r) => r.json()).catch(() => ({ dias: [] }));
+    return itinPromesa.then((d) => {
+      const m = {};
+      d.dias.forEach((dia) => dia.pasos.forEach((p) => {
+        if (p.tipo !== 'parada' || !p[campo]) return;
+        (m[p[campo]] = m[p[campo]] || []).push({ href: '../itinerario/#' + (p.audio || dia.id + '-p' + p.n), txt: dia.titulo + (p.hora ? ', ' + p.hora : '') });
+      }));
+      return m;
+    });
+  }
+  /* Pinta en `cont` uno o varios enlaces «En el itinerario: …» */
+  function chipsItinerario(cont, lista) {
+    cont.innerHTML = ''; cont.hidden = !lista || !lista.length;
+    (lista || []).forEach((x) => {
+      const a = document.createElement('a'); a.className = 'chip-itin'; a.href = x.href;
+      a.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="6" cy="18" r="2.2"/><circle cx="18" cy="6" r="2.2"/><path d="M8.2 18H15a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h6.8" stroke-dasharray="2.6 2.4"/></g></svg><span></span>';
+      a.querySelector('span').textContent = 'En el itinerario: ' + x.txt + ' ›';
+      cont.appendChild(a);
+    });
+  }
+
+  window.SofiaComun = { enlacePortal, Narrador, ICONO, capaCalles, visitados, basesMapa, botonCapa, localizador, aviso, ZOOM_MIN, pistaMapa, leyenda, etiquetaFlotante, panelMovil, esTactil, APPS, enItinerario, chipsItinerario };
 })();
