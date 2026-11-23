@@ -132,8 +132,8 @@
 
     fondo: { url: ESRI_HOY, atribucion: 'Esri, Maxar, Earthstar Geographics' },
     calles: {
-      url: 'https://{a-d}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}.png',
-      atribucion: '© OpenStreetMap contributors © CARTO',
+      url: 'https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}',
+      atribucion: 'Rótulos: Esri',
     },
   };
 })();
