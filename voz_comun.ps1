@@ -1,7 +1,9 @@
 # Funciones comunes para la voz de Azure (las usan muestras_voz.ps1 y generar_audios.ps1).
 # La clave NUNCA va en el codigo ni se sube a GitHub: se lee de voz\azure.txt (excluido en .gitignore).
 $ErrorActionPreference = 'Stop'
-[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+# TLS 1.2 y, si este Windows lo conoce, TLS 1.3 (12288)
+try { [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 -bor [Net.SecurityProtocolType]12288 }
+catch { [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 }
 $utf8 = New-Object System.Text.UTF8Encoding($false)
 
 function Leer-Azure([string]$raiz) {

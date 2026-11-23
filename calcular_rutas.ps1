@@ -7,7 +7,9 @@
 # Se puede relanzar: las rutas ya descargadas no se vuelven a pedir.
 
 $ErrorActionPreference = 'Stop'
-[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+# TLS 1.2 y, si este Windows lo conoce, TLS 1.3 (12288)
+try { [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 -bor [Net.SecurityProtocolType]12288 }
+catch { [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 }
 $raiz = $PSScriptRoot
 $salida = Join-Path $raiz 'datos_rutas'
 $dirRutas = Join-Path $salida 'osrm'
@@ -15,7 +17,34 @@ New-Item -ItemType Directory -Force -Path $dirRutas | Out-Null
 $utf8 = New-Object System.Text.UTF8Encoding($false)
 $ua = 'visorgis-sofia/1.0 (github.com/joverig/visorgis-sofia)'
 
+# Si .NET no consigue abrir el canal seguro (Windows antiguo, proxy...), se usa curl.exe de Windows.
+$script:usarCurl = $false
+$curl = Join-Path $env:SystemRoot 'System32\curl.exe'
+function PedirCurl([string]$url, [string]$cuerpo) {
+    if (-not (Test-Path $curl)) { throw 'No hay curl.exe en este Windows' }
+    $tmp = [System.IO.Path]::GetTempFileName()
+    $tmpCuerpo = $null
+    try {
+        $parametros = @('-sS', '-f', '-L', '--max-time', '120', '-A', $ua, '-o', $tmp)
+        if ($cuerpo) {
+            $tmpCuerpo = [System.IO.Path]::GetTempFileName()
+            [System.IO.File]::WriteAllText($tmpCuerpo, $cuerpo, $utf8)
+            $parametros += @('-H', 'Content-Type: application/x-www-form-urlencoded', '--data-binary', "@$tmpCuerpo")
+        }
+        $err = & $curl @args $url 2>&1
+        if ($LASTEXITCODE -eq 35 -or $LASTEXITCODE -eq 60) {
+            # Fallo de comprobacion de revocacion del certificado (habitual tras proxies): reintento sin ella
+            $err = & $curl '--ssl-no-revoke' @args $url 2>&1
+        }
+        if ($LASTEXITCODE -ne 0) { throw "curl.exe ($LASTEXITCODE): $err" }
+        return [System.IO.File]::ReadAllText($tmp, $utf8)
+    } finally {
+        Remove-Item $tmp -ErrorAction SilentlyContinue
+        if ($tmpCuerpo) { Remove-Item $tmpCuerpo -ErrorAction SilentlyContinue }
+    }
+}
 function Pedir([string]$url, [string]$cuerpo) {
+    if ($script:usarCurl) { return PedirCurl $url $cuerpo }
     $wc = New-Object System.Net.WebClient
     $wc.Headers.Add('User-Agent', $ua)
     $wc.Encoding = $utf8
@@ -24,6 +53,13 @@ function Pedir([string]$url, [string]$cuerpo) {
     try {
         if ($cuerpo) { $wc.Headers.Add('Content-Type', 'application/x-www-form-urlencoded'); return $wc.UploadString($url, $cuerpo) }
         return $wc.DownloadString($url)
+    } catch [System.Net.WebException] {
+        if ($_.Exception.Status -eq [System.Net.WebExceptionStatus]::SecureChannelFailure -or $_.Exception.Status -eq [System.Net.WebExceptionStatus]::TrustFailure) {
+            Write-Host '  (.NET no puede abrir HTTPS con este servidor; sigo con curl.exe)' -ForegroundColor Yellow
+            $script:usarCurl = $true
+            return PedirCurl $url $cuerpo
+        }
+        throw
     } finally { $wc.Dispose() }
 }
 function Dist($a, $b) {   # metros (haversine)
