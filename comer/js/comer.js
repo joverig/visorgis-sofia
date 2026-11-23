@@ -126,7 +126,8 @@
     $('r-dir').textContent = r.direccion;
     $('r-horario').hidden = !r.horario; $('r-horario').textContent = r.horario ? 'Horario: ' + r.horario : '';
     $('r-tel').hidden = !r.telefono; if (r.telefono) { $('r-tel').href = 'tel:' + r.telefono.replace(/\s/g, ''); $('r-tel').textContent = 'Reservas: ' + r.telefono; }
-    $('r-plan').hidden = !r.itinerario; $('r-plan').textContent = r.itinerario ? 'En el itinerario: ' + r.itinerario : '';
+    $('r-plan').hidden = true;
+    SofiaComun.enItinerario('comer').then((m) => { if (estado.sel === r) SofiaComun.chipsItinerario($('r-plan'), m[r.id]); });
     $('r-nota-pedir').hidden = !r.nota_pedir; $('r-nota-pedir').textContent = r.nota_pedir || '';
     $('r-resumen').textContent = r.resumen;
     const ul = $('r-platos'); ul.innerHTML = '';
