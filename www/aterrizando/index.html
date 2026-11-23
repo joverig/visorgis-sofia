@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Manrope:wght@400;600;700&display=swap">
   <script>
     (function () {
-      var VERSION = '202611232217';
+      var VERSION = '202611232220';
       if (location.protocol.indexOf('http') !== 0) return;
       fetch('../version.txt', { cache: 'no-store' }).then(function (r) { return r.ok ? r.text() : ''; }).then(function (v) {
         v = (v || '').trim();
@@ -27,8 +27,8 @@
   <script>
     if (!window.ol) document.write('<script src="https://cdn.jsdelivr.net/npm/ol@10.5.0/dist/ol.js"><\/script>');
   </script>
-  <link rel="stylesheet" href="../comun/comun.css?v=202611232217">
-  <link rel="stylesheet" href="css/aterrizando.css?v=202611232217">
+  <link rel="stylesheet" href="../comun/comun.css?v=202611232220">
+  <link rel="stylesheet" href="css/aterrizando.css?v=202611232220">
 </head>
 <body>
   <header class="cab">
@@ -52,7 +52,7 @@
     <details class="tarjeta destacada" id="t-traslado">
       <summary><span class="ico-tarjeta" aria-hidden="true">🚕</span><span class="cab-tarjeta"><h2>Del aeropuerto a casa</h2></span><span class="flecha-tarjeta" aria-hidden="true"></span></summary>
       <div class="contenido">
-      <p class="recomendacion"><b>Nuestra recomendación:</b> con siete personas, maletas facturadas y aterrizando a las 21:20, lo más cómodo y rápido son <b>dos taxis oficiales</b> desde el mostrador de la Terminal 2: unos 20 minutos y 13-14 € por taxi (unos 4 € por persona). Si preferís ahorrar, el metro M4 os deja a cinco minutos de casa por 0,80 €.</p>
+      <p class="recomendacion"><b>Lo más práctico:</b> con siete personas, maletas facturadas y aterrizando a las 21:20, lo más cómodo y rápido son <b>dos taxis oficiales</b> desde el mostrador de la Terminal 2: unos 20 minutos y 13-14 € por taxi (unos 4 € por persona). Si preferís ahorrar, el metro M4 os deja a cinco minutos de casa por 0,80 €.</p>
       <div class="opciones">
         <article class="opcion recomendada">
           <span class="etq">Recomendada</span>
@@ -80,7 +80,7 @@
           <p class="cifras">Uber no funciona en Bulgaria</p>
           <ul>
             <li><b>Uber</b> no opera en el país desde 2015.</li>
-            <li><b>Bolt</b> funciona en Sofía, pero las fuentes no coinciden sobre si ofrece coches con conductor o solo patinetes y comida: miradlo en la app al aterrizar.</li>
+            <li><b>Bolt</b> funciona en Sofía: al aterrizar, mirad en la app si hay coches disponibles.</li>
             <li>Si no sale coche, id al mostrador de taxis oficiales.</li>
           </ul>
           <a class="boton secundario" target="_blank" rel="noopener" href="https://bolt.eu/">Abrir Bolt</a>
@@ -97,7 +97,6 @@
       <div class="botones-fila">
         <a class="boton" target="_blank" rel="noopener" id="casa-maps">Abrir en Google Maps</a>
       </div>
-      <p class="nota">No publicamos fotos del alojamiento: son del anunciante y no tenemos permiso para reutilizarlas.</p>
     </div>
     </details>
 
@@ -113,7 +112,7 @@
         </div>
       </div>
       <ul class="servicios" id="servicios"></ul>
-      <p class="nota">Horarios de OpenStreetMap, orientativos: comprobadlos en la puerta. <b>Emergencias: 112</b> (también en inglés).</p>
+      <p class="nota">Horarios orientativos: comprobadlos en la puerta. <b>Emergencias: 112</b> (también en inglés).</p>
     </div>
     </details>
 
@@ -121,7 +120,7 @@
       <summary><span class="ico-tarjeta" aria-hidden="true">🌤</span><span class="cab-tarjeta"><h2>El tiempo en Sofía, 4-8 de diciembre</h2></span><span class="flecha-tarjeta" aria-hidden="true"></span></summary>
       <div class="contenido">
       <div class="tiempo" id="tiempo"><p class="nota">Cargando la previsión…</p></div>
-      <p class="nota" id="tiempo-nota">Previsión de Open-Meteo para el centro de Sofía. Es invierno: abrigo, gorro y calzado que no resbale.</p>
+      <p class="nota" id="tiempo-nota">Previsión para el centro de Sofía. Es invierno: abrigo, gorro y calzado que no resbale.</p>
     </div>
     </details>
 
@@ -139,8 +138,8 @@
     </details>
   </main>
 
-  <script src="../comun/comun.js?v=202611232217"></script>
-  <script src="js/datos.js?v=202611232217"></script>
-  <script src="js/aterrizando.js?v=202611232217"></script>
+  <script src="../comun/comun.js?v=202611232220"></script>
+  <script src="js/datos.js?v=202611232220"></script>
+  <script src="js/aterrizando.js?v=202611232220"></script>
 </body>
 </html>

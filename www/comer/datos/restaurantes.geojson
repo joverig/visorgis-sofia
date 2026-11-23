@@ -191,7 +191,7 @@
     ],
     "categoria": "restaurante",
     "telefono": "+359 2 441 1155",
-    "nota_pedir": "Carta larguísima y numerada; las reseñas son irregulares, mejor ir a lo clásico.",
+    "nota_pedir": "Carta larguísima y numerada: mejor ir a lo clásico.",
     "foto": {
      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Kavarma.jpeg/960px-Kavarma.jpeg",
      "alt": "Kavarma",
@@ -548,7 +548,7 @@
     "categoria": "desayuno",
     "precio": "€",
     "direccion": "Graf Ignatiev 7",
-    "horario": "lun-vie 7:00-15:00 (según OpenStreetMap; los fines de semana puede variar)",
+    "horario": "De lunes a viernes, 7:00-15:00",
     "foto": {
      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Boza_bg.jpg/960px-Boza_bg.jpg",
      "alt": "Boza",
@@ -809,7 +809,6 @@
     "precio": "€€",
     "direccion": "Zlatarska 7, Kapana (Plovdiv)",
     "ciudad": "Plovdiv",
-    "horario": "horario no verificado: id pronto o preguntad al llegar",
     "foto": {
      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/%D0%9E%D1%85%D1%80%D0%B8%D0%B4%D1%81%D0%BA%D0%B8_%D0%BA%D1%80%D0%B0%D0%BF_%28%D0%BF%D0%BE%D0%BB%D0%BD%D0%B5%D1%82%29.jpg/960px-%D0%9E%D1%85%D1%80%D0%B8%D0%B4%D1%81%D0%BA%D0%B8_%D0%BA%D1%80%D0%B0%D0%BF_%28%D0%BF%D0%BE%D0%BB%D0%BD%D0%B5%D1%82%29.jpg",
      "alt": "Carpa rellena",
@@ -825,7 +824,8 @@
      "Albóndigas de la casa",
      "Tarta de queso con baklava de postre"
     ],
-    "valoracion": null
+    "valoracion": null,
+    "nota_pedir": "Siempre está lleno: id pronto o pasad antes a apuntaros."
    },
    "geometry": {
     "type": "Point",

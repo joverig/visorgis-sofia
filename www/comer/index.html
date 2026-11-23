@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Manrope:wght@400;600&display=swap">
   <script>
     (function () {
-      var VERSION = '202611232217';
+      var VERSION = '202611232220';
       if (location.protocol.indexOf('http') !== 0) return;
       fetch('../version.txt', { cache: 'no-store' }).then(function (r) { return r.ok ? r.text() : ''; }).then(function (v) {
         v = (v || '').trim();
@@ -27,9 +27,9 @@
   <script>
     if (!window.ol) document.write('<script src="https://cdn.jsdelivr.net/npm/ol@10.5.0/dist/ol.js"><\/script>');
   </script>
-  <link rel="stylesheet" href="../comun/comun.css?v=202611232217">
-  <link rel="stylesheet" href="../explora/css/explora.css?v=202611232217">
-  <link rel="stylesheet" href="css/comer.css?v=202611232217">
+  <link rel="stylesheet" href="../comun/comun.css?v=202611232220">
+  <link rel="stylesheet" href="../explora/css/explora.css?v=202611232220">
+  <link rel="stylesheet" href="css/comer.css?v=202611232220">
 </head>
 <body>
   <div id="mapa"></div>
@@ -53,7 +53,7 @@
         <div class="filtros" id="filtros"></div>
         <button class="activar-gps" id="activar-gps">Ordenar por cercanía</button>
         <ul class="lista restaurantes" id="lista"></ul>
-        <p class="nota-fuentes">Selección a partir de guías y valoraciones públicas. «Qué pedir» resume lo que más recomiendan reseñas y foros de viajeros. Las fotos son imágenes orientativas del tipo de comida (Wikimedia Commons), no del propio local.</p>
+        <p class="nota-fuentes">Las fotos muestran el tipo de comida, no el propio local.</p>
       </section>
       <section id="vista-ficha" hidden>
         <div class="ruta-barra">
@@ -90,7 +90,7 @@
     </div>
   </aside>
 
-  <script src="../comun/comun.js?v=202611232217"></script>
-  <script src="js/comer.js?v=202611232217"></script>
+  <script src="../comun/comun.js?v=202611232220"></script>
+  <script src="js/comer.js?v=202611232220"></script>
 </body>
 </html>
