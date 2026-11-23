@@ -51,5 +51,7 @@ function Sintetizar($cfg, [string]$ssml, [string]$destino) {
 }
 function Voces($cfg) {
     $url = "https://$($cfg.region).tts.speech.microsoft.com/cognitiveservices/voices/list"
-    return Invoke-RestMethod -Uri $url -Headers @{ 'Ocp-Apim-Subscription-Key' = $cfg.clave } -UseBasicParsing
+    $r = Invoke-RestMethod -Uri $url -Headers @{ 'Ocp-Apim-Subscription-Key' = $cfg.clave } -UseBasicParsing
+    # Windows PowerShell 5.1 devuelve la lista JSON como un unico objeto: se separa voz a voz
+    foreach ($v in $r) { $v }
 }

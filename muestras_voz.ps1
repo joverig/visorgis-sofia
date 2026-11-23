@@ -8,7 +8,7 @@ New-Item -ItemType Directory -Force -Path $dir | Out-Null
 $texto = [System.IO.File]::ReadAllText((Join-Path $raiz 'voz\texto_muestra.txt'), $utf8).Trim()
 
 Write-Host 'Voces de Azure en espanol de Espana...'
-$voces = @(Voces $cfg | Where-Object { $_.Locale -eq 'es-ES' -and $_.VoiceType -eq 'Neural' })
+$voces = @(Voces $cfg | Where-Object { $_.Locale -eq 'es-ES' } | Sort-Object { if ($_.ShortName -match ':') { 0 } else { 1 } }, Gender, ShortName)
 Write-Host "  $($voces.Count) voces"
 $filas = @()
 foreach ($v in $voces) {
@@ -23,7 +23,7 @@ foreach ($v in $voces) {
         $dest = Join-Path $dir $nombre
         try {
             Sintetizar $cfg (Ssml $v.ShortName $texto $va.estilo $va.rate $va.pitch) $dest
-            $filas += "<tr><td><b>$($v.DisplayName)</b> <small>$($v.ShortName) &middot; $($v.Gender)</small></td><td>$($va.desc)</td><td><audio controls preload='none' src='$nombre'></audio></td></tr>"
+            $filas += "<tr><td><b>$($v.DisplayName)</b> <small>$($v.ShortName) &middot; $($v.Gender) &middot; $($v.VoiceType)</small></td><td>$($va.desc)</td><td><audio controls preload='none' src='$nombre'></audio></td></tr>"
             Write-Host "  OK $nombre"
         } catch { Write-Host "  ERROR $nombre : $($_.Exception.Message)" -ForegroundColor Red }
     }
