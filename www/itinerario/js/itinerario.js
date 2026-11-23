@@ -249,21 +249,6 @@
       }
     });
   }
-  // Cifras del día: horario, paradas y kilómetros a pie (en vez de un resumen recortado)
-  function pintarCifras(d) {
-    const par = d.pasos.filter((p) => p.tipo === 'parada');
-    const visitas = par.filter((p) => !NO_VISITABLES.has(p.lugar) && p.lugar !== 'casa');
-    const pie = d.pasos.filter((p) => p.tipo === 'tramo' && p.modo === 'pie').reduce((s, p) => s + p.dist, 0);
-    const modos = [...new Set(d.pasos.filter((p) => p.tipo === 'tramo' && p.modo !== 'pie').map((p) => MODOS[p.modo].icono))].join(' ');
-    const horas = par.map((p) => p.hora).filter(Boolean);
-    const cifras = [
-      [horas[0] + '–' + horas[horas.length - 1], 'horario'],
-      [String(visitas.length), visitas.length === 1 ? 'parada' : 'paradas'],
-      [(pie / 1000).toFixed(1).replace('.', ',') + ' km', 'a pie' + (modos ? ' · ' + modos : '')],
-    ];
-    $('d-cifras').innerHTML = '';
-    cifras.forEach(([v, t]) => { const div = document.createElement('div'); div.innerHTML = '<dt></dt><dd></dd>'; div.querySelector('dt').textContent = v; div.querySelector('dd').textContent = t; $('d-cifras').appendChild(div); });
-  }
   function abrirDia(d, sinMover) {
     if (narrador) narrador.parar();
     estado.dia = d; estado.paso = null; estado.siguiente = null;
@@ -271,8 +256,7 @@
     pintarPestanas();
     $('vista-paso').hidden = true; $('vista-dia').hidden = false;
     $('d-fecha').textContent = d.titulo + ' de diciembre';
-    pintarCifras(d);
-    document.querySelector('.dia-intro').open = false;
+
     $('d-lema').textContent = d.lema;
     const intro = $('d-intro'); intro.innerHTML = '';
     d.intro.forEach((t) => { const el = document.createElement('p'); el.textContent = t; intro.appendChild(el); });
@@ -419,6 +403,7 @@
     $('volver-dia').onclick = cerrarPaso; $('cerrar-paso').onclick = cerrarPaso;
     $('p-visitado').onclick = () => { const p = estado.paso; if (!p) return; V.poner(p.lugar, !V.tiene(p.lugar)); pintarVisitado(); refrescar(); };
     $('zona').querySelectorAll('button').forEach((b) => { b.onclick = () => encuadrarDia(estado.dia, b.dataset.zona); });
+    $('leer-mas').onclick = () => document.body.classList.add('historia-abierta');
     $('tirador').onclick = () => panelM.alternar();
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && estado.paso) cerrarPaso(); });
     SofiaComun.leyenda(document.querySelector('.botones-mapa'), LEYENDA);
