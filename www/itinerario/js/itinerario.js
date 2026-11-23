@@ -66,6 +66,12 @@
     g.beginPath(); g.moveTo(4, 4); g.lineTo(17, 10); g.lineTo(4, 16); g.lineTo(8, 10); g.closePath(); g.fill(); g.stroke();
     return c;
   })();
+  const flechaSuave = (() => {
+    const c = document.createElement('canvas'); c.width = c.height = 16;
+    const g = c.getContext('2d'); g.fillStyle = 'rgba(168,50,42,.85)'; g.strokeStyle = '#fffaf1'; g.lineWidth = 1.5; g.lineJoin = 'round';
+    g.beginPath(); g.moveTo(3, 3); g.lineTo(13, 8); g.lineTo(3, 13); g.lineTo(6, 8); g.closePath(); g.stroke(); g.fill();
+    return c;
+  })();
   function estiloTramo(f, res) {
     const t = f.get('t');
     const m = MODOS[t.modo];
@@ -98,7 +104,19 @@
       const k2 = 'sig' + t.modo;
       if (!cacheT[k2]) cacheT[k2] = [new S.Style({ stroke: new S.Stroke({ color: 'rgba(255,250,241,.95)', width: 9, lineCap: 'round', lineJoin: 'round' }), zIndex: 28 }),
         new S.Style({ stroke: new S.Stroke({ color: t.modo === 'pie' ? 'rgba(168,50,42,.55)' : m.color + 'aa', width: 4, lineCap: 'round', lineJoin: 'round', lineDash: t.modo === 'pie' ? undefined : m.dash }), zIndex: 29 })];
-      return cacheT[k2];
+      // Flechas quietas y discretas a lo largo del camino, en el sentido de la marcha
+      const est = cacheT[k2].slice(), coords = f.getGeometry().getCoordinates(), paso = res * 90;
+      let acum = paso * 0.5;
+      for (let i = 1; i < coords.length; i++) {
+        const [x1, y1] = coords[i - 1], [x2, y2] = coords[i], L = Math.hypot(x2 - x1, y2 - y1);
+        acum += L;
+        if (acum >= paso && L > res * 6) {
+          acum = 0;
+          est.push(new S.Style({ geometry: new ol.geom.Point([(x1 + x2) / 2, (y1 + y2) / 2]), zIndex: 30,
+            image: new S.Icon({ img: flechaSuave, imgSize: [16, 16], scale: 0.85, rotation: -Math.atan2(y2 - y1, x2 - x1), rotateWithView: true }) }));
+        }
+      }
+      return est;
     }
     const tenue = estado.paso && estado.paso.tipo === 'tramo';
     const k = t.modo + tenue;
@@ -313,7 +331,9 @@
     $('p-tipo').textContent = esParada ? (p.hora ? p.hora + ' · ' : '') + estado.dia.titulo : MODOS[p.modo].icono + ' ' + MODOS[p.modo].nombre;
     $('p-titulo').textContent = p.titulo;
     $('p-sub').textContent = esParada ? p.nombre : datos.lugares[p.desde].nombre + ' → ' + datos.lugares[p.hasta].nombre;
-    $('p-cifras').hidden = esParada;
+    $('p-fila').hidden = esParada;
+    // Escuchar: en los caminos va junto a los minutos, arriba; en las paradas, junto a «visitado»
+    (esParada ? document.querySelector('#vista-paso .acciones-ficha') : $('p-fila')).insertBefore($('p-narrar'), esParada ? $('p-visitado') : null);
     if (!esParada) { $('p-min').textContent = txtMin(p.min); $('p-dist').textContent = MODOS[p.modo].nombre.toLowerCase() + ' · ' + txtDist(p.dist); }
     $('p-precio').hidden = !p.precio; $('p-precio').textContent = p.precio || '';
     $('p-alt').hidden = !p.alternativa; $('p-alt').textContent = p.alternativa ? 'Alternativa: ' + p.alternativa : '';
@@ -343,9 +363,10 @@
     // Anterior / siguiente
     const i = estado.dia.pasos.indexOf(p);
     const ant = estado.dia.pasos[i - 1], sig = estado.dia.pasos[i + 1];
-    $('p-ant').hidden = !ant; $('p-sig').hidden = !sig;
-    if (ant) { $('p-ant').textContent = '← ' + ant.titulo; $('p-ant').onclick = () => abrirPaso(ant); }
-    if (sig) { $('p-sig').textContent = sig.titulo + ' →'; $('p-sig').onclick = () => abrirPaso(sig); }
+    $('p-ant').disabled = !ant; $('p-sig').disabled = !sig;
+    $('p-ant').title = ant ? 'Anterior: ' + ant.titulo : ''; $('p-sig').title = sig ? 'Siguiente: ' + sig.titulo : '';
+    $('p-ant').onclick = () => ant && abrirPaso(ant); $('p-sig').onclick = () => sig && abrirPaso(sig);
+    $('p-cuenta').textContent = (i + 1) + '/' + estado.dia.pasos.length;
     $('cuerpo').scrollTop = 0;
     if (esMovil()) panelM.normal();
     refrescar();

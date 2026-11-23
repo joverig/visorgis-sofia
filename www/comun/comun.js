@@ -1,5 +1,5 @@
 /* Recursos comunes de las apps de Sofía.
- *  - SofiaComun.enlacePortal(contenedor): añade el enlace «Portal» al principio del contenedor.
+ *  - SofiaComun.enlacePortal(contenedor): añade el enlace «Menú» al principio del contenedor.
  *  - SofiaComun.Narrador(baseAudio): botón de narración. Lee baseAudio + 'manifest.json'
  *    (lista de ids con audio) y reproduce baseAudio + id + '.mp3'. Si un texto aún no tiene
  *    audio, el botón aparece desactivado como «Narración próximamente».
@@ -17,8 +17,8 @@
   function enlacePortal(contenedor, href) {
     if (!contenedor) return;
     const a = document.createElement('a');
-    a.className = 'portal-volver'; a.href = href || '../'; a.title = 'Volver al portal de Sofía';
-    a.innerHTML = ICONO.volver + 'Portal';
+    a.className = 'portal-volver'; a.href = href || '../'; a.title = 'Volver al menú de apps de Sofía';
+    a.innerHTML = ICONO.volver + 'Menú';
     contenedor.insertBefore(a, contenedor.firstChild);
   }
 
