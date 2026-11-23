@@ -8,7 +8,7 @@
     edificio: 'Edificios históricos', parque: 'Parques', mercado: 'Mercados',
   };
   const BASES = {
-    calles: { url: 'https://{a-d}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png', atr: '© OpenStreetMap contributors © CARTO' },
+    calles: { url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png', atr: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors', clase: 'base-calles' },
     satelite: { url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', atr: 'Imagen: Esri, Maxar, Earthstar Geographics' },
   };
 
@@ -86,7 +86,7 @@
   /* ---------- mapa ---------- */
   function crearMapa() {
     view = new ol.View({ center: ol.proj.fromLonLat([23.3260, 42.6950]), zoom: 15, minZoom: 11, maxZoom: 19 });
-    capaBase = new ol.layer.Tile({ source: new ol.source.XYZ({ url: BASES.calles.url, attributions: BASES.calles.atr, crossOrigin: 'anonymous' }) });
+    capaBase = new ol.layer.Tile({ className: 'base-calles', source: new ol.source.XYZ({ url: BASES.calles.url, attributions: BASES.calles.atr, maxZoom: 19 }) });
     capaRutas = new ol.layer.Vector({ source: new ol.source.Vector(), style: estiloRuta });
     capaPuntos = new ol.layer.Vector({ source: new ol.source.Vector(), style: estiloPunto });
     capaEtiquetas = new ol.layer.Vector({ source: capaPuntos.getSource(), style: estiloEtiqueta, declutter: true });
@@ -293,7 +293,8 @@
     $('capa').onclick = () => {
       estado.base = estado.base === 'calles' ? 'satelite' : 'calles';
       const b = BASES[estado.base];
-      capaBase.setSource(new ol.source.XYZ({ url: b.url, attributions: b.atr, crossOrigin: 'anonymous' }));
+      capaBase.setSource(new ol.source.XYZ({ url: b.url, attributions: b.atr, maxZoom: 19 }));
+      map.getTargetElement().classList.toggle('satelite', estado.base === 'satelite');
       $('capa').title = estado.base === 'calles' ? 'Cambiar a satélite' : 'Cambiar a mapa de calles';
       $('capa').classList.toggle('activo', estado.base === 'satelite');
     };
