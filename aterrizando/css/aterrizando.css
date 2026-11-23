@@ -38,6 +38,8 @@ main { padding: 0 12px 40px; margin-top: -16px; }
 .datos-casa dd { margin: 0; }
 .filtros { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
 .filtros button { border: 1px solid var(--linea); background: #fffaf1; border-radius: 14px; padding: 4px 11px; font: 600 12.5px inherit; font-family: inherit; cursor: pointer; color: var(--tinta); }
+.filtros button { display: inline-flex; align-items: center; gap: 5px; }
+.filtros button svg { flex: none; margin-left: -5px; }
 .filtros button.activo { background: var(--carmesi); color: #fff; border-color: var(--carmesi); }
 .mapa-caja { position: relative; height: 340px; border-radius: 12px; overflow: hidden; border: 1px solid var(--linea); }
 #mapa { position: absolute; inset: 0; background: #e9e2d4; }
@@ -46,7 +48,8 @@ main { padding: 0 12px 40px; margin-top: -16px; }
 .servicios { list-style: none; margin: 10px 0 0; padding: 0; max-height: 360px; overflow-y: auto; }
 .servicios li { display: grid; grid-template-columns: 28px 1fr auto; gap: 10px; align-items: center; padding: 8px 4px; border-top: 1px solid var(--linea); cursor: pointer; }
 .servicios li.sel { background: rgba(184,134,43,.12); }
-.servicios .ico { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; color: #fff; font-size: 12px; font-weight: 700; }
+.servicios .ico { width: 28px; height: 28px; display: grid; place-items: center; }
+.servicios .ico svg { display: block; }
 .servicios b { display: block; font-size: 14px; }
 .servicios small { color: var(--suave); font-size: 12px; }
 .servicios .lado { text-align: right; font-size: 12px; }

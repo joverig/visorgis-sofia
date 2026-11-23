@@ -3,8 +3,20 @@
   'use strict';
   const $ = (id) => document.getElementById(id);
   const D = window.ATERRIZA;
-  const TIPOS = { super: ['🛒', 'Supermercados', '#5f7a34'], farmacia: ['✚', 'Farmacias', '#2f7f86'], hospital: ['H', 'Urgencias', '#a8322a'],
-    metro: ['M', 'Metro', '#6b4a7e'], bus: ['🚌', 'Bus y tranvía', '#2f5d7c'] };
+  const TIPOS = { super: ['carro', 'Supermercados', '#5f7a34'], farmacia: ['cruz', 'Farmacias', '#2f7f86'], hospital: ['H', 'Urgencias', '#a8322a'],
+    metro: ['M', 'Metro', '#6b4a7e'], bus: ['bus', 'Bus y tranvía', '#2f5d7c'] };
+  /* Glifos blancos en SVG (24x24): se leen igual en todos los móviles, a diferencia de los emojis */
+  const GLIFOS = {
+    carro: '<g fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4h3l2.3 10.5h10l2.2-7.5H6.6"/></g><circle cx="9.5" cy="19" r="1.8" fill="#fff"/><circle cx="16.5" cy="19" r="1.8" fill="#fff"/>',
+    cruz: '<path d="M9.5 4h5v5.5H20v5h-5.5V20h-5v-5.5H4v-5h5.5z" fill="#fff"/>',
+    H: '<path d="M6 4h3.2v6.4h5.6V4H18v16h-3.2v-6.6H9.2V20H6z" fill="#fff"/>',
+    M: '<path d="M4 20V4h3.3L12 11.5 16.7 4H20v16h-3.2V9.6L12 17l-4.8-7.4V20z" fill="#fff"/>',
+    bus: '<rect x="5" y="3" width="14" height="15" rx="2.5" fill="#fff"/><rect x="7" y="5.5" width="10" height="5.5" rx="1" fill="COLOR"/><circle cx="8.6" cy="14.6" r="1.3" fill="COLOR"/><circle cx="15.4" cy="14.6" r="1.3" fill="COLOR"/><path d="M7 18v2.5M17 18v2.5" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>'
+  };
+  const svgTipo = (t, tam, borde) => {
+    const [g, , color] = TIPOS[t];
+    return '<svg xmlns="http://www.w3.org/2000/svg" width="' + tam + '" height="' + tam + '" viewBox="-6 -6 36 36"><circle cx="12" cy="12" r="' + (borde ? 16.5 : 18) + '" fill="' + color + '"' + (borde ? ' stroke="' + borde + '" stroke-width="3"' : '') + '/>' + GLIFOS[g].replace(/COLOR/g, color) + '</svg>';
+  };
   const filtro = { t: null };
   const hav = (a, b) => {
     const r = Math.PI / 180, h = Math.sin((b[1] - a[1]) * r / 2) ** 2 + Math.cos(a[1] * r) * Math.cos(b[1] * r) * Math.sin((b[0] - a[0]) * r / 2) ** 2;
@@ -51,10 +63,9 @@
     const oculto = filtro.t && filtro.t !== s.tipo;
     const k = s.tipo + oculto + (f.get('sel') ? 1 : 0);
     if (!cache[k]) {
-      const [ico, , color] = TIPOS[s.tipo];
-      cache[k] = new S.Style({ image: new S.Circle({ radius: f.get('sel') ? 12 : 9, fill: new S.Fill({ color }), stroke: new S.Stroke({ color: f.get('sel') ? '#e0b04a' : '#fff', width: 2.5 }) }),
-        text: new S.Text({ text: ico, font: '700 10px sans-serif', fill: new S.Fill({ color: '#fff' }) }), zIndex: f.get('sel') ? 40 : 10 });
-      if (oculto) { cache[k].getImage().setOpacity(0.25); cache[k].setText(null); }
+      const tam = f.get('sel') ? 30 : 24;
+      cache[k] = new S.Style({ image: new S.Icon({ src: 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgTipo(s.tipo, tam, f.get('sel') ? '#e0b04a' : '#fff')), width: tam, height: tam, opacity: oculto ? 0.25 : 1 }),
+        zIndex: f.get('sel') ? 40 : 10 });
     }
     return cache[k];
   }
@@ -81,7 +92,7 @@
     const f = $('filtros'); f.innerHTML = '';
     [null].concat(Object.keys(TIPOS)).forEach((t) => {
       const b = document.createElement('button');
-      b.textContent = t ? TIPOS[t][0] + ' ' + TIPOS[t][1] : 'Todo';
+      if (t) { b.innerHTML = svgTipo(t, 20); b.appendChild(document.createTextNode(TIPOS[t][1])); } else b.textContent = 'Todo';
       b.className = filtro.t === t ? 'activo' : '';
       b.onclick = () => { filtro.t = t; lista(); if (capa) capa.changed(); };
       f.appendChild(b);
@@ -93,7 +104,7 @@
       .forEach((s) => {
         const li = document.createElement('li'); li.dataset.n = s.nombre;
         li.innerHTML = '<span class="ico"></span><span class="txt"><b></b><small></small></span><span class="lado"><span class="dist"></span><a target="_blank" rel="noopener">Cómo llegar</a></span>';
-        const ico = li.querySelector('.ico'); ico.textContent = TIPOS[s.tipo][0]; ico.style.background = TIPOS[s.tipo][2];
+        li.querySelector('.ico').innerHTML = svgTipo(s.tipo, 28);
         li.querySelector('b').textContent = s.nombre;
         li.querySelector('small').textContent = s.horario;
         li.querySelector('.dist').textContent = (s.m < 1000 ? Math.round(s.m / 10) * 10 + ' m' : (s.m / 1000).toFixed(1).replace('.', ',') + ' km') + ' · ' + aPie(s.m) + ' min a pie';

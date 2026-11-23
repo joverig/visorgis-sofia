@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Manrope:wght@400;600;700&display=swap">
   <script>
     (function () {
-      var VERSION = '202611232220';
+      var VERSION = '202611232222';
       if (location.protocol.indexOf('http') !== 0) return;
       fetch('../version.txt', { cache: 'no-store' }).then(function (r) { return r.ok ? r.text() : ''; }).then(function (v) {
         v = (v || '').trim();
@@ -27,8 +27,8 @@
   <script>
     if (!window.ol) document.write('<script src="https://cdn.jsdelivr.net/npm/ol@10.5.0/dist/ol.js"><\/script>');
   </script>
-  <link rel="stylesheet" href="../comun/comun.css?v=202611232220">
-  <link rel="stylesheet" href="css/aterrizando.css?v=202611232220">
+  <link rel="stylesheet" href="../comun/comun.css?v=202611232222">
+  <link rel="stylesheet" href="css/aterrizando.css?v=202611232222">
 </head>
 <body>
   <header class="cab">
@@ -101,7 +101,7 @@
     </details>
 
     <details class="tarjeta" id="t-cerca">
-      <summary><span class="ico-tarjeta" aria-hidden="true">🛒</span><span class="cab-tarjeta"><h2>Cerca de casa</h2></span><span class="flecha-tarjeta" aria-hidden="true"></span></summary>
+      <summary><span class="ico-tarjeta" aria-hidden="true">📍</span><span class="cab-tarjeta"><h2>Cerca de casa</h2></span><span class="flecha-tarjeta" aria-hidden="true"></span></summary>
       <div class="contenido">
       <div class="filtros" id="filtros"></div>
       <div class="mapa-caja">
@@ -138,8 +138,8 @@
     </details>
   </main>
 
-  <script src="../comun/comun.js?v=202611232220"></script>
-  <script src="js/datos.js?v=202611232220"></script>
-  <script src="js/aterrizando.js?v=202611232220"></script>
+  <script src="../comun/comun.js?v=202611232222"></script>
+  <script src="js/datos.js?v=202611232222"></script>
+  <script src="js/aterrizando.js?v=202611232222"></script>
 </body>
 </html>
