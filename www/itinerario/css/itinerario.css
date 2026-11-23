@@ -59,3 +59,7 @@
 .fila-escuchar { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin: 2px 0 6px; }
 .fila-escuchar .ruta-cifras { margin: 0; }
 .fila-escuchar .narrador { margin: 0; }
+.btn-pedir { display: inline-flex; align-items: center; gap: 7px; margin: 2px 0 12px; padding: 9px 16px; border-radius: 999px;
+  background: #fffaf1; color: var(--carmesi, #a8322a); border: 2px solid var(--carmesi, #a8322a); font-weight: 700; font-size: 15px; text-decoration: none; margin-right: 8px; }
+.btn-pedir[hidden] { display: none; }
+.btn-pedir:active { transform: scale(.97); }
