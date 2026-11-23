@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#a8322a">
+  <meta name="description" content="Restaurantes recomendados en el centro de Sofía, ordenados por cercanía.">
+  <title>Comer en Sofía</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Manrope:wght@400;600&display=swap">
+  <script>
+    (function () {
+      var VERSION = '202611231328';
+      if (location.protocol.indexOf('http') !== 0) return;
+      fetch('../version.txt', { cache: 'no-store' }).then(function (r) { return r.ok ? r.text() : ''; }).then(function (v) {
+        v = (v || '').trim();
+        if (v && v !== VERSION && sessionStorage.getItem('recargado') !== v) {
+          try { sessionStorage.setItem('recargado', v); } catch (e) {}
+          location.replace(location.pathname + '?v=' + v + location.hash);
+        }
+      }).catch(function () {});
+    })();
+  </script>
+  <link rel="stylesheet" href="../comun/lib/ol/ol.css">
+  <script src="../comun/lib/ol/ol.js"></script>
+  <script>
+    if (!window.ol) document.write('<script src="https://cdn.jsdelivr.net/npm/ol@10.5.0/dist/ol.js"><\/script>');
+  </script>
+  <link rel="stylesheet" href="../comun/comun.css?v=202611231328">
+  <link rel="stylesheet" href="../viajando/css/viajando.css?v=202611231328">
+  <link rel="stylesheet" href="css/comer.css?v=202611231328">
+</head>
+<body>
+  <div id="mapa"></div>
+
+  <header class="cabecera">
+    <h1>Comer <span>en Sofía</span></h1>
+  </header>
+
+  <div class="botones-mapa">
+    <button id="gps" class="redondo" title="Mi posición" aria-label="Mi posición">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm9 3h-2.06A7 7 0 0 0 13 5.06V3h-2v2.06A7 7 0 0 0 5.06 11H3v2h2.06A7 7 0 0 0 11 18.94V21h2v-2.06A7 7 0 0 0 18.94 13H21zm-9 6a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"/></svg>
+    </button>
+  </div>
+
+  <aside class="panel" id="panel">
+    <div class="tirador" id="tirador" aria-hidden="true"></div>
+    <div class="panel-cuerpo" id="cuerpo">
+      <section id="vista-lista">
+        <p class="intro">Quince restaurantes recomendados del centro. Activa tu ubicación para ordenarlos por cercanía.</p>
+        <button class="activar-gps" id="activar-gps">Ordenar por cercanía</button>
+        <ul class="lista restaurantes" id="lista"></ul>
+        <p class="nota-fuentes">Selección a partir de guías y valoraciones públicas. Las puntuaciones se completarán con las de Google cuando estén disponibles.</p>
+      </section>
+      <section id="vista-ficha" hidden>
+        <div class="ruta-barra">
+          <button class="volver-lista" id="volver-lista">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M14.5 5.5 8 12l6.5 6.5 1.5-1.5-5-5 5-5z"/></svg>Todos los restaurantes
+          </button>
+          <button class="cerrar-ruta" id="cerrar" title="Cerrar" aria-label="Cerrar">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.3 5.7 12 12l6.3 6.3-1.4 1.4L10.6 13.4 4.3 19.7 2.9 18.3 9.2 12 2.9 5.7 4.3 4.3l6.3 6.3 6.3-6.3z"/></svg>
+          </button>
+        </div>
+        <div class="foto" id="r-foto" aria-hidden="true"></div>
+        <span class="categoria" id="r-cocina"></span>
+        <h2 id="r-nombre"></h2>
+        <div class="datos-rest">
+          <span class="nota" id="r-nota"></span>
+          <span class="precio" id="r-precio"></span>
+          <span class="dir" id="r-dir"></span>
+        </div>
+        <p class="distancia-yo" id="r-yo" hidden></p>
+        <div class="acciones-rest">
+          <a class="llevame" id="r-llevame" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>Llévame</a>
+          <a class="ver-google" id="r-google" target="_blank" rel="noopener">Ver en Google Maps</a>
+        </div>
+        <p class="resumen-rest" id="r-resumen"></p>
+        <h3>Qué pedir</h3>
+        <ul class="platos" id="r-platos"></ul>
+      </section>
+    </div>
+  </aside>
+
+  <script src="../comun/comun.js?v=202611231328"></script>
+  <script src="js/comer.js?v=202611231328"></script>
+</body>
+</html>

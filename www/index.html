@@ -12,7 +12,7 @@
   <script>
     // Recarga si el navegador tiene un portal antiguo en caché (version.txt cambia en cada publicación)
     (function () {
-      var VERSION = '202611231214';
+      var VERSION = '202611231328';
       if (location.protocol.indexOf('http') !== 0) return;
       fetch('version.txt', { cache: 'no-store' }).then(function (r) { return r.ok ? r.text() : ''; }).then(function (v) {
         v = (v || '').trim();
@@ -125,6 +125,25 @@
           <h2>Viajando por Sofía</h2>
           <p>Los lugares que no te puedes perder, con su historia contada en detalle y rutas a pie entre ellos: cuánto se tarda y qué verás por el camino. Con tu posición en el mapa.</p>
           <div class="etiquetas"><span>Turismo</span><span>Rutas a pie</span><span>GPS</span></div>
+          <span class="entrar">Entrar</span>
+        </div>
+      </a>
+
+      <a class="app" href="comer/">
+        <div class="ilus" style="background:#f3e7d6">
+          <svg viewBox="0 0 300 150" aria-hidden="true">
+            <g fill="none" stroke="#a8322a" stroke-width="3" stroke-linecap="round">
+              <circle cx="150" cy="78" r="38"/><circle cx="150" cy="78" r="24" stroke-width="1.5" opacity=".6"/>
+              <path d="M92 40v22c0 5 3 8 7 8v38M99 40v18M106 40v22c0 5-3 8-7 8"/>
+              <path d="M208 40c-7 4-10 13-10 23 0 6 3 9 7 9v36"/>
+            </g>
+            <g><circle cx="238" cy="112" r="10" fill="#2f7f86" opacity=".2"/><circle cx="238" cy="112" r="4.5" fill="#2f7f86" stroke="#fff" stroke-width="2"/></g>
+          </svg>
+        </div>
+        <div class="cuerpo">
+          <h2>Comer en Sofía</h2>
+          <p>Quince restaurantes recomendados del centro, ordenados por cercanía a ti, con lo que hay que pedir y un botón que te lleva andando con Google Maps.</p>
+          <div class="etiquetas"><span>Restaurantes</span><span>Cerca de ti</span><span>Llévame</span></div>
           <span class="entrar">Entrar</span>
         </div>
       </a>

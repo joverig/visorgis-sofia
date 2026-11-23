@@ -128,5 +128,65 @@
   "app": "viajando",
   "id": "historia",
   "texto": "Museo Nacional de Historia. Ocupa desde 2000 la antigua residencia gubernamental de Boyana, construida en los años 70 al pie del Vitosha. Sus salas recorren la historia del territorio búlgaro desde la Prehistoria. Entre sus tesoros hay oro tracio, piezas romanas y medievales, y una gran colección de arte y objetos de la época de la liberación. Está a un paseo de la iglesia de Boyana, por lo que se visitan juntos."
+ },
+ {
+  "app": "viajando",
+  "id": "petka",
+  "texto": "Iglesia de Santa Petka de los Talabarteros. Una pequeña iglesia medieval medio enterrada en pleno paso subterráneo de Serdica. Construida probablemente en el siglo XIV sobre restos de un templo romano, está hundida varios metros por debajo del nivel de la calle: así de alto ha crecido el suelo de Sofía con los siglos. Su nombre recuerda al gremio de los talabarteros, los artesanos del cuero, que tenían aquí sus talleres. Durante la dominación otomana las iglesias no podían destacar sobre las mezquitas, y por eso muchas eran bajas y discretas como esta. En su interior se conservan pinturas murales de los siglos XV al XIX."
+ },
+ {
+  "app": "viajando",
+  "id": "estatua",
+  "texto": "Estatua de Santa Sofía. La figura dorada que vigila el centro desde el año 2000. Se levantó en 2000 en el lugar donde antes estuvo la estatua de Lenin, en el cruce de Serdica. Representa a la Sabiduría (Sofía en griego), con una corona, una lechuza en el brazo y una corona de laurel en la mano, símbolos del poder, el conocimiento y la fama. No es una santa en sentido estricto: la ciudad toma su nombre de la basílica de Santa Sofía, dedicada a la Sabiduría divina. Aun así, para muchos sofiotas la estatua se ha convertido en el símbolo moderno de su ciudad."
+ },
+ {
+  "app": "viajando",
+  "id": "jardin",
+  "texto": "Jardín de la Ciudad. El parque más antiguo de Sofía, con el Teatro Nacional como telón de fondo. Se creó en la década de 1870, al poco de la liberación, sobre un antiguo cementerio y terrenos otomanos, y fue el primer jardín público de la nueva capital. Sus paseos conectan el Teatro Nacional, la Galería de Arte de la Ciudad y el antiguo Palacio Real. Es famoso por los jubilados que juegan al ajedrez en sus mesas y por la fuente frente al teatro, uno de los puntos de encuentro más populares del centro."
+ },
+ {
+  "app": "viajando",
+  "id": "aguilas",
+  "texto": "Puente de las Águilas. Cuatro águilas de bronce custodian la entrada este del centro. Construido en 1891 sobre el río Perlovska, sus cuatro águilas recuerdan el lugar donde los sofiotas recibieron a los prisioneros de guerra que volvían tras la liberación de 1878. Las águilas simbolizan la protección de los que regresaban. Hoy es un cruce muy concurrido y un lugar habitual de concentraciones y protestas, junto a la entrada del parque Borisova Gradina."
+ },
+ {
+  "app": "viajando",
+  "id": "biblioteca",
+  "texto": "Biblioteca Nacional Santos Cirilo y Metodio. La biblioteca más antigua de Bulgaria, presidida por los creadores del alfabeto eslavo. Fundada en 1878, es la primera institución cultural de la Bulgaria liberada. Su edificio actual, de mediados del siglo XX, guarda manuscritos medievales, documentos otomanos y la mayor colección de libros del país. Ante la fachada se alza el monumento a Cirilo y Metodio, los hermanos de Salónica que en el siglo IX crearon el alfabeto glagolítico, antecesor del cirílico que hoy usan Bulgaria, Rusia y otros países."
+ },
+ {
+  "app": "viajando",
+  "id": "kvadrat",
+  "texto": "Kvadrat 500. La gran sala de arte de la Galería Nacional, junto a la catedral. Abierta en 2015 en el edificio de la antigua Academia de Bellas Artes, reúne en más de veinte salas obras de arte búlgaro y europeo desde la Edad Media hasta el siglo XX. Su nombre, «cuadrado 500», viene del número de la manzana en el plano antiguo de la ciudad. Es una visita tranquila y poco masificada, ideal si se quiere completar el paseo por la catedral con algo de pintura."
+ },
+ {
+  "app": "viajando",
+  "id": "opera",
+  "texto": "Ópera Nacional de Sofía. La sede de la ópera y el ballet de Bulgaria. El edificio, de estilo neoclásico monumental, se terminó en 1953 y es la sede de la Ópera y Ballet Nacional, una compañía que ha dado cantantes de fama mundial, como el bajo Boris Christoff o la soprano Raina Kabaivanska. Si coincide con alguna función, merece la pena: las entradas son mucho más asequibles que en otras capitales europeas."
+ },
+ {
+  "app": "viajando",
+  "id": "vazov",
+  "texto": "Casa-museo Iván Vázov. La casa donde vivió y murió el patriarca de la literatura búlgara. Iván Vázov, autor de la novela «Bajo el yugo», vivió en esta casa desde 1895 hasta su muerte en 1921. El museo conserva su despacho, sus muebles y objetos personales tal como los dejó. Vázov es tan querido en Bulgaria que el Teatro Nacional lleva su nombre y su tumba está en el jardín de Santa Sofía."
+ },
+ {
+  "app": "viajando",
+  "id": "slaveykov",
+  "texto": "Plaza Slaveykov. La plaza de los libros, con los poetas Slaveykov, padre e hijo, sentados en un banco. Durante décadas fue el gran mercadillo de libros de Sofía, con puestos de novedades y libros de segunda mano. Lleva el nombre de los escritores Petko y Pencho Slaveykov, padre e hijo, cuyas estatuas de bronce aparecen sentadas en un banco. Muchos visitantes se sientan junto a ellos para hacerse una foto: es una de las imágenes más simpáticas del centro."
+ },
+ {
+  "app": "viajando",
+  "id": "levski",
+  "texto": "Monumento a Vasil Levski. El obelisco en honor al gran héroe de la independencia búlgara. Vasil Levski, el «Apóstol de la libertad», organizó la red revolucionaria contra el dominio otomano y fue ahorcado en Sofía en 1873. El monumento, inaugurado en 1895, se levanta cerca del lugar donde se cree que estuvo el patíbulo. Para los búlgaros es una figura casi sagrada; el estadio nacional y uno de los grandes bulevares de la ciudad llevan su nombre."
+ },
+ {
+  "app": "viajando",
+  "id": "natural",
+  "texto": "Museo Nacional de Historia Natural. El museo de historia natural más antiguo de los Balcanes. Fundado en 1889 como colección del príncipe Fernando, gran aficionado a la naturaleza, ocupa un edificio junto a la Iglesia rusa. Reúne minerales, insectos, aves disecadas y una notable colección de fauna balcánica. Es una parada agradable para ir con niños o para quien busque algo distinto a iglesias y ruinas."
+ },
+ {
+  "app": "viajando",
+  "id": "galeriaciudad",
+  "texto": "Galería de Arte de la Ciudad. Arte búlgaro moderno en un antiguo casino del Jardín de la Ciudad. Ocupa el edificio del antiguo Casino Municipal, de principios del siglo XX, en el Jardín de la Ciudad. Su colección reúne pintura y escultura búlgara de los siglos XIX y XX y exposiciones temporales de arte contemporáneo. La entrada suele ser gratuita o muy económica, y es un buen refugio en un día de lluvia."
  }
 ]
