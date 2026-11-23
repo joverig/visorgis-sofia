@@ -19,12 +19,25 @@ $ua = 'visorgis-sofia/1.0 (github.com/joverig/visorgis-sofia)'
 
 # El servidor de rutas solo acepta cifrados TLS modernos que el HTTPS de Windows (.NET y el
 # curl.exe del sistema, ambos con "schannel") no siempre ofrece. Si falla, se prueban en orden:
-#   1. curl de Git para Windows (usa OpenSSL)   2. Python (usa OpenSSL)   3. curl.exe del sistema
+#   1. curl de Git para Windows forzando OpenSSL   2. PHP portable de ..\VisorGIS (OpenSSL)
+#   3. Python (OpenSSL)   4. curl.exe del sistema
 # y se sigue con el primero que funcione.
 $script:metodo = $null
 $curlSistema = Join-Path $env:SystemRoot 'System32\curl.exe'
 $curlGit = @("$env:ProgramFiles\Git\mingw64\bin\curl.exe", "${env:ProgramFiles(x86)}\Git\mingw64\bin\curl.exe",
              "$env:LOCALAPPDATA\Programs\Git\mingw64\bin\curl.exe") | Where-Object { $_ -and (Test-Path $_) } | Select-Object -First 1
+$caGit = if ($curlGit) { @('mingw64\etc\ssl\certs\ca-bundle.crt', 'mingw64\ssl\certs\ca-bundle.crt') | ForEach-Object { Join-Path (Split-Path (Split-Path (Split-Path $curlGit))) $_ } | Where-Object { Test-Path $_ } | Select-Object -First 1 }
+$php = Join-Path $raiz '..\VisorGIS\php\php.exe'
+$phpDescarga = Join-Path $env:TEMP 'visorgis_sofia_descarga.php'
+[System.IO.File]::WriteAllText($phpDescarga, @'
+<?php
+[$s, $url, $salida, $ua] = $argv; $cuerpo = $argv[4] ?? '';
+$http = ['header' => "User-Agent: $ua\r\n", 'timeout' => 180, 'ignore_errors' => false];
+if ($cuerpo !== '') { $http['method'] = 'POST'; $http['header'] .= "Content-Type: application/x-www-form-urlencoded\r\n"; $http['content'] = file_get_contents($cuerpo); }
+$r = @file_get_contents($url, false, stream_context_create(['http' => $http]));
+if ($r === false) { $e = error_get_last(); fwrite(STDERR, $e ? $e['message'] : 'fallo'); exit(1); }
+file_put_contents($salida, $r);
+'@, $utf8)
 $python = Get-Command python, py -ErrorAction SilentlyContinue | Where-Object { $_.Source -notmatch 'WindowsApps' } | Select-Object -First 1
 $pyDescarga = Join-Path $env:TEMP 'visorgis_sofia_descarga.py'
 [System.IO.File]::WriteAllText($pyDescarga, @'
@@ -47,7 +60,13 @@ function PedirExterno([string]$metodo, [string]$url, [string]$cuerpo) {
     $ErrorActionPreference = 'Continue'
     try {
         if ($cuerpo) { $tmpCuerpo = [System.IO.Path]::GetTempFileName(); [System.IO.File]::WriteAllText($tmpCuerpo, $cuerpo, $utf8) }
-        if ($metodo -eq 'python') {
+        if ($metodo -eq 'php') {
+            if (-not (Test-Path $php)) { throw "No hay PHP en $php" }
+            $pa = @('-d', ('extension_dir=' + (Join-Path (Split-Path $php) 'ext')), '-d', 'extension=openssl')
+            if ($caGit) { $pa += @('-d', "openssl.cafile=$caGit") }
+            $pa += @($phpDescarga, $url, $tmp, $ua); if ($tmpCuerpo) { $pa += $tmpCuerpo }
+            & $php @pa 2> $tmpErr | Out-Null
+        } elseif ($metodo -eq 'python') {
             if (-not $python) { throw 'Python no instalado' }
             $pa = @($pyDescarga, $url, $tmp, $ua); if ($tmpCuerpo) { $pa += $tmpCuerpo }
             & $python.Source @pa 2> $tmpErr | Out-Null
@@ -56,6 +75,8 @@ function PedirExterno([string]$metodo, [string]$url, [string]$cuerpo) {
             if (-not $exe -or -not (Test-Path $exe)) { throw "No disponible: $metodo" }
             $pa = @('-s', '-S', '-f', '-L', '--max-time', '180', '-A', $ua, '-o', $tmp, '--stderr', $tmpErr)
             if ($metodo -eq 'curlsistema') { $pa = @('--ssl-no-revoke') + $pa }
+            if ($metodo -eq 'curlgit') { $env:CURL_SSL_BACKEND = 'openssl'; if ($caGit) { $pa = @('--cacert', $caGit) + $pa } }
+            else { Remove-Item Env:\CURL_SSL_BACKEND -ErrorAction SilentlyContinue }
             if ($tmpCuerpo) { $pa += @('-H', 'Content-Type: application/x-www-form-urlencoded', '--data-binary', "@$tmpCuerpo") }
             & $exe @pa $url | Out-Null
         }
@@ -74,7 +95,7 @@ function PedirExterno([string]$metodo, [string]$url, [string]$cuerpo) {
 function PedirAlternativo([string]$url, [string]$cuerpo) {
     if ($script:metodo) { return PedirExterno $script:metodo $url $cuerpo }
     $fallos = @()
-    foreach ($m in @('curlgit', 'python', 'curlsistema')) {
+    foreach ($m in @('curlgit', 'php', 'python', 'curlsistema')) {
         try {
             $r = PedirExterno $m $url $cuerpo
             $script:metodo = $m
@@ -82,7 +103,9 @@ function PedirAlternativo([string]$url, [string]$cuerpo) {
             return $r
         } catch { $fallos += "$m -> $($_.Exception.Message)" }
     }
-    throw ("Ningun metodo HTTPS funciona en este PC:`n    " + ($fallos -join "`n    "))
+    Write-Host ("Ningun metodo HTTPS funciona con $url en este PC:`r`n    " + ($fallos -join "`r`n    ")) -ForegroundColor Red
+    Write-Host 'Copia estas lineas y pasaselas a Claude.'
+    exit 1
 }
 function Pedir([string]$url, [string]$cuerpo) {
     if ($script:metodo) { return PedirExterno $script:metodo $url $cuerpo }
