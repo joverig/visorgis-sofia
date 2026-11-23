@@ -221,6 +221,22 @@
       layers: [capaFondo, grupoHistorico, capaPerimetros, capaCalles],
     });
     map.addControl(new ol.control.ScaleLine({ units: 'metric' }));
+    // Botones comunes: satélite actual ↔ mapa de OpenStreetMap, y «Mi posición»
+    if (window.SofiaComun) {
+      const fondoOSM = { base: 'satelite', capa: null };
+      SofiaComun.capaCalles().catch(() => new ol.layer.Tile({ source: new ol.source.OSM() })).then((c) => {
+        c.setZIndex(1); c.setVisible(false); fondoOSM.capa = c; map.addLayer(c);
+      });
+      fondoOSM.alternar = () => {
+        fondoOSM.base = fondoOSM.base === 'satelite' ? 'calles' : 'satelite';
+        capaFondo.setVisible(fondoOSM.base === 'satelite');
+        if (fondoOSM.capa) fondoOSM.capa.setVisible(fondoOSM.base === 'calles');
+        return fondoOSM.base;
+      };
+      const bc = document.getElementById('capa-base'), bg = document.getElementById('gps');
+      if (bc) SofiaComun.botonCapa(bc, fondoOSM);
+      if (bg) SofiaComun.localizador(map, bg);
+    }
     // Atribuciones plegables en pantallas pequeñas
     map.getControls().forEach((ctl) => {
       if (ctl instanceof ol.control.Attribution) {

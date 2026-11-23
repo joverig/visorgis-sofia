@@ -1,4 +1,4 @@
-# Genera EN CASCADA la narracion de todas las fichas de las apps con la voz elegida.
+﻿# Genera EN CASCADA la narracion de todas las fichas de las apps con la voz elegida.
 #   Voz:    voz\config.json  { "voz": "es-ES-...Neural", "estilo": "", "rate": "-10%", "pitch": "-6%" }
 #   Textos: voz\textos\*.json  ([{ "app": "viajando", "id": "nevski", "texto": "..." }, ...])
 #   Salida: www\<app>\audio\<id>.mp3  y  www\<app>\audio\manifest.json (lista de ids con audio)
@@ -26,6 +26,8 @@ foreach ($it in $items) {
     New-Item -ItemType Directory -Force -Path $dirApp | Out-Null
     $dest = Join-Path $dirApp "$($it.id).mp3"
     $clave = "$($it.app)/$($it.id)"
+    # «Viajando por Sofía» pasó a llamarse «Explora Sofía»: se aprovechan los audios ya generados
+    if (-not $hechos[$clave] -and $it.app -eq 'explora' -and $hechos["viajando/$($it.id)"]) { $hechos[$clave] = $hechos["viajando/$($it.id)"] }
     $h = Huella ($voz.voz + '|' + $voz.estilo + '|' + $voz.rate + '|' + $voz.pitch + '|' + $it.texto)
     if ((Test-Path $dest) -and $hechos[$clave] -eq $h) { continue }
     $ok = $false

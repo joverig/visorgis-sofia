@@ -9,7 +9,9 @@ Carpetas
   www\version.txt         numero de version comun (recarga automatica tras publicar)
   www\comun\              estilos y JS compartidos (enlace al portal, boton narrador), lib\ol
   www\en-el-tiempo\       "Sofia en el tiempo": linea temporal con recreaciones y satelite Esri
-  www\viajando\           "Viajando por Sofia": lugares, historia, rutas a pie y GPS
+  www\explora\            "Explora Sofia" (antes Viajando): lugares, historia, rutas a pie y GPS
+  www\itinerario\         "Itinerario": plan dia a dia con narracion
+  www\aterrizando\        "Aterrizando": vuelos, traslado, servicios y tiempo
     datos\puntos.geojson   lugares de interes con su historia
     datos\rutas.geojson    rutas a pie entre lugares (se genera, ver abajo)
   www\<app>\audio\        narraciones mp3 + manifest.json (lista de ids con audio)
@@ -18,11 +20,11 @@ Carpetas
 Trabajo diario
   Arrancar_visor.bat -> http://localhost:8081/ (portal; usa el PHP portable de C:\Trabajo\VisorGIS)
 
-Rutas a pie (Viajando por Sofia)
+Rutas a pie (Explora Sofia)
   2_Calcular_rutas.bat  descarga de OSRM (perfil a pie) los caminos entre lugares cercanos y
                         los elementos de OSM del entorno a datos_rutas\ (cache; se puede relanzar).
   Despues Claude elige las rutas que no se cruzan (1 a 4 por lugar segun densidad), calcula
-  tiempos (4,5 km/h) y redacta "por el camino" -> www\viajando\datos\rutas.geojson.
+  tiempos (4,5 km/h) y redacta "por el camino" -> www\explora\datos\rutas.geojson.
 
 Narrador (Azure)
   1. Crear un recurso "Speech" en Azure (capa gratuita F0) y copiar clave y region.

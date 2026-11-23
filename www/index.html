@@ -12,7 +12,7 @@
   <script>
     // Recarga si el navegador tiene un portal antiguo en caché (version.txt cambia en cada publicación)
     (function () {
-      var VERSION = '202611231402';
+      var VERSION = '202611231940';
       if (location.protocol.indexOf('http') !== 0) return;
       fetch('version.txt', { cache: 'no-store' }).then(function (r) { return r.ok ? r.text() : ''; }).then(function (v) {
         v = (v || '').trim();
@@ -87,6 +87,42 @@
 
   <main>
     <section class="apps" aria-label="Aplicaciones">
+      <a class="app" href="aterrizando/">
+        <div class="ilus" style="background:#e7e9ef">
+          <svg viewBox="0 0 300 150" aria-hidden="true">
+            <path d="M30 118 C90 118, 120 60, 190 46" fill="none" stroke="#5c6f8a" stroke-width="2" stroke-dasharray="2 7" stroke-linecap="round"/>
+            <g transform="translate(196 44) rotate(-18)"><path d="M-14 0 L14 0 M0 0 L-6 -14 M0 0 L-6 14 M10 0 L6 -5 M10 0 L6 5" stroke="#a8322a" stroke-width="4" stroke-linecap="round" fill="none"/></g>
+            <g fill="none" stroke="#22262c" stroke-width="2.5"><path d="M214 124v-26l22-16 22 16v26z"/><path d="M230 124v-14h12v14"/></g>
+            <line x1="20" y1="124" x2="280" y2="124" stroke="#c9bfae" stroke-width="2"/>
+          </svg>
+        </div>
+        <div class="cuerpo">
+          <h2>Aterrizando</h2>
+          <p>Todo para llegar: los vuelos, cómo ir del aeropuerto a casa (y cuánto cuesta), los supermercados, farmacias, urgencias y paradas más cercanas, y el tiempo que hará.</p>
+          <div class="etiquetas"><span>Vuelos</span><span>Traslado</span><span>Servicios</span><span>Tiempo</span></div>
+          <span class="entrar">Entrar</span>
+        </div>
+      </a>
+
+      <a class="app" href="itinerario/">
+        <div class="ilus" style="background:#f2e4dc">
+          <svg viewBox="0 0 300 150" aria-hidden="true">
+            <g font-family="Cormorant Garamond, Georgia, serif" font-weight="700" text-anchor="middle">
+              <g fill="#fffaf1" stroke="#ddd3c2"><rect x="34" y="30" width="38" height="44" rx="8"/><rect x="86" y="30" width="38" height="44" rx="8"/><rect x="138" y="30" width="38" height="44" rx="8" fill="#a8322a" stroke="#a8322a"/><rect x="190" y="30" width="38" height="44" rx="8"/><rect x="242" y="30" width="38" height="44" rx="8"/></g>
+              <g font-size="22" fill="#22262c"><text x="53" y="62">4</text><text x="105" y="62">5</text><text x="157" y="62" fill="#fff">6</text><text x="209" y="62">7</text><text x="261" y="62">8</text></g>
+            </g>
+            <path d="M40 112 C80 96, 110 128, 150 108 S220 92, 262 112" fill="none" stroke="#6e3828" stroke-width="3" stroke-dasharray="0.1 8" stroke-linecap="round"/>
+            <g fill="#a8322a" stroke="#fff" stroke-width="2"><circle cx="40" cy="112" r="7"/><circle cx="150" cy="108" r="7"/><circle cx="262" cy="112" r="7"/></g>
+          </svg>
+        </div>
+        <div class="cuerpo">
+          <h2>Itinerario</h2>
+          <p>El plan del viaje día a día, del 4 al 8 de diciembre, con la excursión a Plovdiv: cada parada y cada camino en el mapa, con horarios, precios y una narración que lo cuenta todo.</p>
+          <div class="etiquetas"><span>Día a día</span><span>Narración</span><span>Plovdiv</span></div>
+          <span class="entrar">Entrar</span>
+        </div>
+      </a>
+
       <a class="app" href="en-el-tiempo/">
         <div class="ilus" style="background:#efe6d4">
           <svg viewBox="0 0 300 150" aria-hidden="true">
@@ -108,7 +144,7 @@
         </div>
       </a>
 
-      <a class="app" href="viajando/">
+      <a class="app" href="explora/">
         <div class="ilus" style="background:#e6efe9">
           <svg viewBox="0 0 300 150" aria-hidden="true">
             <g fill="none" stroke-linecap="round" stroke-width="3">
@@ -122,8 +158,8 @@
           </svg>
         </div>
         <div class="cuerpo">
-          <h2>Viajando por Sofía</h2>
-          <p>Los lugares que no te puedes perder, con su historia contada en detalle y rutas a pie entre ellos: cuánto se tarda y qué verás por el camino. Con tu posición en el mapa.</p>
+          <h2>Explora Sofía</h2>
+          <p>Los lugares que no te puedes perder, con su historia narrada y rutas a pie entre ellos, más los planes de temporada de diciembre y la excursión a Plovdiv. Marca lo que ya has visitado.</p>
           <div class="etiquetas"><span>Turismo</span><span>Rutas a pie</span><span>GPS</span></div>
           <span class="entrar">Entrar</span>
         </div>
@@ -142,23 +178,12 @@
         </div>
         <div class="cuerpo">
           <h2>Comer en Sofía</h2>
-          <p>Quince restaurantes recomendados del centro, ordenados por cercanía a ti, con lo que hay que pedir y un botón que te lleva andando con Google Maps.</p>
-          <div class="etiquetas"><span>Restaurantes</span><span>Cerca de ti</span><span>Llévame</span></div>
+          <p>Restaurantes, bares y desayunos recomendados, con lo que hay que pedir según las reseñas, ordenados por cercanía a ti y con un botón que te lleva andando.</p>
+          <div class="etiquetas"><span>Restaurantes</span><span>Bares</span><span>Qué pedir</span></div>
           <span class="entrar">Entrar</span>
         </div>
       </a>
 
-      <div class="app pronto" aria-disabled="true">
-        <div class="ilus" style="background:#f1ece2">
-          <svg viewBox="0 0 300 150" aria-hidden="true"><g fill="none" stroke="#c9bfae" stroke-width="2" stroke-dasharray="5 6"><rect x="95" y="35" width="110" height="80" rx="10"/></g>
-            <text x="150" y="82" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-size="26" fill="#b8ad9b">+</text></svg>
-        </div>
-        <div class="cuerpo">
-          <h2>Próximamente</h2>
-          <p>Nuevas formas de conocer Sofía irán apareciendo aquí.</p>
-          <span class="entrar">En preparación</span>
-        </div>
-      </div>
     </section>
   </main>
 

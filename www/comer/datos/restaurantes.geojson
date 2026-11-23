@@ -1,354 +1,839 @@
 {
-"type": "FeatureCollection",
-"features": [
-{
-"type": "Feature",
-"properties": {
-"id": "cosmos",
-"nombre": "Cosmos",
-"cocina": "Búlgara moderna",
-"precio": "€€€",
-"direccion": "Lavele 19",
-"valoracion": {
-"nota": 4.6,
-"opiniones": 3685
-},
-"resumen": "Cocina búlgara de autor: recetas tradicionales reinterpretadas con técnica contemporánea y presentación muy cuidada. Uno de los restaurantes más comentados del centro; conviene reservar.",
-"platos": [
-"Menú degustación de temporada",
-"Reinterpretaciones de platos búlgaros clásicos"
-]
-},
-"geometry": {
-"type": "Point",
-"coordinates": [
-23.31904,
-42.69476
-]
-}
-},
-{
-"type": "Feature",
-"properties": {
-"id": "moma",
-"nombre": "Moma Bulgarian Food & Wine",
-"cocina": "Búlgara tradicional y moderna",
-"precio": "€€",
-"direccion": "Solunska 28",
-"valoracion": {
-"nota": 4.2,
-"opiniones": 5364
-},
-"resumen": "Restaurante amplio, con varias plantas y salas decoradas de forma distinta, que combina platos tradicionales búlgaros con versiones modernas y una buena carta de vinos del país.",
-"platos": [
-"Guiso de cordero en olla de pan",
-"Ensalada shopska",
-"Vinos búlgaros"
-]
-},
-"geometry": {
-"type": "Point",
-"coordinates": [
-23.31892,
-42.693
-]
-}
-},
-{
-"type": "Feature",
-"properties": {
-"id": "hadjidraganov",
-"nombre": "Hadjidraganov's Cellars",
-"cocina": "Búlgara tradicional",
-"precio": "€€",
-"direccion": "Hristo Belchev 18",
-"valoracion": null,
-"resumen": "Una taberna con decoración folclórica, a modo de bodega antigua, considerada uno de los mejores sitios para probar la cocina tradicional búlgara. Elaboran parte de sus embutidos.",
-"platos": [
-"Embutidos de elaboración propia",
-"Carnes a la brasa",
-"Ensalada shopska"
-]
-},
-"geometry": {
-"type": "Point",
-"coordinates": [
-23.3211,
-42.69292
-]
-}
-},
-{
-"type": "Feature",
-"properties": {
-"id": "manastirska",
-"nombre": "Manastirska Magernitsa",
-"cocina": "Búlgara tradicional",
-"precio": "€€",
-"direccion": "Han Asparuh 67",
-"valoracion": null,
-"resumen": "Cocina basada en recetas de monasterios búlgaros e ingredientes de campo, en una calle tranquila del centro.",
-"platos": [
-"Recetas de inspiración monástica",
-"Guisos al horno en cazuela de barro"
-]
-},
-"geometry": {
-"type": "Point",
-"coordinates": [
-23.3246,
-42.68934
-]
-}
-},
-{
-"type": "Feature",
-"properties": {
-"id": "madeinhome",
-"nombre": "Made in Home",
-"cocina": "Casera búlgara y mediterránea",
-"precio": "€€",
-"direccion": "Angel Kanchev 30",
-"valoracion": null,
-"resumen": "Pequeño restaurante familiar de comida casera con influencias búlgaras, mediterráneas y de Oriente Medio. Buena opción para grupos mixtos de vegetarianos y carnívoros.",
-"platos": [
-"Platos caseros del día",
-"Opciones vegetarianas"
-]
-},
-"geometry": {
-"type": "Point",
-"coordinates": [
-23.32166,
-42.68968
-]
-}
-},
-{
-"type": "Feature",
-"properties": {
-"id": "shtastliveca",
-"nombre": "Shtastliveca",
-"cocina": "Búlgara y europea",
-"precio": "€€",
-"direccion": "bulevar Vitosha 27",
-"valoracion": null,
-"resumen": "Restaurante muy popular en pleno bulevar Vitosha que mezcla cocina búlgara y europea en un ambiente animado.",
-"platos": [
-"Típico de la cocina búlgara: ensalada shopska, kavarma, banitsa"
-]
-},
-"geometry": {
-"type": "Point",
-"coordinates": [
-23.32056,
-42.69331
-]
-}
-},
-{
-"type": "Feature",
-"properties": {
-"id": "podlipite",
-"nombre": "Pod Lipite",
-"cocina": "Búlgara tradicional",
-"precio": "€€",
-"direccion": "Elin Pelin 1 (Lozenets)",
-"valoracion": null,
-"resumen": "Abierto en 1926, es uno de los restaurantes más antiguos de Sofía. Cocina tradicional búlgara en un ambiente clásico, algo alejado del centro histórico.",
-"platos": [
-"Típico de la cocina búlgara: carnes a la brasa, guisos y ensaladas"
-]
-},
-"geometry": {
-"type": "Point",
-"coordinates": [
-23.33548,
-42.68176
-]
-}
-},
-{
-"type": "Feature",
-"properties": {
-"id": "oborishte35",
-"nombre": "Oborishte 35",
-"cocina": "Búlgara y europea",
-"precio": "€€",
-"direccion": "Oborishte 35",
-"valoracion": null,
-"resumen": "Restaurante amplio con un jardín fresco en verano, en el barrio tranquilo de Oborishte, cerca de la catedral de Alejandro Nevski.",
-"platos": [
-"Cocina búlgara y europea",
-"Terraza-jardín en verano"
-]
-},
-"geometry": {
-"type": "Point",
-"coordinates": [
-23.34186,
-42.69483
-]
-}
-},
-{
-"type": "Feature",
-"properties": {
-"id": "maminkolio",
-"nombre": "Mamin Kolio",
-"cocina": "Búlgara tradicional",
-"precio": "€",
-"direccion": "Pozitano 40",
-"valoracion": null,
-"resumen": "Taberna de cocina búlgara casera y precios contenidos, en la zona oeste del centro.",
-"platos": [
-"Típico de la cocina búlgara: sopas, guisos y carnes a la parrilla"
-]
-},
-"geometry": {
-"type": "Point",
-"coordinates": [
-23.31562,
-42.69675
-]
-}
-},
-{
-"type": "Feature",
-"properties": {
-"id": "balaban",
-"nombre": "Balaban Wine",
-"cocina": "Vinos búlgaros y cocina",
-"precio": "€€",
-"direccion": "Krakra",
-"valoracion": null,
-"resumen": "Bar de vinos con cocina, buena ocasión para descubrir variedades búlgaras como el mavrud o el melnik.",
-"platos": [
-"Vinos búlgaros por copas",
-"Tablas para compartir"
-]
-},
-"geometry": {
-"type": "Point",
-"coordinates": [
-23.33664,
-42.69285
-]
-}
-},
-{
-"type": "Feature",
-"properties": {
-"id": "chevermeto",
-"nombre": "Chevermeto",
-"cocina": "Búlgara tradicional con folclore",
-"precio": "€€",
-"direccion": "bulevar Vitosha 87",
-"valoracion": null,
-"resumen": "Restaurante de ambiente folclórico, conocido por el chevermé, el cordero asado entero, y por sus espectáculos de música y danza tradicional.",
-"platos": [
-"Chevermé (cordero asado)",
-"Espectáculo folclórico"
-]
-},
-"geometry": {
-"type": "Point",
-"coordinates": [
-23.31607,
-42.68307
-]
-}
-},
-{
-"type": "Feature",
-"properties": {
-"id": "kashti",
-"nombre": "Hadjidraganovite Kashti",
-"cocina": "Búlgara tradicional",
-"precio": "€€",
-"direccion": "Kozloduy",
-"valoracion": null,
-"resumen": "Restaurante tradicional en un conjunto de casas restauradas del siglo XIX, con jardín, cerca de la estación central y con música folclórica en directo.",
-"platos": [
-"Típico de la cocina búlgara: carnes a la brasa, guisos y vinos locales"
-]
-},
-"geometry": {
-"type": "Point",
-"coordinates": [
-23.32261,
-42.70659
-]
-}
-},
-{
-"type": "Feature",
-"properties": {
-"id": "bankovich",
-"nombre": "Bankovich",
-"cocina": "Serbia y búlgara",
-"precio": "€€",
-"direccion": "Dyakon Ignatiy",
-"valoracion": null,
-"resumen": "Cocina de la vecina Serbia, muy parecida a la búlgara y centrada en las carnes a la parrilla.",
-"platos": [
-"Pljeskavica y ćevapi",
-"Carnes a la parrilla"
-]
-},
-"geometry": {
-"type": "Point",
-"coordinates": [
-23.32425,
-42.69309
-]
-}
-},
-{
-"type": "Feature",
-"properties": {
-"id": "raketa",
-"nombre": "Raketa Rakia Bar",
-"cocina": "Búlgara con aire retro",
-"precio": "€€",
-"direccion": "Yanko Sakazov 17",
-"valoracion": null,
-"resumen": "Bar-restaurante decorado con objetos de la época socialista, con una larga carta de rakías, el aguardiente nacional, y cocina búlgara.",
-"platos": [
-"Rakías de muchas regiones",
-"Platos búlgaros para picar"
-]
-},
-"geometry": {
-"type": "Point",
-"coordinates": [
-23.34201,
-42.69828
-]
-}
-},
-{
-"type": "Feature",
-"properties": {
-"id": "egur",
-"nombre": "Egur Egur",
-"cocina": "Armenia",
-"precio": "€€",
-"direccion": "Georgi S. Rakovski 92",
-"valoracion": null,
-"resumen": "Cocina armenia casera muy cerca de la Iglesia rusa y del Teatro Nacional. Una alternativa diferente sin salir del centro.",
-"platos": [
-"Carnes a la brasa",
-"Platos y dulces armenios"
-]
-},
-"geometry": {
-"type": "Point",
-"coordinates": [
-23.32962,
-42.69628
-]
-}
-}
-]
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "cosmos",
+    "nombre": "Cosmos",
+    "cocina": "Búlgara moderna",
+    "precio": "€€€",
+    "direccion": "Lavele 19",
+    "valoracion": {
+     "nota": 4.6,
+     "opiniones": 3685
+    },
+    "resumen": "Cocina búlgara de autor: recetas tradicionales reinterpretadas con técnica contemporánea y presentación muy cuidada. Uno de los restaurantes más comentados del centro; conviene reservar.",
+    "platos": [
+     "El menú degustación (también lo hay vegetariano), con maridaje de vinos búlgaros si os apetece darse un capricho",
+     "Si vais a la carta, pedid varios platos al centro para compartir: es lo que más se recomienda",
+     "De postre, el famoso dulce de rosa búlgara"
+    ],
+    "categoria": "restaurante",
+    "nota_pedir": "Cocina de autor: reservad, y contad con un precio alto para Sofía.",
+    "foto": {
+     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Pan_seared_scallops_with_grilled_asparagus_fine_dining_appetizer.jpg/960px-Pan_seared_scallops_with_grilled_asparagus_fine_dining_appetizer.jpg",
+     "alt": "Plato de alta cocina",
+     "autor": "Wiki.cullin",
+     "licencia": "CC0",
+     "fuente": "https://commons.wikimedia.org/wiki/File:Pan_seared_scallops_with_grilled_asparagus_fine_dining_appetizer.jpg"
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.31904,
+     42.69476
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "moma",
+    "nombre": "Moma Bulgarian Food & Wine",
+    "cocina": "Búlgara tradicional y moderna",
+    "precio": "€€",
+    "direccion": "Solunska 28",
+    "valoracion": {
+     "nota": 4.2,
+     "opiniones": 5364
+    },
+    "resumen": "Restaurante amplio, con varias plantas y salas decoradas de forma distinta, que combina platos tradicionales búlgaros con versiones modernas y una buena carta de vinos del país.",
+    "platos": [
+     "Patatnik, el pastel de patata, queso y hierbas de los Ródopes",
+     "Cordero (pierna o guiso) con un tinto mavrud o melnik de su carta",
+     "Ensalada servida en cuenco de pan y, de postre, los dulces búlgaros de la casa"
+    ],
+    "categoria": "restaurante",
+    "horario": "12:30-23:30 (últimas comandas 22:30)",
+    "telefono": "+359 885 622 020",
+    "foto": {
+     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Patatnik.jpg/960px-Patatnik.jpg",
+     "alt": "Patatnik",
+     "autor": "K kapustin",
+     "licencia": "CC BY-SA 3.0",
+     "fuente": "https://commons.wikimedia.org/wiki/File:Patatnik.jpg"
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.31892,
+     42.693
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "hadjidraganov",
+    "nombre": "Hadjidraganov's Cellars",
+    "cocina": "Búlgara tradicional",
+    "precio": "€€",
+    "direccion": "Hristo Belchev 18",
+    "valoracion": null,
+    "resumen": "Una taberna con decoración folclórica, a modo de bodega antigua, considerada uno de los mejores sitios para probar la cocina tradicional búlgara. Elaboran parte de sus embutidos.",
+    "platos": [
+     "Los embutidos de elaboración propia: la salchicha de pollo es la que más se recomienda",
+     "Ensalada de la casa para empezar",
+     "Tarta de miel (medena torta) de postre"
+    ],
+    "categoria": "restaurante",
+    "foto": {
+     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Bulgarian_cuisine_Moussaka%2C_Lukanka%2C_Kashkaval_%281%29.jpg/960px-Bulgarian_cuisine_Moussaka%2C_Lukanka%2C_Kashkaval_%281%29.jpg",
+     "alt": "Musaka, lukanka y kashkaval",
+     "autor": "EvelinaRibarova",
+     "licencia": "CC BY-SA 4.0",
+     "fuente": "https://commons.wikimedia.org/wiki/File:Bulgarian_cuisine_Moussaka%2C_Lukanka%2C_Kashkaval_%281%29.jpg"
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.3211,
+     42.69292
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "manastirska",
+    "nombre": "Manastirska Magernitsa",
+    "cocina": "Búlgara tradicional",
+    "precio": "€€",
+    "direccion": "Han Asparuh 67",
+    "valoracion": null,
+    "resumen": "Cocina basada en recetas de monasterios búlgaros e ingredientes de campo, en una calle tranquila del centro.",
+    "platos": [
+     "Platos de cazuela al horno de recetas monásticas: el gyuveche es la apuesta segura",
+     "Carnes a la parrilla, albóndigas caseras (kyufteta) o caza, según temporada",
+     "Una carta de vinos búlgaros muy completa: buen sitio para probar uno de la zona de Melnik"
+    ],
+    "categoria": "restaurante",
+    "horario": "12:00-23:00",
+    "telefono": "+359 899 949 400",
+    "itinerario": "Lunes 7 · comida",
+    "foto": {
+     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Turkish_earthenware_pots_or_guvech.jpg/960px-Turkish_earthenware_pots_or_guvech.jpg",
+     "alt": "Cazuelas de barro (gyuveche)",
+     "autor": "E4024",
+     "licencia": "CC BY-SA 3.0",
+     "fuente": "https://commons.wikimedia.org/wiki/File:Turkish_earthenware_pots_or_guvech.jpg"
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.3246,
+     42.68934
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "madeinhome",
+    "nombre": "Made in Home",
+    "cocina": "Casera búlgara y mediterránea",
+    "precio": "€€",
+    "direccion": "Angel Kanchev 30",
+    "valoracion": null,
+    "resumen": "Pequeño restaurante familiar de comida casera con influencias búlgaras, mediterráneas y de Oriente Medio. Buena opción para grupos mixtos de vegetarianos y carnívoros.",
+    "platos": [
+     "La carta cambia: preguntad por los platos del día",
+     "Mezze para compartir, sobre todo las berenjenas",
+     "La sopa de pollo y los siropes caseros de frambuesa o saúco"
+    ],
+    "categoria": "restaurante",
+    "nota_pedir": "Solo efectivo y suele llenarse: id antes de las 19:00 o reservad.",
+    "foto": {
+     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Kyopoolu_bg.jpg/960px-Kyopoolu_bg.jpg",
+     "alt": "Kyopolou",
+     "autor": "Ikonact",
+     "licencia": "CC BY-SA 3.0",
+     "fuente": "https://commons.wikimedia.org/wiki/File:Kyopoolu_bg.jpg"
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.32166,
+     42.68968
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "shtastliveca",
+    "nombre": "Shtastliveca",
+    "cocina": "Búlgara y europea",
+    "precio": "€€",
+    "direccion": "bulevar Vitosha 27",
+    "valoracion": null,
+    "resumen": "Restaurante muy popular en pleno bulevar Vitosha que mezcla cocina búlgara y europea en un ambiente animado.",
+    "platos": [
+     "Meshana skara, la parrillada mixta, uno de los clásicos búlgaros",
+     "Cordero asado y calamares a la plancha, de lo más alabado",
+     "De postre, la tarta de chocolate «motel»"
+    ],
+    "categoria": "restaurante",
+    "telefono": "+359 2 441 1155",
+    "nota_pedir": "Carta larguísima y numerada; las reseñas son irregulares, mejor ir a lo clásico.",
+    "foto": {
+     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Kavarma.jpeg/960px-Kavarma.jpeg",
+     "alt": "Kavarma",
+     "autor": "Jeroen Kransen",
+     "licencia": "CC BY-SA 2.5",
+     "fuente": "https://commons.wikimedia.org/wiki/File:Kavarma.jpeg"
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.32056,
+     42.69331
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "podlipite",
+    "nombre": "Pod Lipite",
+    "cocina": "Búlgara tradicional",
+    "precio": "€€",
+    "direccion": "Elin Pelin 1 (Lozenets)",
+    "valoracion": null,
+    "resumen": "Abierto en 1926, es uno de los restaurantes más antiguos de Sofía. Cocina tradicional búlgara en un ambiente clásico, algo alejado del centro histórico.",
+    "platos": [
+     "Las carnes de su propia granja, a la brasa o en cazuela",
+     "Pastas para untar y entrantes de la cocina tradicional (kyopolou, lyutenitsa)",
+     "Pedid consejo: cocinan recetas de todas las regiones del país"
+    ],
+    "categoria": "restaurante",
+    "horario": "12:00-23:00",
+    "telefono": "+359 886 801 227",
+    "itinerario": "Lunes 7 · cena",
+    "nota_pedir": "Abierto desde 1926; reservad mesa para 7.",
+    "foto": {
+     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Cheverme.JPG/960px-Cheverme.JPG",
+     "alt": "Chevermé",
+     "autor": "Иван",
+     "licencia": "CC BY-SA 3.0",
+     "fuente": "https://commons.wikimedia.org/wiki/File:Cheverme.JPG"
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.33548,
+     42.68176
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "oborishte35",
+    "nombre": "Oborishte 35",
+    "cocina": "Búlgara y europea",
+    "precio": "€€",
+    "direccion": "Oborishte 35",
+    "valoracion": null,
+    "resumen": "Restaurante amplio con un jardín fresco en verano, en el barrio tranquilo de Oborishte, cerca de la catedral de Alejandro Nevski.",
+    "platos": [
+     "Ensalada shopska de entrante",
+     "Platos de cocina búlgara y europea a la carta",
+     "Una copa de vino del país"
+    ],
+    "categoria": "restaurante",
+    "foto": {
+     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Chopska.jpg/960px-Chopska.jpg",
+     "alt": "Ensalada shopska",
+     "autor": "Popo le Chien",
+     "licencia": "CC0",
+     "fuente": "https://commons.wikimedia.org/wiki/File:Chopska.jpg"
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.34186,
+     42.69483
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "maminkolio",
+    "nombre": "Mamin Kolio",
+    "cocina": "Búlgara tradicional",
+    "precio": "€",
+    "direccion": "Pozitano 40",
+    "valoracion": null,
+    "resumen": "Taberna de cocina búlgara casera y precios contenidos, en la zona oeste del centro.",
+    "platos": [
+     "Sarmi (hojas rellenas de arroz y carne)",
+     "Sopas y guisos caseros del día",
+     "Kebapche y kyufte a la parrilla"
+    ],
+    "categoria": "restaurante",
+    "foto": {
+     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Bulgarians_Gotta_Love_Sarmi.JPG/960px-Bulgarians_Gotta_Love_Sarmi.JPG",
+     "alt": "Sarmi",
+     "autor": "CaptainPiggles",
+     "licencia": "CC BY-SA 4.0",
+     "fuente": "https://commons.wikimedia.org/wiki/File:Bulgarians_Gotta_Love_Sarmi.JPG"
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.31562,
+     42.69675
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "balaban",
+    "nombre": "Balaban Wine",
+    "cocina": "Vinos búlgaros y cocina",
+    "precio": "€€",
+    "direccion": "Krakra",
+    "valoracion": null,
+    "resumen": "Bar de vinos con cocina, buena ocasión para descubrir variedades búlgaras como el mavrud o el melnik.",
+    "platos": [
+     "Copas de mavrud, melnik o rubin, uvas autóctonas búlgaras",
+     "Tablas de quesos y embutidos para acompañar"
+    ],
+    "categoria": "bar",
+    "foto": {
+     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Mavrud_E1.jpg/960px-Mavrud_E1.jpg",
+     "alt": "Uva mavrud",
+     "autor": "Elena Chochkova",
+     "licencia": "CC BY-SA 3.0",
+     "fuente": "https://commons.wikimedia.org/wiki/File:Mavrud_E1.jpg"
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.33664,
+     42.69285
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "chevermeto",
+    "nombre": "Chevermeto",
+    "cocina": "Búlgara tradicional con folclore",
+    "precio": "€€",
+    "direccion": "bulevar Vitosha 87",
+    "valoracion": null,
+    "resumen": "Restaurante de ambiente folclórico, conocido por el chevermé, el cordero asado entero, y por sus espectáculos de música y danza tradicional.",
+    "platos": [
+     "El chevermé, el cordero asado entero que da nombre al local",
+     "Espectáculo folclórico durante la cena"
+    ],
+    "categoria": "restaurante",
+    "foto": {
+     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Cheverme.JPG/960px-Cheverme.JPG",
+     "alt": "Chevermé",
+     "autor": "Иван",
+     "licencia": "CC BY-SA 3.0",
+     "fuente": "https://commons.wikimedia.org/wiki/File:Cheverme.JPG"
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.31607,
+     42.68307
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "kashti",
+    "nombre": "Hadjidraganovite Kashti",
+    "cocina": "Búlgara tradicional",
+    "precio": "€€",
+    "direccion": "Kozloduy",
+    "valoracion": null,
+    "resumen": "Restaurante tradicional en un conjunto de casas restauradas del siglo XIX, con jardín, cerca de la estación central y con música folclórica en directo.",
+    "platos": [
+     "Cordero (muy alabado por lo tierno) o parrillada mixta para compartir",
+     "Para los atrevidos, los platos de casquería de la cocina antigua",
+     "Rakía o vino búlgaro mientras suena la música folclórica (desde las 20:00, menos los martes)"
+    ],
+    "categoria": "restaurante",
+    "horario": "11:30-23:30",
+    "telefono": "+359 899 917 837",
+    "itinerario": "Sábado 5 · cena",
+    "foto": {
+     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Cheverme.JPG/960px-Cheverme.JPG",
+     "alt": "Chevermé",
+     "autor": "Иван",
+     "licencia": "CC BY-SA 3.0",
+     "fuente": "https://commons.wikimedia.org/wiki/File:Cheverme.JPG"
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.32261,
+     42.70659
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "bankovich",
+    "nombre": "Bankovich",
+    "cocina": "Serbia y búlgara",
+    "precio": "€€",
+    "direccion": "Dyakon Ignatiy",
+    "valoracion": null,
+    "resumen": "Cocina de la vecina Serbia, muy parecida a la búlgara y centrada en las carnes a la parrilla.",
+    "platos": [
+     "Pljeskavica, la gran hamburguesa serbia a la parrilla",
+     "Ćevapi con cebolla y kajmak",
+     "Ensalada de pimientos asados"
+    ],
+    "categoria": "restaurante",
+    "foto": {
+     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Pleskavitsa.JPG/960px-Pleskavitsa.JPG",
+     "alt": "Pljeskavica",
+     "autor": "Biso",
+     "licencia": "CC BY 3.0",
+     "fuente": "https://commons.wikimedia.org/wiki/File:Pleskavitsa.JPG"
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.32425,
+     42.69309
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "raketa",
+    "nombre": "Raketa Rakia Bar",
+    "cocina": "Búlgara con aire retro",
+    "precio": "€€",
+    "direccion": "Yanko Sakazov 17",
+    "valoracion": null,
+    "resumen": "Bar-restaurante decorado con objetos de la época socialista, con una larga carta de rakías, el aguardiente nacional, y cocina búlgara.",
+    "platos": [
+     "Rakía: tienen más de 170; pedid que os aconsejen una de ciruela y otra de uva",
+     "Pan «gitano» y ensalada de la rakía para picar",
+     "Corazones de pollo y albóndigas, de lo más recomendado",
+     "Codillo entero para compartir y, de postre, la tarta «Raketa»"
+    ],
+    "categoria": "restaurante",
+    "horario": "cocina 12:00-23:00, barra hasta medianoche",
+    "telefono": "+359 2 444 6111",
+    "itinerario": "Viernes 4 · cena",
+    "nota_pedir": "Decoración de la época socialista y platos de metal como los de las abuelas.",
+    "foto": {
+     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Rakia%2C_Sofia_%28_1070644%29.jpg/960px-Rakia%2C_Sofia_%28_1070644%29.jpg",
+     "alt": "Rakía en Sofía",
+     "autor": "Matti Blume",
+     "licencia": "CC BY-SA 4.0",
+     "fuente": "https://commons.wikimedia.org/wiki/File:Rakia%2C_Sofia_%28_1070644%29.jpg"
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.34201,
+     42.69828
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "egur",
+    "nombre": "Egur Egur",
+    "cocina": "Armenia",
+    "precio": "€€",
+    "direccion": "Georgi S. Rakovski 92",
+    "valoracion": null,
+    "resumen": "Cocina armenia casera muy cerca de la Iglesia rusa y del Teatro Nacional. Una alternativa diferente sin salir del centro.",
+    "platos": [
+     "Khorovats, la parrillada armenia",
+     "Dulces armenios de postre"
+    ],
+    "categoria": "restaurante",
+    "foto": {
+     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Khorovats_in_Sevan.jpg/960px-Khorovats_in_Sevan.jpg",
+     "alt": "Khorovats armenio",
+     "autor": "2colored",
+     "licencia": "CC BY-SA 2.0",
+     "fuente": "https://commons.wikimedia.org/wiki/File:Khorovats_in_Sevan.jpg"
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.32962,
+     42.69628
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "halite",
+    "nombre": "Mercado Central (Halite)",
+    "cocina": "Puestos de comida",
+    "categoria": "mercado",
+    "precio": "€",
+    "direccion": "bulevar Knyaginya Maria Luiza 25",
+    "horario": "7:00-23:00",
+    "foto": {
+     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Banitsa_and_yogurt.jpg/960px-Banitsa_and_yogurt.jpg",
+     "alt": "Banitsa con yogur",
+     "autor": "Biso",
+     "licencia": "CC BY 3.0",
+     "fuente": "https://commons.wikimedia.org/wiki/File:Banitsa_and_yogurt.jpg"
+    },
+    "itinerario": "Sábado 5 · comida",
+    "resumen": "El mercado cubierto de 1911, junto a la mezquita: en la planta alta y en el sótano hay puestos donde comer barato y rápido, perfecto para que cada uno pique lo que quiera.",
+    "platos": [
+     "Banitsa recién hecha",
+     "Parrilla de los puestos: kebapche y kyufte",
+     "Dulces y frutos secos para llevar"
+    ],
+    "valoracion": null
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.3218,
+     42.7
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "banitsa",
+    "nombre": "Sofiyska Banitsa",
+    "cocina": "Banitsa y boza",
+    "categoria": "desayuno",
+    "precio": "€",
+    "direccion": "Graf Ignatiev 7",
+    "horario": "lun-vie 7:00-15:00 (según OpenStreetMap; los fines de semana puede variar)",
+    "foto": {
+     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Boza_bg.jpg/960px-Boza_bg.jpg",
+     "alt": "Boza",
+     "autor": "Ikonact",
+     "licencia": "CC BY-SA 3.0",
+     "fuente": "https://commons.wikimedia.org/wiki/File:Boza_bg.jpg"
+    },
+    "itinerario": "Martes 8 · desayuno",
+    "resumen": "Un mostrador de los de toda la vida que solo hace una cosa, y la borda: banitsa, el hojaldre de queso que desayunan los búlgaros, acompañada de boza.",
+    "platos": [
+     "Banitsa de queso recién salida del horno",
+     "Boza, la bebida espesa y dulzona de cereal fermentado (o un ayran, si la boza no os convence)"
+    ],
+    "valoracion": null
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.32311,
+     42.69376
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "izbata",
+    "nombre": "Izbata Tavern",
+    "cocina": "Búlgara tradicional",
+    "categoria": "restaurante",
+    "precio": "€€",
+    "direccion": "Slavyanska 18",
+    "horario": "11:00-23:00",
+    "telefono": "+359 889 895 533",
+    "foto": {
+     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Bulgarian_drob_sarma.jpg/960px-Bulgarian_drob_sarma.jpg",
+     "alt": "Drob sarma",
+     "autor": "Biser Todorov",
+     "licencia": "CC BY 4.0",
+     "fuente": "https://commons.wikimedia.org/wiki/File:Bulgarian_drob_sarma.jpg"
+    },
+    "resumen": "Taberna en un sótano acogedor, con recetas búlgaras casi olvidadas y precios razonables. Alternativa del plan si queréis bajar el gasto.",
+    "nota_pedir": "Conviene reservar.",
+    "platos": [
+     "Cerdo al vino servido en pan",
+     "Costillas",
+     "El helado casero de postre"
+    ],
+    "valoracion": null
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.32978,
+     42.69255
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "vodenitsa",
+    "nombre": "Vodenitzata",
+    "cocina": "Búlgara con espectáculo",
+    "categoria": "restaurante",
+    "precio": "€€€",
+    "direccion": "Dragalevtsi, a los pies del Vitosha",
+    "foto": {
+     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Cheverme.JPG/960px-Cheverme.JPG",
+     "alt": "Chevermé",
+     "autor": "Иван",
+     "licencia": "CC BY-SA 3.0",
+     "fuente": "https://commons.wikimedia.org/wiki/File:Cheverme.JPG"
+    },
+    "resumen": "Un viejo molino de agua en el bosque, fuera del centro, con espectáculo folclórico que termina con los nestinari bailando descalzos sobre las brasas. Taxi y reserva imprescindibles.",
+    "platos": [
+     "Cordero, que las reseñas describen como «se deshace en la boca»",
+     "Ensalada de pimientos asados",
+     "Helado cremoso de postre"
+    ],
+    "valoracion": null
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.30352,
+     42.62147
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "hambara",
+    "nombre": "Hambara",
+    "cocina": "Bar a la luz de las velas",
+    "categoria": "bar",
+    "precio": "€",
+    "direccion": "6 de Septiembre 22 (al fondo del callejón)",
+    "horario": "aprox. 21:00-3:00, lun-sáb",
+    "foto": {
+     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Candle_Light_Lounge_in_Treme.jpg/960px-Candle_Light_Lounge_in_Treme.jpg",
+     "alt": "Bar a la luz de las velas",
+     "autor": "Derek Bridges",
+     "licencia": "CC BY 2.0",
+     "fuente": "https://commons.wikimedia.org/wiki/File:Candle_Light_Lounge_in_Treme.jpg"
+    },
+    "itinerario": "Viernes 4 · copa",
+    "resumen": "El «granero»: un bar sin cartel ni electricidad, iluminado solo con velas, al fondo de un callejón oscuro. Fue refugio de intelectuales en la época comunista. Hay que llamar a la puerta de madera.",
+    "nota_pedir": "Solo efectivo. Es pequeño: con 7, llegad pronto.",
+    "platos": [
+     "Rakía o vino de la casa",
+     "Combinados sencillos: no es sitio de cócteles"
+    ],
+    "valoracion": null
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.32552,
+     42.69015
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "onemore",
+    "nombre": "One More Bar",
+    "cocina": "Cócteles",
+    "categoria": "bar",
+    "precio": "€€",
+    "direccion": "Tsar Shishman 12",
+    "foto": {
+     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Elegant_cocktail_garnished_with_citrus_twist_presented_in_a_stylish_glass_on_a_wooden_bar.jpg/960px-Elegant_cocktail_garnished_with_citrus_twist_presented_in_a_stylish_glass_on_a_wooden_bar.jpg",
+     "alt": "Cóctel",
+     "autor": "Shixart1985",
+     "licencia": "CC BY 2.0",
+     "fuente": "https://commons.wikimedia.org/wiki/File:Elegant_cocktail_garnished_with_citrus_twist_presented_in_a_stylish_glass_on_a_wooden_bar.jpg"
+    },
+    "itinerario": "Sábado 5 · copas",
+    "resumen": "Cócteles en una casa antigua con encanto, en plena calle Tsar Shishman. El favorito de las guías locales para empezar la noche.",
+    "platos": [
+     "Un cóctel de autor de la carta",
+     "Si dudáis, pedid uno con rakía o con hierbas búlgaras"
+    ],
+    "valoracion": null
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.33076,
+     42.69257
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "cincol",
+    "nombre": "5L Speakeasy",
+    "cocina": "Cócteles",
+    "categoria": "bar",
+    "precio": "€€",
+    "direccion": "Tsar Shishman 15",
+    "foto": {
+     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Elegant_cocktail_garnished_with_citrus_twist_presented_in_a_stylish_glass_on_a_wooden_bar.jpg/960px-Elegant_cocktail_garnished_with_citrus_twist_presented_in_a_stylish_glass_on_a_wooden_bar.jpg",
+     "alt": "Cóctel",
+     "autor": "Shixart1985",
+     "licencia": "CC BY 2.0",
+     "fuente": "https://commons.wikimedia.org/wiki/File:Elegant_cocktail_garnished_with_citrus_twist_presented_in_a_stylish_glass_on_a_wooden_bar.jpg"
+    },
+    "itinerario": "Sábado 5 · copas",
+    "resumen": "Speakeasy de cócteles creativos a unos pasos del One More Bar, en la calle de los bares.",
+    "platos": [
+     "Cócteles creativos: dejad que el barman os proponga"
+    ],
+    "valoracion": null
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.3303,
+     42.6916
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "petak",
+    "nombre": "Bar Petak",
+    "cocina": "Bar de baile",
+    "categoria": "bar",
+    "precio": "€",
+    "direccion": "General Gurko 21",
+    "horario": "22:00-6:00",
+    "foto": {
+     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Glass_of_beer_at_The_Tombs.jpg/960px-Glass_of_beer_at_The_Tombs.jpg",
+     "alt": "Cerveza",
+     "autor": "Ser Amantio di Nicolao",
+     "licencia": "CC BY-SA 4.0",
+     "fuente": "https://commons.wikimedia.org/wiki/File:Glass_of_beer_at_The_Tombs.jpg"
+    },
+    "itinerario": "Sábado 5 · si hay marcha",
+    "resumen": "Si el grupo quiere bailar hasta tarde, aquí se alarga la noche.",
+    "platos": [
+     "Cerveza búlgara o un combinado"
+    ],
+    "valoracion": null
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.32765,
+     42.69257
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "sense",
+    "nombre": "Sense Rooftop Bar",
+    "cocina": "Bar en azotea",
+    "categoria": "bar",
+    "precio": "€€€",
+    "direccion": "Tsar Osvoboditel 16 (Sense Hotel)",
+    "foto": {
+     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Wine_being_poured_into_a_glass.jpg/960px-Wine_being_poured_into_a_glass.jpg",
+     "alt": "Vino tinto",
+     "autor": "Fabio Ingrosso",
+     "licencia": "CC BY 2.0",
+     "fuente": "https://commons.wikimedia.org/wiki/File:Wine_being_poured_into_a_glass.jpg"
+    },
+    "itinerario": "Domingo 6 · noche",
+    "resumen": "La azotea del Sense Hotel, con la catedral de Alejandro Nevski iluminada enfrente. Para una copa tranquila con vistas.",
+    "platos": [
+     "Una copa de vino búlgaro o un cóctel mirando a la catedral"
+    ],
+    "valoracion": null
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.33139,
+     42.6942
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "pavaj",
+    "nombre": "Pavaj",
+    "cocina": "Búlgara moderna",
+    "categoria": "restaurante",
+    "precio": "€€",
+    "direccion": "Zlatarska 7, Kapana (Plovdiv)",
+    "ciudad": "Plovdiv",
+    "horario": "horario no verificado: id pronto o preguntad al llegar",
+    "foto": {
+     "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/%D0%9E%D1%85%D1%80%D0%B8%D0%B4%D1%81%D0%BA%D0%B8_%D0%BA%D1%80%D0%B0%D0%BF_%28%D0%BF%D0%BE%D0%BB%D0%BD%D0%B5%D1%82%29.jpg/960px-%D0%9E%D1%85%D1%80%D0%B8%D0%B4%D1%81%D0%BA%D0%B8_%D0%BA%D1%80%D0%B0%D0%BF_%28%D0%BF%D0%BE%D0%BB%D0%BD%D0%B5%D1%82%29.jpg",
+     "alt": "Carpa rellena",
+     "autor": "Alextrajcheski",
+     "licencia": "CC BY-SA 4.0",
+     "fuente": "https://commons.wikimedia.org/wiki/File:%D0%9E%D1%85%D1%80%D0%B8%D0%B4%D1%81%D0%BA%D0%B8_%D0%BA%D1%80%D0%B0%D0%BF_%28%D0%BF%D0%BE%D0%BB%D0%BD%D0%B5%D1%82%29.jpg"
+    },
+    "itinerario": "Domingo 6 · comida en Plovdiv",
+    "resumen": "El restaurante que repiten todas las reseñas de Plovdiv, en el corazón del barrio de Kapana: cocina búlgara con un giro moderno, producto fresco del día y pan casero. Siempre lleno.",
+    "platos": [
+     "El 6 de diciembre es Nikulden: preguntad por la carpa o el pescado del día",
+     "Ensalada Pavaj y la tabla de quesos",
+     "Albóndigas de la casa",
+     "Tarta de queso con baklava de postre"
+    ],
+    "valoracion": null
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     24.74879,
+     42.14914
+    ]
+   }
+  }
+ ]
 }

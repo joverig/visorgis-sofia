@@ -1,241 +1,241 @@
 [
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-banyabashi--halite",
   "texto": "Del alminar al mercado. Dos minutos bastan para pasar de la mezquita de Banya Bashi al Mercado Central cruzando el bulevar Maria Luiza. Antes de cruzar, fíjate en las fuentes de agua mineral caliente junto a la mezquita, donde los vecinos llenan garrafas como se hace aquí desde hace siglos. Al otro lado espera el mercado de 1911, con su fachada neorrenacentista y su reloj. Por el camino verás: Las fuentes de agua mineral caliente; Los tranvías del bulevar Maria Luiza; La fachada y el reloj del mercado."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-halite--banyabashi",
   "texto": "Del mercado al alminar. Al salir del Mercado Central, cruza el bulevar Maria Luiza y tendrás delante la mezquita de Banya Bashi, la única de la ciudad que sigue abierta al culto. Su nombre significa «muchos baños»: se levantó en el siglo XVI junto a los manantiales termales que dieron origen a Sofía. Por el camino verás: Los tranvías del bulevar Maria Luiza; Las fuentes de agua mineral caliente; La cúpula y el alminar de la mezquita."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-serdica--rotonda",
   "texto": "Rodeando el Largo. Desde la estación romana de Serdica, el camino rodea el gran conjunto del Largo, levantado por el régimen comunista en los años cincuenta sobre las ruinas que dejaron los bombardeos de la guerra. Por el camino pasarás junto a la guardia de honor de la Presidencia y el antiguo bezistén otomano, hoy Museo Arqueológico, antes de colarte en el patio donde se esconde la Rotonda de San Jorge. Por el camino verás: La iglesia hundida de Santa Petka; Los restos romanos del Largo; El cambio de guardia ante la Presidencia; Las cúpulas del Museo Arqueológico."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-rotonda--serdica",
   "texto": "De la Rotonda a las ruinas del metro. Saliendo del patio de la Rotonda, el camino rodea los edificios del Largo y la Presidencia antes de bajar a la estación de Serdica, donde las calles romanas se ven bajo cristal. Es un paseo corto que resume tres épocas: la Antigüedad, el periodo otomano y la arquitectura socialista. Por el camino verás: Las cúpulas del Museo Arqueológico; La guardia de honor de la Presidencia; Los restos romanos del Largo; La iglesia hundida de Santa Petka."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-rusa--galeria",
   "texto": "Hacia el palacio por el museo. De las cúpulas doradas de la Iglesia rusa al antiguo Palacio Real, pasando por delante del Museo de Historia Natural, el más antiguo de los Balcanes. El bulevar Tsar Osvoboditel, con sus adoquines amarillos, acompaña todo el paseo. Por el camino verás: Los adoquines amarillos del bulevar; El Museo de Historia Natural; La fachada del antiguo Palacio Real."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-galeria--rusa",
   "texto": "Del palacio a las cúpulas rusas. Desde el antiguo Palacio Real se sube por el bulevar Tsar Osvoboditel hasta la Iglesia rusa, con parada en el Museo de Historia Natural. La iglesia, de 1914, sigue el estilo de los templos moscovitas del siglo XVII y es una de las imágenes más fotografiadas de Sofía. Por el camino verás: Los jardines del antiguo palacio; El Museo de Historia Natural; Las cúpulas doradas de la Iglesia rusa."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-halite--sinagoga",
   "texto": "A la vuelta del mercado. La Sinagoga de Sofía, la mayor sefardí de Europa, está literalmente a la vuelta de la esquina del Mercado Central. Antes de llegar verás asomar su gran cúpula entre los edificios. Por el camino verás: El lateral del Mercado Central; La calle Exarca José I; La cúpula de la sinagoga."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-sinagoga--halite",
   "texto": "De la sinagoga al mercado. De la gran sinagoga sefardí, inaugurada en 1909, al Mercado Central en menos de tres minutos. Dentro del mercado hay puestos de comida y cafés: buena parada para reponer fuerzas. Por el camino verás: La calle Exarca José I; La fachada lateral del mercado."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-banyabashi--banos",
   "texto": "El barrio del agua caliente. La mezquita y los Baños Minerales Centrales se miran casi de frente. Sofía nació aquí, junto a los manantiales termales que ya aprovechaban tracios y romanos. El edificio de los baños, de 1913, con sus cerámicas de aire neobizantino, alberga hoy el Museo Regional de Historia. Por el camino verás: Las fuentes públicas de agua termal; El jardín frente a los baños; La fachada de los Baños Minerales."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-banos--banyabashi",
   "texto": "De los baños a la mezquita. Desde los Baños Minerales se cruza el jardín hasta la mezquita de Banya Bashi. Por el camino, las fuentes de agua mineral caliente siguen siendo un punto de encuentro de los vecinos. La mezquita, de 1576, se atribuye a la escuela del gran arquitecto otomano Mimar Sinán. Por el camino verás: El jardín de los baños; Las fuentes de agua termal; El alminar de Banya Bashi."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-nevski--santasofia",
   "texto": "De la catedral a la basílica. Del templo más grande y espectacular de la ciudad a la iglesia más antigua que le da nombre. Son apenas tres minutos, pero separan catorce siglos de historia. En el jardín de Santa Sofía descansan el poeta Iván Vázov y el Soldado Desconocido, custodiado por un león de bronce. Por el camino verás: Los puestos de iconos y antigüedades de la plaza; La tumba del Soldado Desconocido; La tumba de Iván Vázov."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-santasofia--nevski",
   "texto": "De la basílica a la catedral. Desde la sobria basílica de ladrillo se cruza la plaza hacia las cúpulas doradas de Alejandro Nevski. El contraste es enorme: la sencillez paleocristiana frente al esplendor neobizantino de principios del siglo XX. Por el camino verás: La tumba del Soldado Desconocido; Los puestos de iconos y antigüedades; La fachada de la catedral."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-serdica--nedelya",
   "texto": "Bajo la mirada de Santa Sofía. Desde las ruinas del metro de Serdica se pasa junto a la iglesia hundida de Santa Petka y bajo la estatua dorada de Santa Sofía, antes de llegar a la catedral de Sveta Nedelya. Esta catedral sufrió en 1925 el atentado más sangriento de la historia de Bulgaria y fue reconstruida poco después. Por el camino verás: La iglesia hundida de Santa Petka; La estatua de Santa Sofía; La plaza de Sveta Nedelya."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-nedelya--serdica",
   "texto": "De la catedral a las ruinas romanas. Desde Sveta Nedelya se camina hacia el cruce de Serdica, pasando bajo la estatua de Santa Sofía y junto a la pequeña iglesia de Santa Petka, medio enterrada. Al final, el complejo del metro muestra calles y casas de la ciudad romana bajo cristal. Por el camino verás: La plaza de Sveta Nedelya; La estatua de Santa Sofía; La iglesia hundida de Santa Petka."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-rotonda--nedelya",
   "texto": "Dos templos, dos épocas. De la Rotonda de San Jorge, la iglesia más antigua de Sofía, a la catedral de Sveta Nedelya, saliendo del patio que rodean la Presidencia y el antiguo Hotel Balkan. El contraste es enorme: un pequeño templo romano del siglo IV frente a una gran catedral reconstruida en el siglo XX. Por el camino verás: El patio de la Rotonda; El antiguo Hotel Balkan; La plaza de Sveta Nedelya."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-nedelya--rotonda",
   "texto": "Al patio escondido. Desde Sveta Nedelya se entra en el patio entre la Presidencia y el antiguo Hotel Balkan, donde la Rotonda de San Jorge sobrevive desde el siglo IV rodeada de ruinas romanas. En su interior se conservan frescos medievales superpuestos de distintas épocas. Por el camino verás: La plaza de Sveta Nedelya; El antiguo Hotel Balkan; Los restos de calles romanas del patio."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-serdica--halite",
   "texto": "Por el antiguo cardo. Este tramo sigue aproximadamente el eje norte-sur de la ciudad romana, el cardo máximo, que hoy continúa el bulevar Maria Luiza. Por el camino aparecen la iglesia hundida de Santa Petka y la estatua de Santa Sofía, el símbolo moderno de la ciudad. Por el camino verás: La iglesia hundida de Santa Petka; La estatua de Santa Sofía; La fachada del Mercado Central."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-halite--serdica",
   "texto": "Del mercado a las ruinas. Desde el Mercado Central se baja por el eje de la antigua ciudad romana hasta el cruce de Serdica. La estatua de Santa Sofía, levantada en el año 2000 donde antes estuvo la de Lenin, preside el final del paseo. Por el camino verás: El bulevar Maria Luiza; La estatua de Santa Sofía; La iglesia hundida de Santa Petka."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-nevski--parlamento",
   "texto": "La explanada de la catedral. De la catedral de Alejandro Nevski se baja hacia la plaza de la Asamblea, con las cúpulas doradas a la espalda y el Zar Libertador a caballo delante. Ambos monumentos cuentan la misma historia: la gratitud de Bulgaria hacia Rusia tras la guerra de 1877-1878. Por el camino verás: La Academia de Ciencias; El Monumento al Zar Libertador; La fachada del Parlamento."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-parlamento--nevski",
   "texto": "Subiendo hacia las cúpulas. Desde el Parlamento se sube hacia la catedral de Alejandro Nevski, cuyas cúpulas doradas van apareciendo poco a poco. Es uno de los paseos más fotogénicos de Sofía, sobre todo al atardecer. Por el camino verás: El Monumento al Zar Libertador; La Academia de Ciencias; Las cúpulas doradas de la catedral."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-santasofia--rusa",
   "texto": "Entre iglesias. De la sobria basílica de ladrillo a las cúpulas doradas de la Iglesia rusa, por calles tranquilas con edificios de principios del siglo XX. En la cripta de la Iglesia rusa está la tumba del arzobispo Serafín, donde muchos fieles dejan notas con sus deseos. Por el camino verás: Edificios de principios del siglo XX; El bulevar Tsar Osvoboditel; Las cúpulas de la Iglesia rusa."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-rusa--santasofia",
   "texto": "De las cúpulas rusas a la basílica. Desde la Iglesia rusa se sube hacia Santa Sofía, la basílica que dio nombre a la ciudad. Bajo su suelo hay una necrópolis paleocristiana que se puede visitar. Por el camino verás: El bulevar Tsar Osvoboditel; Calles tranquilas del barrio diplomático; La basílica de ladrillo de Santa Sofía."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-rusa--teatro",
   "texto": "A través del Jardín de la Ciudad. Desde la Iglesia rusa se baja hacia el Jardín de la Ciudad, el parque más antiguo de Sofía, para terminar ante el Teatro Nacional. En el jardín se reúnen jubilados a jugar al ajedrez, y la fuente frente al teatro es un punto de encuentro. Por el camino verás: La Galería Nacional; Los jugadores de ajedrez del jardín; La fachada del Teatro Nacional."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-teatro--rusa",
   "texto": "Del teatro a la Iglesia rusa. Desde el Teatro Nacional se cruza el Jardín de la Ciudad y se sube hacia las cúpulas doradas de la Iglesia rusa. El teatro, de 1906, lleva el nombre del escritor Iván Vázov. Por el camino verás: La fuente del teatro; El Jardín de la Ciudad; Las cúpulas de la Iglesia rusa."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-galeria--teatro",
   "texto": "El jardín del palacio. Del antiguo Palacio Real al Teatro Nacional por el Jardín de la Ciudad. Es el paseo más verde del centro histórico. La fachada del teatro fue diseñada por arquitectos vieneses especializados en teatros. Por el camino verás: Los jardines del palacio; Las mesas de ajedrez del Jardín de la Ciudad; La fachada del Teatro Nacional."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-teatro--galeria",
   "texto": "Del teatro al palacio. Desde el Teatro Nacional se cruza el Jardín de la Ciudad hasta el antiguo Palacio Real, residencia de los príncipes y zares de Bulgaria hasta 1946. Hoy alberga la Galería Nacional y el Museo Etnográfico. Por el camino verás: La fuente del teatro; El Jardín de la Ciudad; La fachada del antiguo Palacio Real."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-santasofia--galeria",
   "texto": "Bajando por la Ópera. Desde la colina de Santa Sofía se baja hacia el antiguo Palacio Real, pasando por delante de la Ópera Nacional y del Museo de Historia Natural. Es un paseo por calles tranquilas con algunos de los edificios culturales más importantes del país. Por el camino verás: La Ópera Nacional; El Museo de Historia Natural; La fachada del antiguo Palacio Real."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-galeria--santasofia",
   "texto": "Del palacio a la basílica. Desde el antiguo Palacio Real se sube hacia Santa Sofía pasando junto al Museo de Historia Natural y la Ópera Nacional. Al final, la sencilla basílica de ladrillo contrasta con la catedral dorada que tiene al lado. Por el camino verás: El Museo de Historia Natural; La Ópera Nacional; La basílica de Santa Sofía."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-serdica--sinagoga",
   "texto": "De Serdica a la sinagoga. Desde el cruce de Serdica, pasando junto a Santa Petka y la estatua de Santa Sofía, se llega a la gran Sinagoga de Sofía. En pocos minutos se recorre el centro donde convivieron durante siglos ortodoxos, musulmanes y judíos. Por el camino verás: La iglesia hundida de Santa Petka; La estatua de Santa Sofía; La cúpula de la sinagoga."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-sinagoga--serdica",
   "texto": "De la sinagoga a las ruinas. Desde la sinagoga se camina hacia el cruce de Serdica, bajo la estatua de Santa Sofía. Al final del paseo, el complejo del metro muestra la ciudad romana bajo el suelo actual. Por el camino verás: La calle Exarca José I; La estatua de Santa Sofía; La iglesia hundida de Santa Petka."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-serdica--banos",
   "texto": "Del Largo a los baños. Desde las ruinas del metro se rodea el conjunto del Largo hasta llegar a los Baños Minerales Centrales, donde nació la ciudad junto a los manantiales termales. Por el camino se pasa junto a Santa Petka y los edificios monumentales de los años cincuenta. Por el camino verás: La iglesia hundida de Santa Petka; Los edificios del Largo; El jardín de los Baños Minerales."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-banos--serdica",
   "texto": "De los baños a Serdica. Desde los Baños Minerales se baja junto al Largo hasta el cruce de Serdica. El paseo une el origen termal de la ciudad con su corazón romano. Por el camino verás: El jardín de los Baños Minerales; Los edificios del Largo; La iglesia hundida de Santa Petka."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-nedelya--sinagoga",
   "texto": "Del templo cristiano al judío. De la catedral de Sveta Nedelya a la Sinagoga de Sofía, pasando bajo la estatua de Santa Sofía. La sinagoga tiene una gran lámpara de araña de bronce que se cuenta entre las mayores de su tipo. Por el camino verás: La plaza de Sveta Nedelya; La estatua de Santa Sofía; La cúpula de la sinagoga."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-sinagoga--nedelya",
   "texto": "De la sinagoga a Sveta Nedelya. Desde la sinagoga se baja hasta la catedral de Sveta Nedelya pasando por el cruce de Serdica. El paseo recorre en pocos minutos tres siglos de historia religiosa de la ciudad. Por el camino verás: La calle Exarca José I; La estatua de Santa Sofía; La plaza de Sveta Nedelya."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-rotonda--teatro",
   "texto": "De la Rotonda al Jardín. Desde el patio de la Rotonda se cruza el centro hasta el Jardín de la Ciudad y el Teatro Nacional. En el jardín, las mesas de ajedrez y la fuente del teatro invitan a una pausa. Por el camino verás: El patio de la Rotonda; El Jardín de la Ciudad; El Teatro Nacional."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-teatro--rotonda",
   "texto": "Del teatro a la Rotonda. Desde el Teatro Nacional se cruza el Jardín de la Ciudad y se llega al patio escondido de la Rotonda de San Jorge. La Rotonda, del siglo IV, es el edificio más antiguo que sigue en pie en Sofía. Por el camino verás: La fuente del teatro; El Jardín de la Ciudad; El patio de la Rotonda."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-rusa--parlamento",
   "texto": "El bulevar de los adoquines amarillos. El paseo recorre el bulevar Tsar Osvoboditel, pavimentado con los famosos adoquines amarillos que, según la tradición, fueron un regalo de boda para el príncipe Fernando. A lo largo del bulevar se suceden edificios elegantes hasta llegar al Parlamento y al monumento del Zar Libertador. Por el camino verás: Los adoquines amarillos; Edificios señoriales de principios del siglo XX; El Monumento al Zar Libertador."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-parlamento--rusa",
   "texto": "Por los adoquines hacia la Iglesia rusa. Desde la plaza del Parlamento se recorre el bulevar Tsar Osvoboditel hacia las cúpulas doradas de la Iglesia rusa. Es el bulevar más elegante de Sofía y el escenario de los grandes desfiles. Por el camino verás: El Monumento al Zar Libertador; Los adoquines amarillos; Las cúpulas de la Iglesia rusa."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-banos--galeria",
   "texto": "Del agua termal al palacio. Desde los Baños Minerales se baja por el Largo, pasando junto a la Presidencia y el Museo Arqueológico, hasta el antiguo Palacio Real. Es un paseo que concentra los grandes edificios del poder búlgaro de distintas épocas. Por el camino verás: El jardín de los Baños Minerales; Los edificios del Largo; El Museo Arqueológico; La fachada del antiguo Palacio Real."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-galeria--banos",
   "texto": "Del palacio a los baños. Desde el antiguo Palacio Real se pasa junto al Museo Arqueológico y la Presidencia y se sube por el Largo hasta los Baños Minerales. Al final del paseo, las fuentes de agua termal invitan a probar el agua mineral de Sofía. Por el camino verás: El Museo Arqueológico; La guardia de honor de la Presidencia; Los edificios del Largo; Las fuentes de agua termal."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-boyana--historia",
   "texto": "Por las faldas de Vitosha. De la Iglesia de Boyana, Patrimonio de la Humanidad, al Museo Nacional de Historia, por el barrio de Boyana al pie de la montaña Vitosha. El museo ocupa una antigua residencia gubernamental de la época socialista y guarda grandes tesoros tracios. Por el camino verás: Las calles residenciales de Boyana; Vistas a la montaña Vitosha; Los jardines del museo."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-historia--boyana",
   "texto": "Del museo a la iglesia de los frescos. Desde el Museo Nacional de Historia se camina por el barrio de Boyana hasta su pequeña iglesia medieval. Sus frescos de 1259 se consideran precursores del Renacimiento europeo por el realismo de sus rostros. Por el camino verás: Los jardines del museo; Vistas a la montaña Vitosha; El bosque que rodea la iglesia."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-teatro--ndk",
   "texto": "Por la plaza de los libros. Desde el Teatro Nacional se baja hacia el Palacio Nacional de Cultura, pasando por la plaza Slaveykov, donde los poetas padre e hijo esperan sentados en un banco de bronce. Al final del paseo aparece la gran explanada del NDK, con la montaña Vitosha al fondo en los días claros. Por el camino verás: La plaza Slaveykov y sus puestos de libros; Calles comerciales del centro; La explanada y las fuentes del NDK."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-ndk--teatro",
   "texto": "Del palacio al teatro. Desde la explanada del NDK se sube hacia el centro, pasando por la plaza Slaveykov, hasta el Teatro Nacional. Es un paseo por la zona comercial de Sofía, con cafés y tiendas a cada paso. Por el camino verás: La explanada del NDK; Calles comerciales del centro; La plaza Slaveykov."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-nedelya--ndk",
   "texto": "Por el bulevar Vitosha. Desde la catedral de Sveta Nedelya se baja por el bulevar Vitosha, la gran calle peatonal y comercial de Sofía, hasta el Palacio Nacional de Cultura. La montaña Vitosha acompaña todo el paseo al fondo del bulevar. Por el camino verás: La plaza de Sveta Nedelya; Terrazas y tiendas del bulevar Vitosha; La explanada del NDK."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-ndk--nedelya",
   "texto": "Del NDK a Sveta Nedelya. Desde el Palacio Nacional de Cultura se sube por el bulevar Vitosha hasta la catedral de Sveta Nedelya. Es el paseo más animado de la ciudad, sobre todo al caer la tarde. Por el camino verás: La explanada del NDK; Terrazas y tiendas del bulevar Vitosha; La catedral de Sveta Nedelya."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-ndk--historia",
   "texto": "Hacia el Museo de Historia. El Museo Nacional de Historia está en Boyana, a las afueras, a unos seis kilómetros del centro. Andando no es un paseo razonable. Lo más cómodo es un taxi, unos veinte minutos. En transporte público hay autobuses urbanos hacia Boyana; consulta la aplicación oficial de transporte de Sofía."
  },
  {
-  "app": "viajando",
+  "app": "explora",
   "id": "ruta-historia--ndk",
   "texto": "Del Museo de Historia al centro. Para volver al centro desde Boyana, lo más cómodo es un taxi, unos veinte minutos hasta el Palacio Nacional de Cultura. También hay autobuses urbanos que conectan Boyana con el centro."
  }

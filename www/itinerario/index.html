@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#a8322a">
+  <meta name="description" content="El plan día a día del viaje a Sofía y Plovdiv (4-8 de diciembre), con mapa y narración de cada parada y cada camino.">
+  <title>Itinerario · Sofía 4-8 dic</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Manrope:wght@400;600&display=swap">
+  <script>
+    (function () {
+      var VERSION = '202611231940';
+      if (location.protocol.indexOf('http') !== 0) return;
+      fetch('../version.txt', { cache: 'no-store' }).then(function (r) { return r.ok ? r.text() : ''; }).then(function (v) {
+        v = (v || '').trim();
+        if (v && v !== VERSION && sessionStorage.getItem('recargado') !== v) {
+          try { sessionStorage.setItem('recargado', v); } catch (e) {}
+          location.replace(location.pathname + '?v=' + v + location.hash);
+        }
+      }).catch(function () {});
+    })();
+  </script>
+  <link rel="stylesheet" href="../comun/lib/ol/ol.css">
+  <script src="../comun/lib/ol/ol.js"></script>
+  <script>
+    if (!window.ol) document.write('<script src="https://cdn.jsdelivr.net/npm/ol@10.5.0/dist/ol.js"><\/script>');
+  </script>
+  <link rel="stylesheet" href="../comun/comun.css?v=202611231940">
+  <link rel="stylesheet" href="../explora/css/explora.css?v=202611231940">
+  <link rel="stylesheet" href="css/itinerario.css?v=202611231940">
+</head>
+<body>
+  <div id="mapa"></div>
+
+  <header class="cabecera">
+    <h1>Itinerario <span>4-8 dic</span></h1>
+  </header>
+
+  <div class="botones-mapa">
+    <button id="gps" class="redondo" title="Mi posición" aria-label="Mi posición"></button>
+    <button id="capa" class="redondo" aria-label="Cambiar mapa base"></button>
+  </div>
+
+  <aside class="panel" id="panel">
+    <div class="tirador" id="tirador" aria-hidden="true"></div>
+    <div class="panel-cuerpo" id="cuerpo">
+      <!-- Un día: pestañas, presentación narrada y lista de paradas y caminos -->
+      <section id="vista-dia">
+        <nav class="dias" id="dias" aria-label="Días del viaje"></nav>
+        <span class="categoria" id="d-fecha"></span>
+        <h2 id="d-lema"></h2>
+        <div class="zona" id="zona" hidden>
+          <button data-zona="sofia">Ver Sofía</button><button data-zona="plovdiv">Ver Plovdiv</button>
+        </div>
+        <button id="d-narrar" class="narrador" disabled></button>
+        <div class="historia" id="d-intro"></div>
+        <button class="leer-mas" id="leer-mas">Leer la presentación completa</button>
+        <h3 class="pasos-tit">Paradas y caminos</h3>
+        <ul class="pasos" id="pasos"></ul>
+        <p class="nota-fuentes">Horarios y precios comprobados en noviembre de 2026; los marcados como estimados pueden variar. Los lugares visitados se comparten con Explora Sofía.</p>
+      </section>
+      <!-- Una parada o un camino -->
+      <section id="vista-paso" hidden>
+        <div class="ruta-barra">
+          <button class="volver-lista" id="volver-dia">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M14.5 5.5 8 12l6.5 6.5 1.5-1.5-5-5 5-5z"/></svg>Todo el día
+          </button>
+          <button class="cerrar-ruta" id="cerrar-paso" title="Volver al día" aria-label="Cerrar">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.3 5.7 12 12l6.3 6.3-1.4 1.4L10.6 13.4 4.3 19.7 2.9 18.3 9.2 12 2.9 5.7 4.3 4.3l6.3 6.3 6.3-6.3z"/></svg>
+          </button>
+        </div>
+        <span class="categoria" id="p-tipo"></span>
+        <h2 id="p-titulo"></h2>
+        <p class="sub" id="p-sub"></p>
+        <div class="ruta-cifras" id="p-cifras" hidden><strong id="p-min"></strong><span id="p-dist"></span></div>
+        <p class="precio-paso" id="p-precio" hidden></p>
+        <p class="alternativa" id="p-alt" hidden></p>
+        <div class="acciones-ficha">
+          <button id="p-narrar" class="narrador" disabled></button>
+          <button id="p-visitado" class="btn-visitado" aria-pressed="false" hidden></button>
+        </div>
+        <ul class="datos-paso" id="p-datos" hidden></ul>
+        <div class="historia ruta-texto" id="p-texto"></div>
+        <div class="acciones-rest" id="p-ir"></div>
+        <div class="anterior-siguiente">
+          <button id="p-ant" class="paso-nav"></button>
+          <button id="p-sig" class="paso-nav sig"></button>
+        </div>
+      </section>
+    </div>
+  </aside>
+
+  <script src="../comun/comun.js?v=202611231940"></script>
+  <script src="js/itinerario.js?v=202611231940"></script>
+</body>
+</html>
