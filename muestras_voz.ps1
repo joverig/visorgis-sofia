@@ -19,7 +19,7 @@ foreach ($v in $voces) {
         if ($estilos -contains $e) { $variantes += @{ suf = $e; estilo = $e; rate = '-6%'; pitch = '-4%'; desc = "Estilo $e" } }
     }
     foreach ($va in $variantes) {
-        $nombre = "$($v.ShortName)_$($va.suf).mp3"
+        $nombre = "$($v.ShortName -replace '[:\\/*?"<>|]', '-')_$($va.suf).mp3"   # ':' no vale en nombres de fichero de Windows
         $dest = Join-Path $dir $nombre
         try {
             Sintetizar $cfg (Ssml $v.ShortName $texto $va.estilo $va.rate $va.pitch) $dest
