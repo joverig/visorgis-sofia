@@ -8,7 +8,16 @@
   const rest = [], porId = {};
   const estado = { sel: null, yo: null, filtro: null };
   const TIPOS = { restaurante: 'Restaurantes', bar: 'Bares y copas', desayuno: 'Desayuno', mercado: 'Mercado' };
-  const EMOJI = { restaurante: '🍴', bar: '🍸', desayuno: '☕', mercado: '🧺' };
+  const COLOR = { restaurante: '#7a1f19', bar: '#2f5d7c', desayuno: '#a8711c', mercado: '#5f7a34' };
+  /* Glifos blancos en SVG (24x24): más claros que los emojis a tamaño de marcador */
+  const B = 'fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"';
+  const GLIFOS = {
+    restaurante: '<g ' + B + '><path d="M5.5 3v5.5a3 3 0 0 0 6 0V3M8.5 3v5.5M8.5 11.5V21"/><path d="M18 21V3c-2.3 1.3-3.5 4.2-3.5 7.8 0 2 1.4 3 3.5 3"/></g>',
+    bar: '<g ' + B + '><path d="M4 4h16l-8 8.5zM12 12.5V20M8 20h8"/></g><path d="M7.2 7.2h9.6L12 12.3z" fill="#fff"/>',
+    desayuno: '<g ' + B + '><path d="M4 9h12v5a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5zM16 10.5h1.5a2.5 2.5 0 0 1 0 5H16M8 3.5c-.8 1 .8 2 0 3M12 3.5c-.8 1 .8 2 0 3"/></g>',
+    mercado: '<g ' + B + '><path d="M3 10h18l-2 10H5zM8 10l3-6M16 10l-3-6M9 13.5v3.5M15 13.5v3.5M12 13.5v3.5"/></g>'
+  };
+  const svgCat = (c, tam, borde) => '<svg xmlns="http://www.w3.org/2000/svg" width="' + tam + '" height="' + tam + '" viewBox="-6 -6 36 36"><circle cx="12" cy="12" r="' + (borde ? 16.3 : 18) + '" fill="' + (COLOR[c] || COLOR.restaurante) + '"' + (borde ? ' stroke="' + borde + '" stroke-width="3.4"' : '') + '/>' + (GLIFOS[c] || GLIFOS.restaurante) + '</svg>';
   const pasa = (r) => !estado.filtro || r.categoria === estado.filtro;
 
   function metros(a, b) {
@@ -26,12 +35,11 @@
     const oculto = !pasa(r);
     const k = r.id + sel + oculto;
     if (!cache[k]) {
-      const color = r.categoria === 'bar' ? '#2f5d7c' : r.categoria === 'desayuno' || r.categoria === 'mercado' ? '#a8711c' : '#7a1f19';
+      const tam = sel ? 32 : 24;
       const st = [new S.Style({
-        image: new S.Circle({ radius: sel ? 12 : 9, fill: new S.Fill({ color: sel ? '#a8322a' : color }), stroke: new S.Stroke({ color: sel ? '#e0b04a' : '#fff', width: sel ? 3.5 : 2.5 }) }),
-        text: new S.Text({ text: EMOJI[r.categoria] || '🍴', font: (sel ? 12 : 10) + 'px sans-serif' }), zIndex: sel ? 20 : 10,
+        image: new S.Icon({ src: 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgCat(r.categoria, tam, sel ? '#e0b04a' : '#fff')), width: tam, height: tam, opacity: oculto ? 0.3 : 1 }),
+        zIndex: sel ? 20 : 10,
       })];
-      if (oculto) st[0].getImage().setOpacity(0.3);
       cache[k] = st;
     }
     return cache[k];
@@ -101,7 +109,7 @@
     const cont = $('filtros'); cont.innerHTML = '';
     [null].concat(Object.keys(TIPOS).filter((t) => rest.some((r) => r.categoria === t))).forEach((t) => {
       const b = document.createElement('button');
-      b.textContent = t ? EMOJI[t] + ' ' + TIPOS[t] : 'Todos';
+      if (t) { b.innerHTML = svgCat(t, 20); b.appendChild(document.createTextNode(TIPOS[t])); } else b.textContent = 'Todos';
       b.className = estado.filtro === t ? 'activo' : '';
       b.onclick = () => { estado.filtro = t; pintarLista(); capaRest.changed(); capaEtq.changed(); };
       cont.appendChild(b);

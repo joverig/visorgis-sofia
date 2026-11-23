@@ -27,3 +27,5 @@
 .nota-pedir { background: rgba(184,134,43,.12); border-left: 3px solid var(--oro); padding: 7px 10px; border-radius: 0 8px 8px 0; font-size: 13.5px; line-height: 1.45; margin: 0 0 12px; }
 .lista small .en-plan { display: inline-block; margin-left: 6px; color: var(--carmesi); font-weight: 700; }
 .lista small .ciudad { color: var(--turquesa); }
+.filtros button { display: inline-flex; align-items: center; gap: 5px; }
+.filtros button svg { flex: none; margin-left: -5px; }
