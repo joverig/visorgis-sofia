@@ -17,35 +17,52 @@ New-Item -ItemType Directory -Force -Path $dirRutas | Out-Null
 $utf8 = New-Object System.Text.UTF8Encoding($false)
 $ua = 'visorgis-sofia/1.0 (github.com/joverig/visorgis-sofia)'
 
-# Si .NET no consigue abrir el canal seguro (Windows antiguo, proxy...), se usa curl.exe de Windows.
-$script:usarCurl = $false
-$curl = Join-Path $env:SystemRoot 'System32\curl.exe'
-function PedirCurl([string]$url, [string]$cuerpo) {
-    if (-not (Test-Path $curl)) { throw 'No hay curl.exe en este Windows' }
+# El servidor de rutas solo acepta cifrados TLS modernos que el HTTPS de Windows (.NET y el
+# curl.exe del sistema, ambos con "schannel") no siempre ofrece. Si falla, se prueban en orden:
+#   1. curl de Git para Windows (usa OpenSSL)   2. Python (usa OpenSSL)   3. curl.exe del sistema
+# y se sigue con el primero que funcione.
+$script:metodo = $null
+$curlSistema = Join-Path $env:SystemRoot 'System32\curl.exe'
+$curlGit = @("$env:ProgramFiles\Git\mingw64\bin\curl.exe", "${env:ProgramFiles(x86)}\Git\mingw64\bin\curl.exe",
+             "$env:LOCALAPPDATA\Programs\Git\mingw64\bin\curl.exe") | Where-Object { $_ -and (Test-Path $_) } | Select-Object -First 1
+$python = Get-Command python, py -ErrorAction SilentlyContinue | Where-Object { $_.Source -notmatch 'WindowsApps' } | Select-Object -First 1
+$pyDescarga = Join-Path $env:TEMP 'visorgis_sofia_descarga.py'
+[System.IO.File]::WriteAllText($pyDescarga, @'
+import sys, urllib.request
+url, salida, ua, cuerpo = sys.argv[1], sys.argv[2], sys.argv[3], (sys.argv[4] if len(sys.argv) > 4 else '')
+datos = open(cuerpo, 'rb').read() if cuerpo else None
+req = urllib.request.Request(url, data=datos, headers={'User-Agent': ua})
+if datos: req.add_header('Content-Type', 'application/x-www-form-urlencoded')
+with urllib.request.urlopen(req, timeout=180) as r:
+    open(salida, 'wb').write(r.read())
+'@, $utf8)
+
+function PedirExterno([string]$metodo, [string]$url, [string]$cuerpo) {
     $tmp = [System.IO.Path]::GetTempFileName()
     $tmpErr = [System.IO.Path]::GetTempFileName()
     $tmpCuerpo = $null
-    # curl escribe sus mensajes en un fichero: en Windows PowerShell 5.1 cualquier linea por
-    # stderr de un programa externo se convierte en error y corta el script.
+    # Los mensajes van a fichero: en Windows PowerShell 5.1 cualquier linea por stderr de un
+    # programa externo se convierte en error y corta el script.
     $prefAnterior = $ErrorActionPreference
     $ErrorActionPreference = 'Continue'
     try {
-        $parametros = @('-s', '-S', '-f', '-L', '--max-time', '120', '-A', $ua, '-o', $tmp, '--stderr', $tmpErr)
-        if ($cuerpo) {
-            $tmpCuerpo = [System.IO.Path]::GetTempFileName()
-            [System.IO.File]::WriteAllText($tmpCuerpo, $cuerpo, $utf8)
-            $parametros += @('-H', 'Content-Type: application/x-www-form-urlencoded', '--data-binary', "@$tmpCuerpo")
+        if ($cuerpo) { $tmpCuerpo = [System.IO.Path]::GetTempFileName(); [System.IO.File]::WriteAllText($tmpCuerpo, $cuerpo, $utf8) }
+        if ($metodo -eq 'python') {
+            if (-not $python) { throw 'Python no instalado' }
+            $pa = @($pyDescarga, $url, $tmp, $ua); if ($tmpCuerpo) { $pa += $tmpCuerpo }
+            & $python.Source @pa 2> $tmpErr | Out-Null
+        } else {
+            $exe = if ($metodo -eq 'curlgit') { $curlGit } else { $curlSistema }
+            if (-not $exe -or -not (Test-Path $exe)) { throw "No disponible: $metodo" }
+            $pa = @('-s', '-S', '-f', '-L', '--max-time', '180', '-A', $ua, '-o', $tmp, '--stderr', $tmpErr)
+            if ($metodo -eq 'curlsistema') { $pa = @('--ssl-no-revoke') + $pa }
+            if ($tmpCuerpo) { $pa += @('-H', 'Content-Type: application/x-www-form-urlencoded', '--data-binary', "@$tmpCuerpo") }
+            & $exe @pa $url | Out-Null
         }
-        & $curl @parametros $url | Out-Null
-        $codigo = $LASTEXITCODE
-        if ($codigo -eq 35 -or $codigo -eq 60) {
-            # Fallo de comprobacion de revocacion del certificado (habitual tras proxies): reintento sin ella
-            & $curl '--ssl-no-revoke' @parametros $url | Out-Null
-            $codigo = $LASTEXITCODE
-        }
-        if ($codigo -ne 0) {
+        if ($LASTEXITCODE -ne 0) {
             $msg = ([System.IO.File]::ReadAllText($tmpErr)).Trim()
-            throw "curl.exe codigo ${codigo}: $msg"
+            if ($msg.Length -gt 300) { $msg = $msg.Substring($msg.Length - 300) }
+            throw "$metodo codigo ${LASTEXITCODE}: $msg"
         }
         return [System.IO.File]::ReadAllText($tmp, $utf8)
     } finally {
@@ -54,8 +71,21 @@ function PedirCurl([string]$url, [string]$cuerpo) {
         if ($tmpCuerpo) { Remove-Item $tmpCuerpo -ErrorAction SilentlyContinue }
     }
 }
+function PedirAlternativo([string]$url, [string]$cuerpo) {
+    if ($script:metodo) { return PedirExterno $script:metodo $url $cuerpo }
+    $fallos = @()
+    foreach ($m in @('curlgit', 'python', 'curlsistema')) {
+        try {
+            $r = PedirExterno $m $url $cuerpo
+            $script:metodo = $m
+            Write-Host "  (descargando con $m)" -ForegroundColor Yellow
+            return $r
+        } catch { $fallos += "$m -> $($_.Exception.Message)" }
+    }
+    throw ("Ningun metodo HTTPS funciona en este PC:`n    " + ($fallos -join "`n    "))
+}
 function Pedir([string]$url, [string]$cuerpo) {
-    if ($script:usarCurl) { return PedirCurl $url $cuerpo }
+    if ($script:metodo) { return PedirExterno $script:metodo $url $cuerpo }
     $wc = New-Object System.Net.WebClient
     $wc.Headers.Add('User-Agent', $ua)
     $wc.Encoding = $utf8
@@ -66,9 +96,7 @@ function Pedir([string]$url, [string]$cuerpo) {
         return $wc.DownloadString($url)
     } catch [System.Net.WebException] {
         if ($_.Exception.Status -eq [System.Net.WebExceptionStatus]::SecureChannelFailure -or $_.Exception.Status -eq [System.Net.WebExceptionStatus]::TrustFailure) {
-            Write-Host '  (.NET no puede abrir HTTPS con este servidor; sigo con curl.exe)' -ForegroundColor Yellow
-            $script:usarCurl = $true
-            return PedirCurl $url $cuerpo
+            return PedirAlternativo $url $cuerpo
         }
         throw
     } finally { $wc.Dispose() }
