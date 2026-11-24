@@ -429,6 +429,26 @@
     V.alCambiar(() => { pintarVisitado(); if (estado.dia) pintarPasos(estado.dia); refrescar(); });
     window.addEventListener('hashchange', irAlHash);
     if (!irAlHash()) abrirDia(diaInicial());
+    prepararDemo();
+  }
+  function prepararDemo() {
+    let abierto = false;
+    const paradas = () => (estado.dia ? estado.dia.pasos.filter((p) => p.tipo === 'parada') : []);
+    SofiaComun.demoApp(document.querySelector('.botones-mapa'), {
+      clave: 'itinerario',
+      pasos: [
+        { titulo: 'Toca el mapa', texto: 'Cada número es una parada del día: tócalo para abrir su ficha. Las líneas son los caminos a pie entre paradas, y también se pueden tocar.', redondo: true,
+          antes: () => { if (estado.paso) cerrarPaso(); panelM.normal(); },
+          el: () => { const c = SofiaComun.coordVisible(map, paradas().map((p) => coordDe(p.lugar))); return c && SofiaComun.rectMapa(map, c, 22); }, opcional: true },
+        { titulo: 'Los días del viaje', texto: 'Cambia de día aquí. Debajo tienes la presentación del día y la lista de paradas.', el: '#dias' },
+        { titulo: 'Adelante y atrás', texto: 'Dentro de una parada, pasa a la siguiente o vuelve a la anterior sin salir de la ficha.', el: '.nav-pasos',
+          antes: () => { const p = paradas()[0]; if (p) { abrirPaso(p); abierto = true; } } },
+        { titulo: 'Escucha la historia', texto: 'Pulsa «Escuchar» para oír la narración del lugar mientras caminas.', el: '#p-narrar' },
+        { titulo: 'Más información', texto: 'Arrastra la ficha hacia arriba con el dedo para leerla entera; hacia abajo, para volver a ver el mapa.', el: '#tirador', antes: () => { $('cuerpo').scrollTop = 0; } },
+        { titulo: 'Volver', texto: '«El día» te devuelve al resumen del día. Y «Menú», arriba, a las demás apps del viaje.', el: '#volver-dia' }
+      ],
+      alFinal: () => { if (abierto && estado.paso) cerrarPaso(); }
+    });
   }
   document.addEventListener('DOMContentLoaded', iniciar);
 })();

@@ -41,7 +41,7 @@
 .pista-mapa.fuera { opacity: 0; transform: translate(-50%, -10px); }
 @keyframes pista-entra { from { opacity: 0; transform: translate(-50%, -12px); } }
 @keyframes pista-toca { 50% { transform: translateY(5px) scale(.92); } }
-@media (max-width: 760px) { .pista-mapa { top: auto; bottom: calc(42dvh + 14px); } }
+@media (max-width: 760px) { .pista-mapa { top: auto; bottom: calc(50dvh + 14px); } }
 @media (min-width: 761px) { .pista-mapa { left: calc(50% - 200px); } }
 /* Leyenda «Cómo se usa» */
 .leyenda-caja { position: fixed; z-index: 45; left: 12px; top: 76px; width: min(86vw, 330px); max-height: 70vh; overflow: auto;
@@ -92,3 +92,26 @@ body.sofia-saliendo { opacity: 0; transform: scale(.98); }
   background: rgba(168,50,42,.09); border: 1px solid rgba(168,50,42,.35); color: #a8322a; font-size: 13px; font-weight: 700; text-decoration: none; }
 .chip-itin:active { background: rgba(168,50,42,.18); }
 .chips-itin[hidden] { display: none; }
+
+/* ---------- Demo guiada ---------- */
+.sofia-demo { position: fixed; inset: 0; z-index: 2800; transition: opacity .25s; }
+.sofia-demo.fuera { opacity: 0; pointer-events: none; }
+.sofia-demo .sd-foco { position: fixed; border-radius: 14px; box-shadow: 0 0 0 9999px rgba(20, 16, 12, .62), 0 0 0 3px #e0b04a inset;
+  transition: left .35s ease, top .35s ease, width .35s ease, height .35s ease, border-radius .35s; pointer-events: none; }
+.sofia-demo .sd-bocadillo { position: fixed; background: #fffaf1; color: #22262c; border-radius: 16px; padding: 14px 16px 12px; box-shadow: 0 10px 30px rgba(0,0,0,.35);
+  transition: top .35s ease, left .35s ease, opacity .2s; font-size: 15px; line-height: 1.4; }
+.sofia-demo.cambiando .sd-bocadillo { opacity: 0; }
+.sofia-demo .sd-tit { display: block; font: 700 17px "Playfair Display", Georgia, serif; color: #a8322a; margin-bottom: 4px; }
+.sofia-demo .sd-tit:empty { display: none; }
+.sofia-demo .sd-txt { margin: 0 0 12px; }
+.sofia-demo .sd-pie { display: flex; align-items: center; gap: 8px; }
+.sofia-demo .sd-puntos { flex: 1; display: flex; gap: 5px; }
+.sofia-demo .sd-puntos i { width: 7px; height: 7px; border-radius: 50%; background: #d8cdbb; }
+.sofia-demo .sd-puntos i.on { background: #a8322a; width: 18px; border-radius: 4px; }
+.sofia-demo .sd-saltar { border: 0; background: none; color: #6b6458; font: 600 14px inherit; font-family: inherit; padding: 8px; cursor: pointer; }
+.sofia-demo .sd-sig { border: 0; background: #a8322a; color: #fff; border-radius: 999px; padding: 9px 18px; font: 700 14px inherit; font-family: inherit; cursor: pointer; }
+.sofia-demo .sd-flecha { position: absolute; width: 16px; height: 16px; background: #fffaf1; transform: translateX(-50%) rotate(45deg); }
+.sofia-demo .sd-flecha.arriba { top: -7px; }
+.sofia-demo .sd-flecha.abajo { bottom: -7px; }
+.sofia-demo .sd-flecha[hidden] { display: none; }
+@media (prefers-reduced-motion: reduce) { .sofia-demo .sd-foco, .sofia-demo .sd-bocadillo { transition: none; } }

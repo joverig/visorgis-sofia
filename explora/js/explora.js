@@ -591,6 +591,26 @@
       const c = ol.proj.fromLonLat([23.326, 42.695]);
       encuadrar(ol.extent.boundingExtent(puntos.filter((p) => metros(p.coord, c) < 3000).map((p) => p.coord)), 16);
     }
+    prepararDemo();
+  }
+  function prepararDemo() {
+    let abierto = false, ejemplo = null;
+    SofiaComun.demoApp(document.querySelector('.botones-mapa'), {
+      clave: 'explora',
+      pasos: [
+        { titulo: 'Toca el mapa', texto: 'Cada punto es un lugar: tócalo para ver su historia. Las líneas son caminos a pie narrados entre lugares.', redondo: true,
+          antes: () => { if (estado.punto || estado.ruta) cerrarPunto(); panelM.normal(); },
+          el: () => { const vis = puntos.filter(esPrincipal); const c = SofiaComun.coordVisible(map, vis.map((p) => p.coord)); ejemplo = c ? vis.find((p) => p.coord === c) : null; return c && SofiaComun.rectMapa(map, c, 20); }, opcional: true },
+        { titulo: 'Filtra', texto: 'Muestra solo un tipo de lugar o los que aún no has visitado.', el: '#filtros' },
+        { titulo: 'Escucha la historia', texto: 'En la ficha de cada lugar, «Escuchar» lee su historia en voz alta.', el: '#narrar',
+          antes: () => { const p = ejemplo || porId.nevski || puntos[0]; abrirPunto(p); abierto = true; } },
+        { titulo: 'Lee más', texto: 'Despliega la historia completa del lugar.', el: '#leer-mas', opcional: true },
+        { titulo: 'Caminos desde aquí', texto: 'Elige un camino a pie para verlo en el mapa, con los minutos y su narración.', el: '#f-rutas-tit', opcional: true },
+        { titulo: 'Más información', texto: 'Arrastra la ficha hacia arriba con el dedo para verla entera; hacia abajo, para ver el mapa.', el: '#tirador', antes: () => { $('cuerpo').scrollTop = 0; } },
+        { titulo: 'Cerrar', texto: 'La ✕ cierra la ficha y vuelve a la lista de lugares.', el: '#cerrar-punto', redondo: true }
+      ],
+      alFinal: () => { if (abierto && estado.punto) cerrarPunto(); }
+    });
   }
   document.addEventListener('DOMContentLoaded', iniciar);
 })();

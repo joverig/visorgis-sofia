@@ -55,13 +55,23 @@ main { padding: 0 12px 40px; margin-top: -16px; }
 .servicios .lado { text-align: right; font-size: 12px; }
 .servicios .dist { display: block; color: var(--turquesa); font-weight: 700; white-space: nowrap; }
 .servicios a { color: var(--carmesi); font-weight: 700; text-decoration: none; }
-.dias-tiempo { display: grid; grid-template-columns: repeat(auto-fit, minmax(96px, 1fr)); gap: 8px; }
-.dia-t { background: #fffaf1; border: 1px solid var(--linea); border-radius: 12px; padding: 10px 6px; text-align: center; display: flex; flex-direction: column; gap: 2px; }
-.dia-t small { font-weight: 700; text-transform: uppercase; font-size: 11.5px; color: var(--suave); }
-.dia-t .ico { font-size: 26px; }
-.dia-t b { font: 700 24px "Cormorant Garamond", Georgia, serif; color: var(--carmesi); }
-.dia-t .min { color: var(--turquesa); font-weight: 700; font-size: 13px; }
-.dia-t .lluvia, .dia-t .txt { font-size: 11.5px; color: var(--suave); }
+.dias-tiempo { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.dia-t { display: grid; grid-template-columns: 68px 1fr 80px; align-items: center; gap: 8px; background: #fffaf1; border: 1px solid var(--linea); border-radius: 12px; padding: 10px 12px; }
+.dia-t .fecha { display: flex; flex-direction: column; line-height: 1.15; }
+.dia-t .dn { font-weight: 700; font-size: 14px; }
+.dia-t .fecha b { font-weight: 500; font-size: 13px; color: var(--suave); }
+.dia-t .cielo { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.dia-t .cielo .ico { font-size: 28px; line-height: 1; flex: none; }
+.dia-t .cielo div { display: flex; flex-direction: column; min-width: 0; }
+.dia-t .txt { font-weight: 700; font-size: 14px; }
+.dia-t .lluvia { font-size: 12.5px; color: var(--turquesa); }
+.dia-t .temps { display: grid; grid-template-columns: auto 1fr; grid-template-areas: "max max" "barra barra" "min min"; gap: 3px; text-align: right; }
+.dia-t .t-max { grid-area: max; font-weight: 700; font-size: 16px; color: var(--carmesi); }
+.dia-t .t-min { grid-area: min; font-weight: 700; font-size: 14px; color: #2f5d7c; }
+.dia-t .temps small { font-weight: 500; font-size: 11.5px; color: var(--suave); }
+.dia-t .barra-t { grid-area: barra; position: relative; height: 5px; border-radius: 3px; background: #ece4d6; }
+.dia-t .barra-t i { position: absolute; top: 0; bottom: 0; border-radius: 3px; background: linear-gradient(90deg, #2f5d7c, #a8322a); }
+@media (max-width: 380px) { .dia-t { grid-template-columns: 62px 1fr 72px; gap: 6px; padding: 9px 10px; } .dia-t .cielo .ico { font-size: 24px; } }
 .consejos { margin: 0; padding-left: 18px; }
 .consejos li { margin: 4px 0; }
 .cab-nav .portal-volver { background: rgba(255,255,255,.1); color: #fff; border-color: rgba(255,255,255,.3); }
@@ -86,3 +96,5 @@ details[open] > summary { border-bottom: 1px solid var(--linea); margin-bottom: 
 main { margin-top: -14px; }
 details.tarjeta { margin-bottom: 10px; }
 @media (max-width: 600px) { details.tarjeta > summary { padding: 13px 10px; } .cab-tarjeta h2 { font-size: 20px; } details.tarjeta > .contenido { padding: 0 12px 14px; } }
+.leyenda-tiempo { margin: 0 0 8px; font-size: 12.5px; color: var(--suave); }
+.dia-t .lluvia { white-space: nowrap; }

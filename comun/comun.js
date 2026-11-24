@@ -297,13 +297,70 @@
     };
   }
   // En el móvil: botón «Ver lista» cuando el panel está plegado
+  /* Hoja inferior del móvil con tres alturas (bajo · normal · alto). Se cambia tocando el
+   * tirador o arrastrando con el dedo: desde el tirador o la parte de arriba de la hoja, hacia
+   * arriba desde el contenido (si la hoja no está del todo abierta) o hacia abajo cuando el
+   * contenido ya está arriba del todo. */
   function panelMovil(panel) {
     const b = document.createElement('button');
     b.className = 'ver-lista'; b.hidden = true;
     b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg>Ver lista';
     document.body.appendChild(b);
-    const poner = (clase) => { panel.className = 'panel' + (clase ? ' ' + clase : ''); b.hidden = clase !== 'bajo'; };
+    const ESTADOS = ['bajo', '', 'alto'];
+    const actual = () => (panel.classList.contains('alto') ? 'alto' : panel.classList.contains('bajo') ? 'bajo' : '');
+    const poner = (clase) => { panel.style.height = ''; panel.className = 'panel' + (clase ? ' ' + clase : ''); b.hidden = clase !== 'bajo'; };
     b.onclick = () => poner('');
+
+    // Alturas reales de cada estado (se miden aplicando la clase sin transición)
+    function alturas() {
+      const prev = panel.className, h = panel.style.height;
+      panel.style.transition = 'none'; panel.style.height = '';
+      const r = ESTADOS.map((c) => { panel.className = 'panel' + (c ? ' ' + c : ''); return panel.getBoundingClientRect().height; });
+      panel.className = prev; panel.style.height = h; void panel.offsetHeight; panel.style.transition = '';
+      return r;
+    }
+    const cuerpo = panel.querySelector('.panel-cuerpo') || panel;
+    let g = null;
+    panel.addEventListener('touchstart', (e) => {
+      if (e.touches.length !== 1 || window.innerWidth > 760) return;
+      const t = e.touches[0], top = panel.getBoundingClientRect().top;
+      const enAsa = !!e.target.closest('.tirador') || (t.clientY - top < 34 && !e.target.closest('button, a, input, select'));
+      g = { x0: t.clientX, y0: t.clientY, y: t.clientY, t0: e.timeStamp, h0: panel.getBoundingClientRect().height, enAsa, modo: null, hist: [] };
+    }, { passive: true });
+    panel.addEventListener('touchmove', (e) => {
+      if (!g) return;
+      const y = e.touches[0].clientY, dy = y - g.y0, dx = e.touches[0].clientX - g.x0;
+      if (!g.modo) {
+        if (Math.abs(dy) < 7 && Math.abs(dx) < 7) return;
+        const enScroll = e.target.closest('.panel-cuerpo') && cuerpo.scrollHeight > cuerpo.clientHeight + 2;
+        if (Math.abs(dx) > Math.abs(dy)) g.modo = 'scroll';     // gesto horizontal (filtros, etc.)
+        else if (g.enAsa) g.modo = 'arrastre';
+        else if (dy < 0 && actual() !== 'alto') g.modo = 'arrastre';
+        else if (dy > 0 && (!enScroll || cuerpo.scrollTop <= 0)) g.modo = 'arrastre';
+        else g.modo = 'scroll';
+        if (g.modo === 'arrastre') { g.alt = alturas(); panel.style.transition = 'none'; panel.classList.add('arrastrando'); g.y0 = y; }
+      }
+      if (g.modo !== 'arrastre') return;
+      e.preventDefault();
+      const max = g.alt[2] + 20, min = g.alt[0] - 30;
+      panel.style.height = Math.max(min, Math.min(max, g.h0 - (y - g.y0))) + 'px';
+      g.hist.push([e.timeStamp, y]); if (g.hist.length > 5) g.hist.shift();
+    }, { passive: false });
+    const fin = () => {
+      if (!g || g.modo !== 'arrastre') { g = null; return; }
+      const h = panel.getBoundingClientRect().height, H = g.hist;
+      const v = H.length > 1 ? (H[H.length - 1][1] - H[0][1]) / Math.max(1, H[H.length - 1][0] - H[0][0]) : 0;   // px/ms, + = hacia abajo
+      let i;
+      if (Math.abs(v) > 0.45) {                       // gesto rápido: un escalón en esa dirección desde donde estaba
+        const ini = ESTADOS.indexOf(actual());
+        i = Math.max(0, Math.min(2, ini + (v < 0 ? 1 : -1)));
+      } else {                                        // gesto lento: la altura más cercana
+        i = 0; g.alt.forEach((a, k) => { if (Math.abs(a - h) < Math.abs(g.alt[i] - h)) i = k; });
+      }
+      panel.style.transition = ''; panel.classList.remove('arrastrando');
+      poner(ESTADOS[i]); g = null;
+    };
+    panel.addEventListener('touchend', fin); panel.addEventListener('touchcancel', fin);
     return { plegar: () => poner('bajo'), normal: () => poner(''), alternar: () => poner(panel.classList.contains('alto') ? 'bajo' : panel.classList.contains('bajo') ? '' : 'alto'), poner };
   }
   const esTactil = () => window.matchMedia('(pointer: coarse)').matches;
@@ -409,5 +466,108 @@
     });
   }
 
-  window.SofiaComun = { enlacePortal, Narrador, ICONO, capaCalles, visitados, basesMapa, botonCapa, localizador, aviso, ZOOM_MIN, pistaMapa, leyenda, etiquetaFlotante, panelMovil, esTactil, APPS, enItinerario, chipsItinerario };
+  /* ---------- Demo guiada: bocadillos que señalan qué se puede tocar ----------
+   * demo({ clave, pasos: [{ el, titulo, texto, antes }], alFinal })
+   *  - el: selector, elemento o función que devuelve un elemento o un rectángulo {x, y, w, h}
+   *  - antes: función (puede devolver promesa) que prepara la pantalla para ese paso
+   * Se lanza sola la primera vez (por app) y se puede repetir con el botón «Ver demo». */
+  const esperar = (ms) => new Promise((r) => setTimeout(r, ms));
+  function rectDe(el) {
+    if (typeof el === 'function') el = el();
+    if (typeof el === 'string') el = document.querySelector(el);
+    if (!el) return null;
+    if (el.getBoundingClientRect) {
+      if (el.offsetParent === null && getComputedStyle(el).position !== 'fixed') return null;
+      const r = el.getBoundingClientRect(); return { x: r.left, y: r.top, w: r.width, h: r.height, el };
+    }
+    return el;
+  }
+  function demo(cfg) {
+    let i = -1, vivo = true;
+    document.querySelectorAll('.pista-mapa').forEach((d) => d.remove());
+    try { localStorage.setItem('sofia-pista-' + cfg.clave, '1'); } catch (e) { /* nada */ }
+    const capa = document.createElement('div'); capa.className = 'sofia-demo';
+    capa.innerHTML = '<div class="sd-foco"></div><div class="sd-bocadillo" role="dialog" aria-live="polite"><span class="sd-flecha"></span>' +
+      '<b class="sd-tit"></b><p class="sd-txt"></p><div class="sd-pie"><span class="sd-puntos"></span><button class="sd-saltar" type="button">Saltar</button><button class="sd-sig" type="button"></button></div></div>';
+    document.body.appendChild(capa);
+    const foco = capa.querySelector('.sd-foco'), boc = capa.querySelector('.sd-bocadillo'), flecha = capa.querySelector('.sd-flecha');
+    const fin = async () => {
+      if (!vivo) return; vivo = false;
+      try { localStorage.setItem('sofia-demo-' + cfg.clave, '1'); } catch (e) { /* nada */ }
+      capa.classList.add('fuera'); setTimeout(() => capa.remove(), 300);
+      if (cfg.alFinal) cfg.alFinal();
+    };
+    const sig = async () => {
+      if (!vivo) return;
+      i++;
+      if (i >= cfg.pasos.length) return fin();
+      const p = cfg.pasos[i];
+      capa.classList.add('cambiando');
+      if (p.antes) { await p.antes(); await esperar(380); }
+      let r = rectDe(p.el);
+      if (r && r.el && r.el.scrollIntoView) {
+        const vr = r.el.getBoundingClientRect();
+        if (vr.bottom > innerHeight - 10 || vr.top < 0) { r.el.scrollIntoView({ block: 'center', behavior: 'instant' }); await esperar(60); r = rectDe(p.el); }
+      }
+      if (!vivo) return;
+      if (!r && p.opcional) { capa.classList.remove('cambiando'); return sig(); }
+      const m = 6;
+      if (r) Object.assign(foco.style, { left: (r.x - m) + 'px', top: (r.y - m) + 'px', width: (r.w + 2 * m) + 'px', height: (r.h + 2 * m) + 'px', borderRadius: (p.redondo ? '50%' : '14px') });
+      else Object.assign(foco.style, { left: '50%', top: '45%', width: '0px', height: '0px' });
+      boc.querySelector('.sd-tit').textContent = p.titulo || '';
+      boc.querySelector('.sd-txt').textContent = p.texto;
+      boc.querySelector('.sd-puntos').innerHTML = cfg.pasos.map((_, k) => '<i' + (k === i ? ' class="on"' : '') + '></i>').join('');
+      boc.querySelector('.sd-sig').textContent = i === cfg.pasos.length - 1 ? '¡Entendido!' : 'Siguiente ›';
+      boc.querySelector('.sd-saltar').hidden = i === cfg.pasos.length - 1;
+      // Bocadillo encima o debajo del foco, donde haya más sitio
+      const W = Math.min(330, innerWidth - 24); boc.style.width = W + 'px';
+      const bh = boc.offsetHeight || 150;
+      let top, abajo;
+      if (!r) { top = innerHeight / 2 - bh / 2; abajo = null; }
+      else if (r.y + r.h + m + 14 + bh < innerHeight - 8) { top = r.y + r.h + m + 14; abajo = true; }
+      else if (r.y - m - 14 - bh > 8) { top = r.y - m - 14 - bh; abajo = false; }
+      else { top = Math.max(8, Math.min(innerHeight - bh - 8, r.y + r.h / 2 - bh / 2)); abajo = null; }
+      const cx = r ? r.x + r.w / 2 : innerWidth / 2;
+      const left = Math.max(12, Math.min(innerWidth - W - 12, cx - W / 2));
+      Object.assign(boc.style, { top: top + 'px', left: left + 'px' });
+      flecha.hidden = abajo === null; flecha.className = 'sd-flecha ' + (abajo ? 'arriba' : 'abajo');
+      flecha.style.left = Math.max(16, Math.min(W - 16, cx - left)) + 'px';
+      capa.classList.remove('cambiando');
+      boc.querySelector('.sd-sig').focus({ preventScroll: true });
+    };
+    boc.querySelector('.sd-sig').onclick = (e) => { e.stopPropagation(); sig(); };
+    boc.querySelector('.sd-saltar').onclick = (e) => { e.stopPropagation(); fin(); };
+    capa.onclick = (e) => { if (!boc.contains(e.target)) sig(); };
+    document.addEventListener('keydown', function k(e) { if (!vivo) return document.removeEventListener('keydown', k); if (e.key === 'Escape') fin(); else if (e.key === 'ArrowRight' || e.key === 'Enter') sig(); });
+    sig();
+  }
+  /* Lanza la demo la primera vez y añade el botón para repetirla */
+  function demoApp(contenedor, cfg) {
+    if (contenedor) {
+      const b = document.createElement('button');
+      b.className = (contenedor.classList.contains('sofia-botones') ? 'sofia-redondo' : 'redondo') + ' boton-demo';
+      b.title = 'Ver la demo'; b.setAttribute('aria-label', 'Ver la demo de cómo se usa');
+      b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm-.1 15.6a1.3 1.3 0 1 1 0-2.6 1.3 1.3 0 0 1 0 2.6zm1.4-5.1c-.6.4-.8.6-.8 1.3v.4h-1.9v-.5c0-1.2.4-1.8 1.3-2.4.7-.5 1-.8 1-1.4 0-.6-.5-1.1-1.3-1.1-.8 0-1.4.5-1.5 1.3l-1.9-.2C8.4 8.3 9.9 7 12 7c2 0 3.4 1.1 3.4 2.8 0 1.2-.6 1.9-1.7 2.7z"/></svg>';
+      b.onclick = () => demo(cfg);
+      contenedor.appendChild(b);
+    }
+    let visto = false;
+    try { visto = !!localStorage.getItem('sofia-demo-' + cfg.clave); } catch (e) { visto = true; }
+    if (!visto) setTimeout(() => { if (!document.querySelector('.sofia-demo')) demo(cfg); }, document.querySelector('.sofia-cortinilla') ? 1900 : 900);
+  }
+  /* De una lista de coordenadas, la primera que se ve en el mapa sin quedar tapada por la hoja inferior */
+  function coordVisible(map, coords) {
+    const t = map.getTargetElement().getBoundingClientRect(), panel = document.getElementById('panel');
+    const bajo = panel && innerWidth <= 760 ? panel.getBoundingClientRect().top - 30 : t.bottom - 30;
+    const izq = innerWidth <= 760 ? 70 : (panel ? panel.getBoundingClientRect().right + 30 : 30);
+    return coords.find((c) => { const px = map.getPixelFromCoordinate(c); if (!px) return false; const x = t.left + px[0], y = t.top + px[1]; return x > izq && x < innerWidth - 30 && y > 120 && y < bajo; }) || null;
+  }
+  /* Rectángulo de un punto del mapa en pantalla, para señalarlo en la demo */
+  function rectMapa(map, coord, r) {
+    const px = map.getPixelFromCoordinate(coord), t = map.getTargetElement().getBoundingClientRect();
+    if (!px) return null; r = r || 20;
+    return { x: t.left + px[0] - r, y: t.top + px[1] - r, w: 2 * r, h: 2 * r };
+  }
+
+  window.SofiaComun = { enlacePortal, Narrador, ICONO, capaCalles, visitados, basesMapa, botonCapa, localizador, aviso, ZOOM_MIN, pistaMapa, leyenda, etiquetaFlotante, panelMovil, esTactil, APPS, enItinerario, chipsItinerario, demo, demoApp, rectMapa, coordVisible };
 })();
