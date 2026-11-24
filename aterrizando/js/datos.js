@@ -38,6 +38,7 @@ window.ATERRIZA = {
   gastos: [
     { dia: 'Viernes 4', lineas: [
       ['Taxi del aeropuerto a casa', 3.7, 4, '13-14 € por coche'],
+      ['Taxi al restaurante', 1.5, 2, '5-7 € por coche'],
       ['Cena en Lavelé Garden', 15, 25, 'Reservado a las 23:00'],
       ['Copa en Hambara', 3, 9, 'Solo efectivo', true] ] },
     { dia: 'Sábado 5', lineas: [
