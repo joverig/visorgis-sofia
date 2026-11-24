@@ -116,3 +116,5 @@ details.tarjeta { margin-bottom: 10px; }
 .g-total strong { font: 700 22px "Cormorant Garamond", Georgia, serif; white-space: nowrap; }
 .g-total small { grid-column: 1 / -1; opacity: .85; font-size: 13px; }
 .g-dia:first-child { margin-top: 12px; }
+.g-opcional { color: #6d5d8a; }
+.g-concepto em { font-style: normal; font-size: 11px; font-weight: 700; color: #5c4d78; background: rgba(139,122,168,.16); border-radius: 999px; padding: 1px 7px; margin-left: 4px; }

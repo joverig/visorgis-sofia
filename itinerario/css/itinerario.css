@@ -63,3 +63,24 @@
   background: #fffaf1; color: var(--carmesi, #a8322a); border: 2px solid var(--carmesi, #a8322a); font-weight: 700; font-size: 15px; text-decoration: none; margin-right: 8px; }
 .btn-pedir[hidden] { display: none; }
 .btn-pedir:active { transform: scale(.97); }
+
+/* Comidas, opcionales, reservas y avisos */
+.pasos li.comida .num { background: none; width: 30px; height: 30px; }
+.pasos li.comida .num svg { display: block; }
+.pasos li.comida .hora { color: #8a6418; }
+.pasos li.opcional .num { background: #8b7aa8; outline: 2px dashed #8b7aa8; outline-offset: 2px; }
+.pasos li.opcional b, .pasos li.opcional .hora { color: #6d5d8a; }
+.pasos li.descanso b { font-weight: 600; color: var(--suave); }
+.marcas { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 3px; }
+.marcas:empty { display: none; }
+.marcas-ficha { display: flex; flex-wrap: wrap; gap: 6px; margin: -2px 0 10px; }
+.marca { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 999px; font-size: 11.5px; font-weight: 700; line-height: 1.5; white-space: nowrap; }
+.marcas-ficha .marca { font-size: 12.5px; padding: 3px 10px; }
+.marca.m-reservado { background: rgba(95,122,52,.14); color: #44591f; }
+.marca.m-comida { background: rgba(184,134,43,.16); color: #7a5512; }
+.marca.m-opcional { background: rgba(139,122,168,.16); color: #5c4d78; }
+.marca.m-aviso { background: rgba(214,120,20,.16); color: #9a4f00; }
+.aviso-paso { margin: 0 0 12px; padding: 10px 12px; border-radius: 12px; background: #fff3e0; border: 1px solid #f0c48a; color: #7a3f00; font-size: 14px; line-height: 1.4; }
+.aviso-paso::before { content: '⚠ '; font-weight: 700; }
+.calle-paso { margin: 0 0 12px; padding: 10px 12px; border-radius: 12px; background: rgba(184,134,43,.10); border: 1px dashed rgba(184,134,43,.6); font-size: 14px; line-height: 1.4; }
+.calle-paso b { display: block; font-size: 12px; letter-spacing: .4px; text-transform: uppercase; color: #8a6418; margin-bottom: 2px; }
