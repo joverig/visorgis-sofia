@@ -166,9 +166,31 @@
     }
   }
 
+  /* ---------- gastos ---------- */
+  const eur = (n) => n.toLocaleString('es-ES', { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2, useGrouping: 'always' }) + ' €';
+  const rango = (a, b) => (Math.abs(a - b) < 0.005 ? eur(a) : eur(a) + ' – ' + eur(b));
+  function gastos() {
+    const cont = $('gastos'); if (!cont || !D.gastos) return;
+    let tMin = 0, tMax = 0;
+    const html = D.gastos.map((g) => {
+      let dMin = 0, dMax = 0;
+      const filas = g.lineas.map(([c, a, b, nota]) => {
+        dMin += a; dMax += b;
+        return '<li><span class="g-concepto">' + c + (nota ? '<small>' + nota + '</small>' : '') + '</span><span class="g-precio' + (a === 0 && b === 0 ? ' gratis' : '') + '">' + rango(a, b) + '</span></li>';
+      }).join('');
+      tMin += dMin; tMax += dMax;
+      return '<section class="g-dia"><h3><span>' + g.dia + '</span><span class="g-sub">' + rango(dMin, dMax) + '</span></h3><ul>' + filas + '</ul></section>';
+    }).join('');
+    const redondo = (n, arriba) => (arriba ? Math.ceil(n / 5) * 5 : Math.floor(n / 5) * 5);
+    cont.innerHTML = html +
+      '<div class="g-total"><span>Total por persona</span><strong>' + eur(redondo(tMin)) + ' – ' + eur(redondo(tMax, true)) + '</strong>' +
+      '<small>Para los siete: ' + eur(redondo(tMin * 7)) + ' – ' + eur(redondo(tMax * 7, true)) + '</small></div>' +
+      '<p class="nota">Sin contar las copas en Bar Petak ni las compras y caprichos. Precios orientativos: los de las entradas son los publicados; los de comer y beber, lo habitual en cada sitio.</p>';
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     SofiaComun.enlacePortal(document.querySelector('.cab-nav'));
-    cuentaAtras(); vuelos(); casa(); lista(); tiempo();
+    cuentaAtras(); vuelos(); casa(); lista(); tiempo(); gastos();
     // El mapa de «Cerca de casa» se crea al abrir la tarjeta (dentro de una tarjeta cerrada no tiene tamaño)
     const tc = $('t-cerca');
     const preparar = () => { if (!window.ol) return; if (!map) crearMapa(); else map.updateSize(); };
