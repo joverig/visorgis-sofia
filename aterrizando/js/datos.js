@@ -37,7 +37,7 @@ window.ATERRIZA = {
      [concepto, mín, máx, nota, opcional] · lo opcional no cuenta en el mínimo del total */
   gastos: [
     { dia: 'Viernes 4', lineas: [
-      ['Metro del aeropuerto a casa', 0.8, 0.8],
+      ['Taxi del aeropuerto a casa', 3.7, 4, '13-14 € por coche'],
       ['Cena en Lavelé Garden', 15, 25, 'Reservado a las 23:00'],
       ['Copa en Hambara', 3, 9, 'Solo efectivo', true] ] },
     { dia: 'Sábado 5', lineas: [
@@ -76,6 +76,6 @@ window.ATERRIZA = {
       ['Desayuno: banitsa y boza', 5, 10],
       ['Museo de Historia de Sofía (Baños Minerales)', 3, 5],
       ['Comida rápida en el Zhenski Pazar', 5, 10],
-      ['Metro de casa al aeropuerto', 0.8, 0.8] ] },
+      ['Taxi de casa al aeropuerto', 3.7, 4, '13-14 € por coche'] ] },
   ],
 };
