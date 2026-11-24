@@ -365,7 +365,6 @@
     "categoria": "restaurante",
     "horario": "cocina 12:00-23:00, barra hasta medianoche",
     "telefono": "+359 2 444 6111",
-    "itinerario": "Viernes 4 · cena",
     "nota_pedir": "Decoración de la época socialista y platos de metal como los de las abuelas."
    },
    "geometry": {
@@ -516,7 +515,7 @@
     "precio": "€",
     "direccion": "6 de Septiembre 22 (al fondo del callejón)",
     "horario": "aprox. 21:00-3:00, lun-sáb",
-    "itinerario": "Viernes 4 · copa",
+    "itinerario": "Viernes 4 · copa (opcional)",
     "resumen": "El «granero»: un bar sin cartel ni electricidad, iluminado solo con velas, al fondo de un callejón oscuro. Fue refugio de intelectuales en la época comunista. Hay que llamar a la puerta de madera.",
     "nota_pedir": "Solo efectivo. Es pequeño: con 7, llegad pronto.",
     "platos": [
@@ -592,7 +591,7 @@
     "precio": "€",
     "direccion": "General Gurko 21",
     "horario": "22:00-6:00",
-    "itinerario": "Sábado 5 · si hay marcha",
+    "itinerario": "Sábado 5 · para bailar (opcional)",
     "resumen": "Si el grupo quiere bailar hasta tarde, aquí se alarga la noche.",
     "platos": [
      "Cerveza búlgara o un combinado"
@@ -616,10 +615,12 @@
     "categoria": "bar",
     "precio": "€€€",
     "direccion": "Tsar Osvoboditel 16 (Sense Hotel)",
-    "itinerario": "Domingo 6 · noche",
-    "resumen": "La azotea del Sense Hotel, con la catedral de Alejandro Nevski iluminada enfrente. Para una copa tranquila con vistas.",
+    "itinerario": "Domingo 6 · cena de tapas",
+    "horario": "Novena planta del hotel · ropa smart casual por la noche",
+    "resumen": "La azotea del Sense Hotel, con la catedral de Alejandro Nevski iluminada enfrente. Junto al bar está el Gastro Bar, con tapas y platos ligeros para cenar con vistas.",
     "platos": [
-     "Una copa de vino búlgaro o un cóctel mirando a la catedral"
+     "Varias tapas al centro para compartir",
+     "Una copa de vino búlgaro o un cóctel de la casa mirando a la catedral"
     ],
     "valoracion": null
    },
@@ -641,6 +642,7 @@
     "precio": "€€",
     "direccion": "Zlatarska 7, Kapana (Plovdiv)",
     "ciudad": "Plovdiv",
+    "nota_pedir": "No acepta reservas y siempre está lleno: que uno del grupo se adelante a apuntaros. Si hay mucha espera, Smokini está a dos calles.",
     "itinerario": "Domingo 6 · comida en Plovdiv",
     "resumen": "El restaurante que repiten todas las reseñas de Plovdiv, en el corazón del barrio de Kapana: cocina búlgara con un giro moderno, producto fresco del día y pan casero. Siempre lleno.",
     "platos": [
@@ -649,14 +651,69 @@
      "Albóndigas de la casa",
      "Tarta de queso con baklava de postre"
     ],
-    "valoracion": null,
-    "nota_pedir": "Siempre está lleno: id pronto o pasad antes a apuntaros."
+    "valoracion": null
    },
    "geometry": {
     "type": "Point",
     "coordinates": [
      24.74879,
      42.14914
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "smokini",
+    "nombre": "Smokini",
+    "cocina": "Búlgara y mediterránea",
+    "categoria": "restaurante",
+    "precio": "€€",
+    "direccion": "Otets Paisiy 12, Kapana (Plovdiv)",
+    "ciudad": "Plovdiv",
+    "itinerario": "Domingo 6 · alternativa a Pavaj",
+    "resumen": "Uno de los restaurantes más valorados de Plovdiv, a un paso de Kapana: platos búlgaros y mediterráneos bien hechos, en un local con encanto. El plan B si Pavaj tiene cola.",
+    "nota_pedir": "Con el autobús de las 16:10, pedid nada más sentaros.",
+    "platos": [
+     "Pescado del día, que el 6 de diciembre es Nikulden",
+     "Ensaladas para compartir",
+     "Postres caseros"
+    ],
+    "valoracion": null
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     24.74881,
+     42.14694
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "lavele",
+    "nombre": "Lavelé Garden",
+    "cocina": "Mediterránea y balcánica",
+    "categoria": "restaurante",
+    "precio": "€€",
+    "direccion": "bulevar Vitosha 34",
+    "itinerario": "Viernes 4 · cena",
+    "resumen": "Restaurante con aire de jardín en pleno bulevar Vitosha, a un cuarto de hora andando de casa. Cocina mediterránea y balcánica: pizzas, pastas, risottos y ensaladas.",
+    "nota_pedir": "Mesa reservada para siete a las 23:00.",
+    "platos": [
+     "Ensalada balcánica con queso sirene de granja",
+     "Risotto de boletus",
+     "Pizza o pasta para compartir",
+     "Tiramisú de la casa"
+    ],
+    "valoracion": null
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.31955,
+     42.69475
     ]
    }
   }

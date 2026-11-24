@@ -15,6 +15,13 @@
   };
   const NO_VISITABLES = new Set(['casa', 'aeropuerto', 'avtogara', 'pdv_yug']);
   const GLIFO = { casa: '⌂', aeropuerto: '✈', avtogara: '🚌', pdv_yug: '🚌' };
+  /* Comidas y cenas (dorado, cubiertos), paradas opcionales (lavanda) y reservas */
+  const COLOR_COMIDA = '#b8862b', COLOR_OPC = '#8b7aa8';
+  const COMIDAS = { desayuno: 'Desayuno', comida: 'Comida', cena: 'Cena', tapas: 'Cena de tapas' };
+  const CUBIERTOS = '<g fill="none" stroke="#fff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 3v5.5a3 3 0 0 0 6 0V3M8.5 3v5.5M8.5 11.5V21"/><path d="M18 21V3c-2.3 1.3-3.5 4.2-3.5 7.8 0 2 1.4 3 3.5 3"/></g>';
+  const svgComida = (tam, borde, n) => '<svg xmlns="http://www.w3.org/2000/svg" width="' + tam + '" height="' + tam + '" viewBox="-6 -6 36 36"><circle cx="12" cy="12" r="' + (borde ? 16.2 : 18) + '" fill="' + COLOR_COMIDA + '"' +
+    (borde ? ' stroke="' + borde + '" stroke-width="3.6"' : '') + '/>' + CUBIERTOS + '</svg>';
+  const tipoParada = (p) => (p.comida ? 'comida' : p.opcional ? 'opcional' : GLIFO[p.lugar] ? 'logistica' : 'normal');
 
   let map, view, bases, capaTramos, capaParadas, capaEtq, capaEtqT, narrador, panelM;
   let datos = null;
@@ -35,13 +42,19 @@
     const vis = !NO_VISITABLES.has(p.lugar) && V.tiene(p.lugar);
     const k = p.lugar + p.n + sel + vis;
     if (!cacheP[k]) {
-      const g = GLIFO[p.lugar];
-      const color = vis ? 'rgba(95,122,52,.92)' : g ? '#2f7f86' : '#a8322a';
-      cacheP[k] = new S.Style({
-        image: new S.Circle({ radius: sel ? 14 : 11.5, fill: new S.Fill({ color }), stroke: new S.Stroke({ color: sel ? '#e0b04a' : '#fff', width: sel ? 4 : 2.5 }) }),
-        text: new S.Text({ text: vis ? '✓' : g || String(p.n), font: fuente('700', g ? 13 : 11.5), fill: new S.Fill({ color: '#fff' }) }),
-        zIndex: sel ? 30 : 20,
-      });
+      const g = GLIFO[p.lugar], tipo = tipoParada(p);
+      if (tipo === 'comida' && !vis) {
+        const tam = sel ? 34 : 28;
+        cacheP[k] = new S.Style({ image: new S.Icon({ src: 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgComida(tam, sel ? '#e0b04a' : '#fff')), width: tam, height: tam }), zIndex: sel ? 30 : 22 });
+      } else {
+        const color = vis ? 'rgba(95,122,52,.92)' : g ? '#2f7f86' : tipo === 'opcional' ? COLOR_OPC : '#a8322a';
+        cacheP[k] = new S.Style({
+          image: new S.Circle({ radius: sel ? 14 : 11.5, fill: new S.Fill({ color }),
+            stroke: new S.Stroke({ color: sel ? '#e0b04a' : '#fff', width: sel ? 4 : 2.5, lineDash: tipo === 'opcional' && !sel ? [4, 3] : undefined }) }),
+          text: new S.Text({ text: vis ? '✓' : g || String(p.n), font: fuente('700', g ? 13 : 11.5), fill: new S.Fill({ color: '#fff' }) }),
+          zIndex: sel ? 30 : 20,
+        });
+      }
     }
     return cacheP[k];
   }
@@ -118,12 +131,13 @@
       }
       return est;
     }
-    const tenue = estado.paso && estado.paso.tipo === 'tramo';
-    const k = t.modo + tenue;
+    const tenue = (estado.paso && estado.paso.tipo === 'tramo') || t.opcional;
+    const k = t.modo + tenue + !!t.opcional;
     if (!cacheT[k]) {
       cacheT[k] = [new S.Style({ stroke: new S.Stroke({ color: 'rgba(255,250,241,.9)', width: 7, lineCap: 'round', lineJoin: 'round' }), zIndex: 9 }),
-        new S.Style({ stroke: new S.Stroke({ color: m.color, width: 3.2, lineCap: 'round', lineJoin: 'round', lineDash: m.dash }), zIndex: 10, }),];
-      if (tenue) cacheT[k][1].getStroke().setColor(t.modo === 'pie' ? 'rgba(110,56,40,.4)' : m.color + '66');
+        new S.Style({ stroke: new S.Stroke({ color: t.opcional ? COLOR_OPC : m.color, width: 3.2, lineCap: 'round', lineJoin: 'round', lineDash: m.dash }), zIndex: 10, }),];
+      if (tenue && !t.opcional) cacheT[k][1].getStroke().setColor(t.modo === 'pie' ? 'rgba(110,56,40,.4)' : m.color + '66');
+      if (t.opcional) cacheT[k][1].getStroke().setColor(COLOR_OPC + (estado.paso && estado.paso.tipo === 'tramo' ? '66' : 'bb'));
     }
     return cacheT[k];
   }
@@ -210,6 +224,8 @@
   }
   const LEYENDA = '<ul>' +
     '<li><span class="sim"><svg width="26" height="26"><circle cx="13" cy="13" r="10" fill="#a8322a" stroke="#fff" stroke-width="2.5"/><text x="13" y="17" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">3</text></svg></span>Parada del día, en orden: tócala para ver la hora, el precio y su narración</li>' +
+    '<li><span class="sim">' + svgComida(28) + '</span>Comida o cena (las reservadas llevan la etiqueta «Reservado»)</li>' +
+    '<li><span class="sim"><svg width="26" height="26"><circle cx="13" cy="13" r="10" fill="' + COLOR_OPC + '" stroke="#fff" stroke-width="2.5" stroke-dasharray="4 3"/><text x="13" y="17" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">4</text></svg></span>Opcional: copas para quien tenga cuerda (camino en lavanda)</li>' +
     '<li><span class="sim"><svg width="26" height="26"><circle cx="13" cy="13" r="10" fill="#2f7f86" stroke="#fff" stroke-width="2.5"/><text x="13" y="17" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">⌂</text></svg></span>Casa, aeropuerto o estación de autobuses</li>' +
     '<li><span class="sim"><svg width="26" height="26"><circle cx="13" cy="13" r="10" fill="#5f7a34" stroke="#fff" stroke-width="2.5"/><text x="13" y="17" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">✓</text></svg></span>Ya visitado (compartido con Explora Sofía)</li>' +
     '<li><span class="sim"><svg width="40" height="12"><path d="M2 6h36" stroke="#6e3828" stroke-width="3.2" stroke-dasharray="0.1 7" stroke-linecap="round"/></svg></span>🚶 A pie</li>' +
@@ -295,10 +311,13 @@
       const li = document.createElement('li');
       if (p.tipo === 'parada') {
         const vis = !NO_VISITABLES.has(p.lugar) && V.tiene(p.lugar);
-        li.className = 'parada' + (vis ? ' hecho' : '') + (GLIFO[p.lugar] ? ' logistica' : '');
-        li.innerHTML = '<span class="num"></span><span><span class="hora"></span><b></b><small></small></span>';
-        li.querySelector('.num').textContent = vis ? '✓' : GLIFO[p.lugar] || p.n;
+        const tipo = tipoParada(p);
+        li.className = 'parada' + (vis ? ' hecho' : '') + ' ' + tipo + (p.descanso ? ' descanso' : '');
+        li.innerHTML = '<span class="num"></span><span><span class="hora"></span><b></b><small></small><span class="marcas"></span></span>';
+        if (tipo === 'comida' && !vis) li.querySelector('.num').innerHTML = svgComida(30);
+        else li.querySelector('.num').textContent = vis ? '✓' : GLIFO[p.lugar] || p.n;
         li.querySelector('.hora').textContent = p.hora;
+        li.querySelector('.marcas').innerHTML = marcas(p, true);
         li.querySelector('b').textContent = p.titulo;
         li.querySelector('small').textContent = p.nombre + (p.precio ? ' · ' + p.precio : '');
       } else {
@@ -315,6 +334,16 @@
       li.onmouseleave = () => ponerSobre(null);
       ul.appendChild(li);
     });
+  }
+
+  /* Etiquetas de una parada: reservado, comida, opcional, tiempo justo */
+  function marcas(p, corto) {
+    const m = [];
+    if (p.reserva) m.push('<span class="marca m-reservado">✓ Reservado · ' + p.reserva + '</span>');
+    if (p.comida && !corto) m.push('<span class="marca m-comida">' + COMIDAS[p.comida] + '</span>');
+    if (p.opcional) m.push('<span class="marca m-opcional">Opcional</span>');
+    if (p.aviso) m.push('<span class="marca m-aviso">⚠ Tiempo justo</span>');
+    return m.join('');
   }
 
   /* ---------- paso: parada o tramo ---------- */
@@ -336,6 +365,9 @@
     (esParada ? document.querySelector('#vista-paso .acciones-ficha') : $('p-fila')).insertBefore($('p-narrar'), esParada ? $('p-visitado') : null);
     if (!esParada) { $('p-min').textContent = txtMin(p.min); $('p-dist').textContent = MODOS[p.modo].nombre.toLowerCase() + ' · ' + txtDist(p.dist); }
     $('p-precio').hidden = !p.precio; $('p-precio').textContent = p.precio || '';
+    $('p-marcas').innerHTML = esParada ? marcas(p) : (p.opcional ? marcas(p) : ''); $('p-marcas').hidden = !$('p-marcas').innerHTML;
+    $('p-aviso').hidden = !p.aviso; $('p-aviso').textContent = p.aviso || '';
+    $('p-calle').hidden = !p.calle; $('p-calle').innerHTML = p.calle ? '<b>Plan B en la calle</b>' : ''; if (p.calle) $('p-calle').appendChild(document.createTextNode(p.calle));
     $('p-alt').hidden = !p.alternativa; $('p-alt').textContent = p.alternativa ? 'Alternativa: ' + p.alternativa : '';
     const ul = $('p-datos'); ul.innerHTML = '';
     (p.datos || []).forEach((t) => { const li = document.createElement('li'); li.textContent = t; ul.appendChild(li); });
