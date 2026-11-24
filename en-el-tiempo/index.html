@@ -17,7 +17,7 @@
     // Si el navegador tiene guardado un index.html antiguo, recarga con la versión publicada
     // (GitHub Pages deja la página en caché unos minutos). VERSION se actualiza en cada publicación.
     (function () {
-      var VERSION = '202611240943';
+      var VERSION = '202611241015';
       if (location.protocol.indexOf('http') !== 0) return;
       fetch('../version.txt', { cache: 'no-store' }).then(function (r) { return r.ok ? r.text() : ''; }).then(function (v) {
         v = (v || '').trim();
@@ -35,8 +35,8 @@
       document.write('<script src="https://cdn.jsdelivr.net/npm/ol@10.5.0/dist/ol.js"><\/script>');
     }
   </script>
-  <link rel="stylesheet" href="../comun/comun.css?v=202611240943">
-  <link rel="stylesheet" href="css/visor.css?v=202611240943">
+  <link rel="stylesheet" href="../comun/comun.css?v=202611241015">
+  <link rel="stylesheet" href="css/visor.css?v=202611241015">
 </head>
 <body>
   <div id="mapa"></div>
@@ -106,8 +106,8 @@
     </div>
   </footer>
 
-  <script src="../comun/comun.js?v=202611240943"></script>
-  <script src="js/capas.js?v=202611240943"></script>
-  <script src="js/visor.js?v=202611240943"></script>
+  <script src="../comun/comun.js?v=202611241015"></script>
+  <script src="js/capas.js?v=202611241015"></script>
+  <script src="js/visor.js?v=202611241015"></script>
 </body>
 </html>

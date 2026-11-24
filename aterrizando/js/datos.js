@@ -33,4 +33,42 @@ window.ATERRIZA = {
     { tipo: 'bus', nombre: 'Tranvía · plaza Vazrazhdane', horario: 'Tranvías hacia el centro y el oeste', coord: [23.31438, 42.69740] },
     { tipo: 'bus', nombre: 'Tranvía · plaza Macedonia', horario: 'Tranvías por Aleksandar Stamboliyski', coord: [23.31434, 42.69428] },
   ],
+  /* Gastos previstos por persona (euros). Taxis: precio por coche / 3,5 (dos coches para 7). [concepto, mín, máx, nota] */
+  gastos: [
+    { dia: 'Viernes 4', lineas: [
+      ['Metro del aeropuerto a casa', 0.8, 0.8],
+      ['Taxi de casa a Raketa', 1.5, 2, '5-7 € por coche'],
+      ['Cena en Raketa Rakia Bar', 10, 20],
+      ['Copa en Hambara', 3, 9, 'Solo efectivo'] ] },
+    { dia: 'Sábado 5', lineas: [
+      ['Propina del Free Sofia Tour', 5, 10],
+      ['Comida en el Mercado Central', 8, 12],
+      ['Cripta de Alejandro Nevski', 10, 10],
+      ['Mercado navideño alemán', 3, 8],
+      ['Metro del NDK a Lavov Most', 0.8, 0.8],
+      ['Cena en Hadjidraganovite Kashti', 20, 30],
+      ['Cóctel por Tsar Shishman', 7, 14] ] },
+    { dia: 'Domingo 6 · Plovdiv', lineas: [
+      ['Autobús Sofía → Plovdiv', 11, 11],
+      ['Casas-museo del casco antiguo', 3.58, 3.58],
+      ['Teatro Romano', 3.58, 3.58],
+      ['Comida en Pavaj', 12, 18],
+      ['Gran Basílica del Obispo', 7.57, 7.57],
+      ['Autobús Plovdiv → Sofía', 11, 11],
+      ['Taxi de la estación al Sense', 1.5, 2, '5-7 € por coche'],
+      ['Copa en Sense Rooftop Bar', 10, 15] ] },
+    { dia: 'Lunes 7', lineas: [
+      ['Taxi a la iglesia de Boyana', 2.3, 2.9, '8-10 € por coche'],
+      ['Iglesia de Boyana', 6.14, 6.14],
+      ['Museo Nacional de Historia', 9, 9],
+      ['Taxi del museo a Manastirska', 2.3, 2.9, '8-10 € por coche'],
+      ['Comida en Manastirska Magernitsa', 15, 25],
+      ['Pista de hielo con patines', 5, 8],
+      ['Taxi del bulevar Vitosha a Pod Lipite', 1.2, 1.7, '4-6 € por coche'],
+      ['Cena en Pod Lipite', 10, 25],
+      ['Taxi de Pod Lipite a casa', 1.5, 2, '5-7 € por coche'] ] },
+    { dia: 'Martes 8', lineas: [
+      ['Desayuno: banitsa y boza', 5, 10],
+      ['Metro de casa al aeropuerto', 0.8, 0.8] ] },
+  ],
 };
