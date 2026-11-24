@@ -193,6 +193,25 @@
     const r = porId[location.hash.slice(1)];
     if (r) abrir(r);
     else view.fit(ol.extent.boundingExtent(rest.filter((x) => !x.ciudad && metros(x.coord, ol.proj.fromLonLat([23.324, 42.694])) < 4000).map((x) => x.coord)), { padding: padding(), maxZoom: 16 });
+    prepararDemo();
+  }
+  function prepararDemo() {
+    let abierto = false, ejemplo = null;
+    SofiaComun.demoApp(document.querySelector('.botones-mapa'), {
+      clave: 'comer',
+      pasos: [
+        { titulo: 'Toca el mapa', texto: 'Cada icono es un sitio para comer: tócalo para ver qué pedir y cómo llegar.', redondo: true,
+          antes: () => { if (estado.sel) cerrar(); panelM.normal(); },
+          el: () => { const l = rest.filter((x) => !x.ciudad); const c = SofiaComun.coordVisible(map, l.map((x) => x.coord)); ejemplo = c ? l.find((x) => x.coord === c) : null; return c && SofiaComun.rectMapa(map, c, 18); }, opcional: true },
+        { titulo: 'Filtra', texto: 'Restaurantes, bares, desayunos o mercados.', el: '#filtros' },
+        { titulo: 'Cómo llegar', texto: '«Llévame» abre la ruta en la app de mapas de tu móvil.', el: '#r-llevame',
+          antes: () => { abrir(ejemplo || rest.find((x) => !x.ciudad)); abierto = true; } },
+        { titulo: 'Qué pedir', texto: 'Los platos que más se recomiendan en cada sitio.', el: () => document.querySelector('#vista-ficha h3'), opcional: true },
+        { titulo: 'Más información', texto: 'Arrastra la ficha hacia arriba con el dedo para verla entera; hacia abajo, para ver el mapa.', el: '#tirador', antes: () => { $('cuerpo').scrollTop = 0; } },
+        { titulo: 'Cerrar', texto: 'La ✕ cierra la ficha y vuelve a la lista.', el: '#cerrar', redondo: true }
+      ],
+      alFinal: () => { if (abierto && estado.sel) cerrar(); }
+    });
   }
   document.addEventListener('DOMContentLoaded', iniciar);
 })();

@@ -133,20 +133,33 @@
         titulo = 'Todavía es pronto para la previsión del viaje (se publica unos 16 días antes). Mientras, así están los próximos días en Sofía:';
       }
       const d = j.daily;
-      cont.innerHTML = (titulo ? '<p class="nota">' + titulo + '</p>' : '') + '<div class="dias-tiempo"></div>';
+      cont.innerHTML = (titulo ? '<p class="nota">' + titulo + '</p>' : '') + '<p class="leyenda-tiempo">💧 Probabilidad de lluvia (❄ de nieve) · La barra va de la mínima a la máxima del día</p><ul class="dias-tiempo"></ul>';
       const fila = cont.querySelector('.dias-tiempo');
+      const NOMBRES = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+      const MESES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+      const tMin = Math.min(...d.temperature_2m_min), tMax = Math.max(...d.temperature_2m_max), rango = Math.max(1, tMax - tMin);
       d.time.forEach((t, i) => {
-        const [ico, txt] = wmo(d.weather_code[i]);
+        const [, ico, txt] = wmo(d.weather_code[i]);
         const f = new Date(t + 'T12:00:00');
-        const el = document.createElement('div'); el.className = 'dia-t';
-        el.innerHTML = '<small></small><span class="ico"></span><b></b><span class="min"></span><span class="lluvia"></span><span class="txt"></span>';
-        el.querySelector('small').textContent = DIAS[f.getDay()] + ' ' + f.getDate();
-        el.querySelector('.ico').textContent = ico;
-        el.querySelector('b').textContent = Math.round(d.temperature_2m_max[i]) + '°';
-        el.querySelector('.min').textContent = Math.round(d.temperature_2m_min[i]) + '°';
-        el.querySelector('.lluvia').textContent = d.precipitation_probability_max[i] != null ? '💧 ' + d.precipitation_probability_max[i] + ' %' : '';
-        el.querySelector('.txt').textContent = txt;
-        fila.appendChild(el);
+        const max = Math.round(d.temperature_2m_max[i]), min = Math.round(d.temperature_2m_min[i]);
+        const p = d.precipitation_probability_max[i];
+        const nieve = d.weather_code[i] >= 71 && d.weather_code[i] <= 86 && d.weather_code[i] !== 80 && d.weather_code[i] !== 81 && d.weather_code[i] !== 82;
+        const li = document.createElement('li'); li.className = 'dia-t';
+        li.innerHTML = '<div class="fecha"><span class="dn"></span><b></b></div>' +
+          '<div class="cielo"><span class="ico" aria-hidden="true"></span><div><span class="txt"></span><span class="lluvia"></span></div></div>' +
+          '<div class="temps"><span class="t-max"></span><span class="barra-t"><i></i></span><span class="t-min"></span></div>';
+        li.querySelector('.dn').textContent = NOMBRES[f.getDay()];
+        li.querySelector('.fecha b').textContent = f.getDate() + ' ' + MESES[f.getMonth()];
+        li.querySelector('.ico').textContent = ico;
+        li.querySelector('.txt').textContent = txt;
+        li.querySelector('.lluvia').textContent = p == null ? '' : p < 10 ? 'Sin ' + (nieve ? 'nieve' : 'lluvia') : (nieve ? '❄ ' : '💧 ') + p + ' %';
+        li.querySelector('.t-max').innerHTML = '<small>Máx.</small> ' + max + '°';
+        li.querySelector('.t-min').innerHTML = '<small>Mín.</small> ' + min + '°';
+        const barra = li.querySelector('.barra-t i');
+        barra.style.left = ((d.temperature_2m_min[i] - tMin) / rango * 100) + '%';
+        barra.style.right = ((tMax - d.temperature_2m_max[i]) / rango * 100) + '%';
+        li.title = NOMBRES[f.getDay()] + ': ' + txt + ', máxima ' + max + ' °C y mínima ' + min + ' °C';
+        fila.appendChild(li);
       });
     } catch (e) {
       cont.innerHTML = '<p class="nota">No se ha podido cargar la previsión. Lo normal a principios de diciembre: máximas de 2 a 8 °C y mínimas de -4 a 2 °C, nublado y a veces niebla.</p>';

@@ -105,11 +105,13 @@ html, body { margin: 0; height: 100%; height: 100dvh; overflow: hidden; backgrou
   .cabecera h1 { font-size: 18px; }
   .ol-zoom { top: calc(8px + env(safe-area-inset-top)); left: 8px; }
   .botones-mapa { top: calc(84px + env(safe-area-inset-top)); left: 8px; }
-  .panel { top: auto; left: 0; right: 0; bottom: 0; width: auto; height: 42dvh; border-radius: 16px 16px 0 0;
-    transition: height .25s; padding-bottom: env(safe-area-inset-bottom); }
-  .panel.alto { height: 82dvh; }
+  .panel { top: auto; left: 0; right: 0; bottom: 0; width: auto; height: 50dvh; border-radius: 18px 18px 0 0;
+    transition: height .3s cubic-bezier(.2,.8,.2,1); padding-bottom: env(safe-area-inset-bottom); }
+  .panel.alto { height: calc(100dvh - 62px - env(safe-area-inset-top)); }
+  .panel.arrastrando { user-select: none; }
   .panel.bajo { height: 120px; }
-  .tirador { display: block; width: 44px; height: 5px; border-radius: 3px; background: #c9bfae; margin: 8px auto 0; cursor: grab; flex: none; }
+  .tirador { display: block; position: relative; width: 52px; height: 6px; border-radius: 3px; background: #b9ad99; margin: 9px auto 3px; cursor: grab; flex: none; touch-action: none; }
+  .tirador::before { content: ''; position: absolute; left: -60px; right: -60px; top: -12px; bottom: -12px; }
   .panel-cuerpo { padding: 10px 16px 16px; }
   .ol-attribution { display: none; }
   body:not(.historia-abierta) .historia:not(.ruta-texto) p:not(:first-child) { display: none; }
