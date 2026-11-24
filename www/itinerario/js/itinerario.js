@@ -12,7 +12,9 @@
     taxi: { nombre: 'En taxi', icono: '🚕', color: '#5c6f8a', dash: [10, 7], gm: 'driving' },
     metro: { nombre: 'En metro', icono: 'Ⓜ', color: '#6b4a7e', dash: [12, 6], gm: 'transit' },
     bus: { nombre: 'En autobús', icono: '🚌', color: '#2f5d7c', dash: [14, 8], gm: 'transit' },
+    tour: { nombre: 'Free tour a pie, con guía', icono: '👥', color: '#d9661f', dash: undefined, gm: 'walking' },
   };
+  const COLOR_TOUR = '#d9661f';
   const NO_VISITABLES = new Set(['casa', 'aeropuerto', 'avtogara', 'pdv_yug']);
   const GLIFO = { casa: '⌂', aeropuerto: '✈', avtogara: '🚌', pdv_yug: '🚌' };
   /* Comidas y cenas (dorado, cubiertos), paradas opcionales (lavanda) y reservas */
@@ -23,7 +25,7 @@
     (borde ? ' stroke="' + borde + '" stroke-width="3.6"' : '') + '/>' + CUBIERTOS + '</svg>';
   const tipoParada = (p) => (p.comida ? 'comida' : p.opcional ? 'opcional' : GLIFO[p.lugar] ? 'logistica' : 'normal');
 
-  let map, view, bases, capaTramos, capaParadas, capaEtq, capaEtqT, narrador, panelM;
+  let map, view, bases, capaTramos, capaParadas, capaEtq, capaEtqT, capaTour, narrador, panelM;
   let datos = null;
   const estado = { dia: null, paso: null, zona: null, sobre: null };
   const fmt = new ol.format.Polyline();
@@ -71,6 +73,23 @@
       });
     }
     return cacheE[k];
+  }
+  /* Paradas del free tour: puntos naranjas pequeños, numerados, sobre la línea del recorrido */
+  const cacheTour = {};
+  function estiloTour(f, res) {
+    const q = f.get('q'), t = f.get('t');
+    const zoom = Math.log2(156543.03392804097 / res);
+    const activo = estado.paso === t || estado.sobre === q || estado.sobre === t;
+    const conNombre = activo ? zoom >= 15.5 : zoom >= 17;
+    const k = q.n + '|' + activo + conNombre + (zoom >= 15);
+    if (!cacheTour[k]) {
+      const est = [new S.Style({ image: new S.Circle({ radius: activo ? 8 : 6.5, fill: new S.Fill({ color: COLOR_TOUR }), stroke: new S.Stroke({ color: '#fff', width: 2 }) }),
+        text: zoom >= 15 ? new S.Text({ text: String(q.n), font: fuente('700', activo ? 9.5 : 8.5), fill: new S.Fill({ color: '#fff' }) }) : undefined, zIndex: activo ? 27 : 15 })];
+      if (conNombre) est.push(new S.Style({ text: new S.Text({ text: q.nombre, offsetY: -16, font: fuente('600', 11), fill: new S.Fill({ color: '#8a3a0c' }),
+        stroke: new S.Stroke({ color: '#fffaf1', width: 3.5 }) }), zIndex: activo ? 27 : 14 }));
+      cacheTour[k] = est;
+    }
+    return cacheTour[k];
   }
   let fase = 0;
   const flecha = (() => {
@@ -155,12 +174,13 @@
     capaParadas = new ol.layer.Vector({ source: new ol.source.Vector(), style: estiloParada });
     capaEtq = new ol.layer.Vector({ source: capaParadas.getSource(), style: estiloEtq, declutter: true });
     capaEtqT = new ol.layer.Vector({ source: new ol.source.Vector(), style: estiloEtqTramo, declutter: true });
-    map = new ol.Map({ target: 'mapa', view, layers: [capaTramos, capaEtqT, capaParadas, capaEtq] });
+    capaTour = new ol.layer.Vector({ source: new ol.source.Vector(), style: estiloTour });
+    map = new ol.Map({ target: 'mapa', view, layers: [capaTramos, capaTour, capaEtqT, capaParadas, capaEtq] });
     map.addControl(new ol.control.ScaleLine({ units: 'metric' }));
     bases = SofiaComun.basesMapa(map);
     SofiaComun.botonCapa($('capa'), bases);
     SofiaComun.localizador(map, $('gps'));
-    const tocable = (l) => l === capaParadas || l === capaTramos || l === capaEtqT;
+    const tocable = (l) => l === capaParadas || l === capaTramos || l === capaEtqT || l === capaTour;
     const queHay = (px) => {
       let f = null;
       map.forEachFeatureAtPixel(px, (x) => { if (!f || (x.get('p') && !f.get('p'))) f = x; }, { hitTolerance: SofiaComun.esTactil() ? 12 : 6, layerFilter: tocable });
@@ -170,15 +190,17 @@
       const f = queHay(e.pixel);
       if (!f) { tocarVacio(); return; }
       abrirPaso(f.get('p') || f.get('t'));
+      if (f.get('q')) marcarParadaTour(f.get('q'));
     });
     const flotante = SofiaComun.etiquetaFlotante(map);
     map.on('pointermove', (e) => {
       if (e.dragging || SofiaComun.esTactil()) return;
       const f = queHay(e.pixel);
       map.getTargetElement().style.cursor = f ? 'pointer' : '';
-      const obj = f ? (f.get('p') || f.get('t')) : null;
+      const obj = f ? (f.get('q') || f.get('p') || f.get('t')) : null;
       ponerSobre(obj);
       if (!obj) flotante.ocultar();
+      else if (f.get('q')) flotante.mostrar(e.pixel, '👥 Free tour · ' + obj.n + '. ' + obj.nombre);
       else if (obj.tipo === 'parada') flotante.mostrar(e.pixel, (obj.hora ? obj.hora + ' · ' : '') + obj.titulo);
       else flotante.mostrar(e.pixel, MODOS[obj.modo].icono + ' ' + obj.titulo + ' · ' + txtMin(obj.min));
     });
@@ -192,7 +214,7 @@
     view.cancelAnimations();
     view.fit(ext, { padding: padding(), maxZoom: maxZoom || 17, duration: 600 });
   }
-  function refrescar() { capaParadas.changed(); capaEtq.changed(); capaTramos.changed(); capaEtqT.changed(); }
+  function refrescar() { capaParadas.changed(); capaEtq.changed(); capaTramos.changed(); capaEtqT.changed(); capaTour.changed(); }
   // Etiqueta con el medio y los minutos en mitad de cada camino del día: invita a tocarlo
   const cacheET = {};
   function estiloEtqTramo(f) {
@@ -204,7 +226,7 @@
     if (!cacheET[k]) {
       const m = MODOS[t.modo];
       const activo = sel || sobre;
-      cacheET[k] = new S.Style({ text: new S.Text({ text: (sig ? 'Siguiente · ' : '') + m.icono + ' ' + txtMin(t.min), font: fuente('700', 11.5),
+      cacheET[k] = new S.Style({ text: new S.Text({ text: (sig ? 'Siguiente · ' : '') + m.icono + ' ' + (t.tour ? 'Free tour · ' : '') + txtMin(t.min), font: fuente('700', 11.5),
         fill: new S.Fill({ color: activo ? '#fff' : sig ? '#a8322a' : t.modo === 'pie' ? '#5a3a2c' : m.color }),
         backgroundFill: new S.Fill({ color: activo ? '#a8322a' : '#fffaf1' }), backgroundStroke: new S.Stroke({ color: activo ? '#fff' : sig ? '#a8322a' : t.modo === 'pie' ? 'rgba(110,56,40,.55)' : m.color, width: 1.5 }),
         padding: [3, 7, 2, 7] }), zIndex: sel ? 45 : sig ? 35 : 25 });
@@ -228,6 +250,7 @@
     '<li><span class="sim"><svg width="26" height="26"><circle cx="13" cy="13" r="10" fill="' + COLOR_OPC + '" stroke="#fff" stroke-width="2.5" stroke-dasharray="4 3"/><text x="13" y="17" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">4</text></svg></span>Opcional: copas para quien tenga cuerda (camino en lavanda)</li>' +
     '<li><span class="sim"><svg width="26" height="26"><circle cx="13" cy="13" r="10" fill="#2f7f86" stroke="#fff" stroke-width="2.5"/><text x="13" y="17" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">⌂</text></svg></span>Casa, aeropuerto o estación de autobuses</li>' +
     '<li><span class="sim"><svg width="26" height="26"><circle cx="13" cy="13" r="10" fill="#5f7a34" stroke="#fff" stroke-width="2.5"/><text x="13" y="17" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">✓</text></svg></span>Ya visitado (compartido con Explora Sofía)</li>' +
+    '<li><span class="sim"><svg width="40" height="16"><path d="M2 8h36" stroke="' + COLOR_TOUR + '" stroke-width="3.6"/><circle cx="20" cy="8" r="6" fill="' + COLOR_TOUR + '" stroke="#fff" stroke-width="2"/></svg></span>👥 Free tour: recorrido con guía y sus paradas</li>' +
     '<li><span class="sim"><svg width="40" height="12"><path d="M2 6h36" stroke="#6e3828" stroke-width="3.2" stroke-dasharray="0.1 7" stroke-linecap="round"/></svg></span>🚶 A pie</li>' +
     '<li><span class="sim"><svg width="40" height="12"><path d="M2 6h36" stroke="#5c6f8a" stroke-width="3.2" stroke-dasharray="10 7"/></svg></span>🚕 En taxi</li>' +
     '<li><span class="sim"><svg width="40" height="12"><path d="M2 6h36" stroke="#6b4a7e" stroke-width="3.2" stroke-dasharray="12 6"/></svg></span>Ⓜ En metro · 🚌 en autobús (azul)</li>' +
@@ -268,7 +291,7 @@
   }
   function cargarCapasDia(d) {
     const sp = capaParadas.getSource(), st = capaTramos.getSource();
-    sp.clear(); st.clear(); capaEtqT.getSource().clear();
+    sp.clear(); st.clear(); capaEtqT.getSource().clear(); capaTour.getSource().clear();
     const vistos = new Set();
     d.pasos.forEach((p) => {
       if (p.tipo === 'parada') {
@@ -278,7 +301,12 @@
         f.set('p', p); sp.addFeature(f);
       } else {
         const g = fmt.readGeometry(p.geom, { dataProjection: 'EPSG:4326', featureProjection: 'EPSG:3857' });
+        if (p.tour) p.modo = 'tour';
         const f = new ol.Feature(g); f.set('t', p); p.feature = f; st.addFeature(f);
+        (p.paradasTour || []).forEach((q) => {
+          if (q.n === 1 || q.n === p.paradasTour.length) return; // inicio y final ya son paradas del día
+          const fq = new ol.Feature(new ol.geom.Point(ol.proj.fromLonLat(q.coord))); fq.set('q', q); fq.set('t', p); capaTour.getSource().addFeature(fq);
+        });
         const et = new ol.Feature(new ol.geom.Point(g.getCoordinateAt(0.5))); et.set('t', p); capaEtqT.getSource().addFeature(et);
       }
     });
@@ -375,6 +403,21 @@
     const ul = $('p-datos'); ul.innerHTML = '';
     (p.datos || []).forEach((t) => { const li = document.createElement('li'); li.textContent = t; ul.appendChild(li); });
     ul.hidden = !(p.datos || []).length;
+    const lt = $('p-tour');
+    lt.hidden = !p.paradasTour; lt.innerHTML = '';
+    if (p.paradasTour) {
+      const h = document.createElement('h3'); h.textContent = 'Las ' + p.paradasTour.length + ' paradas del free tour'; lt.appendChild(h);
+      const ol_ = document.createElement('ol');
+      p.paradasTour.forEach((q) => {
+        const li = document.createElement('li'); li.dataset.n = q.n;
+        if (q.explora) { const a = document.createElement('a'); a.href = '../explora/#' + q.explora; a.textContent = q.nombre; li.appendChild(a); }
+        else li.textContent = q.nombre;
+        li.onmouseenter = () => ponerSobre(q); li.onmouseleave = () => ponerSobre(null);
+        ol_.appendChild(li);
+      });
+      lt.appendChild(ol_);
+      const n = document.createElement('p'); n.className = 'nota-tour'; n.textContent = 'Recorrido indicativo: el guía puede cambiar el orden o saltarse alguna parada.'; lt.appendChild(n);
+    }
     const tx = $('p-texto'); tx.innerHTML = '';
     p.texto.forEach((t) => { const el = document.createElement('p'); el.textContent = t; tx.appendChild(el); });
     $('p-narrar').hidden = !p.audio;
@@ -413,6 +456,11 @@
       if (esParada) encuadrar(ol.extent.boundingExtent([coordDe(p.lugar)]), Math.min(18, Math.max(view.getZoom(), 16)));
       else encuadrar(p.feature.getGeometry().getExtent(), p.modo === 'bus' ? 9 : 17);
     }
+  }
+  function marcarParadaTour(q) {
+    const li = document.querySelector('#p-tour li[data-n="' + q.n + '"]');
+    document.querySelectorAll('#p-tour li.activa').forEach((x) => x.classList.remove('activa'));
+    if (li) { li.classList.add('activa'); li.scrollIntoView({ block: 'center', behavior: 'smooth' }); }
   }
   function pintarVisitado() {
     const p = estado.paso, b = $('p-visitado');
