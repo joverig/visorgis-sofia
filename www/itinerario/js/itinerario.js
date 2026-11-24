@@ -326,7 +326,10 @@
         li.innerHTML = '<span class="ico"></span><span class="txt"></span><span class="t"></span>';
         li.querySelector('.ico').textContent = m.icono;
         li.querySelector('.txt').textContent = p.titulo;
-        li.querySelector('.t').textContent = txtMin(p.min) + ' · ' + txtDist(p.dist);
+        const t = li.querySelector('.t');
+        if (p.salida) { t.innerHTML = '<b></b><small></small>'; t.querySelector('b').textContent = p.salida + ' → ' + p.llegada; t.querySelector('small').textContent = txtMin(p.min) + ' · ' + txtDist(p.dist); }
+        else t.textContent = txtMin(p.min) + ' · ' + txtDist(p.dist);
+        if (p.opcional) li.classList.add('opcional');
       }
       li.onclick = () => abrirPaso(p);
       p.li = li;
@@ -357,13 +360,13 @@
     $('vista-dia').hidden = true; $('vista-paso').hidden = false;
     document.body.classList.remove('historia-abierta');
     const esParada = p.tipo === 'parada';
-    $('p-tipo').textContent = esParada ? (p.hora ? p.hora + ' · ' : '') + estado.dia.titulo : MODOS[p.modo].icono + ' ' + MODOS[p.modo].nombre;
+    $('p-tipo').textContent = esParada ? (p.hora ? p.hora + ' · ' : '') + estado.dia.titulo : MODOS[p.modo].icono + ' ' + MODOS[p.modo].nombre + (p.salida ? ' · ' + p.salida + ' → ' + p.llegada : '') + ' · ' + estado.dia.titulo;
     $('p-titulo').textContent = p.titulo;
     $('p-sub').textContent = esParada ? p.nombre : datos.lugares[p.desde].nombre + ' → ' + datos.lugares[p.hasta].nombre;
     $('p-fila').hidden = esParada;
     // Escuchar: en los caminos va junto a los minutos, arriba; en las paradas, junto a «visitado»
     (esParada ? document.querySelector('#vista-paso .acciones-ficha') : $('p-fila')).insertBefore($('p-narrar'), esParada ? $('p-visitado') : null);
-    if (!esParada) { $('p-min').textContent = txtMin(p.min); $('p-dist').textContent = MODOS[p.modo].nombre.toLowerCase() + ' · ' + txtDist(p.dist); }
+    if (!esParada) { $('p-min').textContent = txtMin(p.min); $('p-dist').textContent = (p.salida ? 'sale ' + p.salida + ' · llega ' + p.llegada + ' · ' : '') + MODOS[p.modo].nombre.toLowerCase() + ' · ' + txtDist(p.dist); }
     $('p-precio').hidden = !p.precio; $('p-precio').textContent = p.precio || '';
     $('p-marcas').innerHTML = esParada ? marcas(p) : (p.opcional ? marcas(p) : ''); $('p-marcas').hidden = !$('p-marcas').innerHTML;
     $('p-aviso').hidden = !p.aviso; $('p-aviso').textContent = p.aviso || '';
