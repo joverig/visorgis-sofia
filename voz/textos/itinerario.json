@@ -262,7 +262,7 @@
  {
   "app": "itinerario",
   "id": "itin-lun-intro",
-  "texto": "Lunes 7 de diciembre. Boyana, museo, hielo y Navidad. Último día completo en Sofía, y hoy vamos a las faldas de la montaña. Boyana era un pueblo a los pies del Vitosha y hoy es un barrio residencial de la capital, de casas con jardín y calles en cuesta. Allí está una de las joyas del arte medieval europeo, la pequeña iglesia de Boyana, Patrimonio de la Humanidad desde 1979, y muy cerca, el Museo Nacional de Historia, con los tesoros de oro de los tracios. Hoy se puede dormir un poco más: los taxis salen a las diez menos veinte y llegáis a Boyana a las diez, antes de que aparezcan los grupos, hacia las once. En la iglesia caben muy pocas personas a la vez y la visita dura diez minutos. Después, el museo, a un cuarto de hora a pie, y a la una y media, comida reservada en Manastirska Magernitsa. La tarde es de Navidad: patinaje en la pista frente al NDK y paseo por las casetas del Sofia Christmas Fest, y desde allí, el bulevar Vitosha iluminado. A las seis y media, un rato en casa para descansar, y a las ocho, cena de despedida en Pod Lipite, un clásico abierto desde 1926, con productos de su propia granja."
+  "texto": "Lunes 7 de diciembre. Boyana, museo, hielo y Navidad. Último día completo en Sofía, y hoy vamos a las faldas de la montaña. Boyana era un pueblo a los pies del Vitosha y hoy es un barrio residencial de la capital, de casas con jardín y calles en cuesta. Allí está una de las joyas del arte medieval europeo, la pequeña iglesia de Boyana, Patrimonio de la Humanidad desde 1979, y muy cerca, el Museo Nacional de Historia, con los tesoros de oro de los tracios. Hoy se puede dormir un poco más: los taxis salen a las diez menos veinte y llegáis a Boyana a las diez, antes de que aparezcan los grupos, hacia las once. En la iglesia caben muy pocas personas a la vez y la visita dura diez minutos. Después, el museo, a un cuarto de hora a pie, y a la una y media, comida reservada en Manastirska Magernitsa. Después de comer, a casa a descansar hora y media. A las cinco, ya de noche y vestidos para la cena, la tarde es de Navidad: patinaje en la pista frente al NDK, paseo por las casetas del Sofia Christmas Fest y el bulevar Vitosha iluminado. Y a las ocho, cena de despedida en Pod Lipite, un clásico abierto desde 1926, con productos de su propia granja."
  },
  {
   "app": "itinerario",
@@ -297,42 +297,42 @@
  {
   "app": "itinerario",
   "id": "itin-lun-t4",
-  "texto": "Del restaurante a la pista de hielo. Diez minutos andando hacia el oeste para bajar la comida, hasta la gran explanada del Palacio Nacional de Cultura. Al llegar, veréis las casetas del Christmas Fest y la pista de hielo frente al edificio."
- },
- {
-  "app": "itinerario",
-  "id": "itin-lun-p5",
-  "texto": "La pista de hielo del NDK. La pista de hielo del Sofia Christmas Fest abre de once de la mañana a once de la noche durante toda la feria, hasta el veintiocho de diciembre. Calculad entre cinco y ocho euros con el alquiler de patines. Un lunes por la tarde habrá poca gente, sobre todo niños y estudiantes. Quien no quiera patinar puede adelantarse a las casetas del Christmas Fest, a un paso, y esperar al resto con un vino caliente. Mientras tanto, fijaos en el NDK: su forma angulosa, de hormigón y cristal oscuro, es la del gran monumento a la Bulgaria socialista de los años ochenta. Sus jardines tienen fuentes y, al fondo, la montaña."
+  "texto": "Del restaurante a casa. Unos diez minutos de taxi hacia el noroeste, de vuelta a vuestro barrio para descansar después de la comida. Al restaurante pedidle que os llame a dos taxis."
  },
  {
   "app": "itinerario",
   "id": "itin-lun-t5",
-  "texto": "De la pista al Christmas Fest. Dos minutos: las casetas del Christmas Fest rodean la pista, en la misma explanada frente al Palacio Nacional de Cultura."
+  "texto": "De casa a la pista de hielo del NDK. Unos diez minutos de taxi hacia el sur, hasta la gran explanada del Palacio Nacional de Cultura. A esta hora ya es de noche y las luces de la feria se ven desde lejos."
  },
  {
   "app": "itinerario",
   "id": "itin-lun-p6",
-  "texto": "Sofia Christmas Fest frente al NDK. El Palacio Nacional de Cultura se inauguró en 1981 para celebrar los mil trescientos años del Estado búlgaro, y fue el gran proyecto de Lyudmila Zhivkova, hija del dirigente comunista Todor Zhivkov. Es el mayor centro de congresos del sudeste de Europa, y la explanada que tiene delante es el gran espacio de fiestas de la ciudad. En estas fechas acoge el Sofia Christmas Fest, del veinte de noviembre al veintiocho de diciembre, de once de la mañana a diez de la noche, con casetas, atracciones, comida y una pista de hielo abierta hasta las once. Es más grande y animado que el mercado alemán, más de familias búlgaras que de turistas. Paseaos por las casetas con un vino caliente o un chocolate: a las cinco empieza a anochecer, se encienden todas las luces, y el bulevar Vitosha arranca justo aquí."
+  "texto": "La pista de hielo del NDK. La pista de hielo del Sofia Christmas Fest abre de once de la mañana a once de la noche durante toda la feria, hasta el veintiocho de diciembre. Calculad entre cinco y ocho euros con el alquiler de patines. Un lunes a última hora de la tarde habrá algo más de gente, sobre todo estudiantes, pero sin agobios. Abrigaos bien: de noche el hielo está a cero grados. Quien no quiera patinar puede adelantarse a las casetas del Christmas Fest, a un paso, y esperar al resto con un vino caliente. Mientras tanto, fijaos en el NDK: su forma angulosa, de hormigón y cristal oscuro, es la del gran monumento a la Bulgaria socialista de los años ochenta. Sus jardines tienen fuentes y, al fondo, la montaña."
  },
  {
   "app": "itinerario",
   "id": "itin-lun-t6",
-  "texto": "Del Christmas Fest al bulevar Vitosha. Diez minutos hacia el norte. Desde la explanada del NDK arranca el bulevar Vitosha, peatonal, con su doble hilera de árboles y sus vías de tranvía antiguas en el suelo. Al mirar hacia atrás, la montaña Vitosha cierra la perspectiva: por eso la calle lleva su nombre."
+  "texto": "De la pista al Christmas Fest. Dos minutos: las casetas del Christmas Fest rodean la pista, en la misma explanada frente al Palacio Nacional de Cultura."
  },
  {
   "app": "itinerario",
   "id": "itin-lun-p7",
-  "texto": "Paseo por el bulevar Vitosha. El bulevar Vitosha, «Vitoshka» para los sofianos, es la calle principal de la ciudad, peatonal entre el NDK y la iglesia de Santa Nedelya. Es el lugar del paseo, de las tiendas de marcas internacionales y búlgaras, de las terrazas con calefactores y de los cafés donde se pasa la tarde. En diciembre, con las luces de Navidad encendidas, tiene mucho ambiente. Buenas ideas para llevarse a casa: cosmética de aceite de rosa, una botella de rakía o de vino de mavrud, miel de montaña o los bordados tradicionales que se venden en las tiendas de artesanía. Hacia el final veréis el Palacio de Justicia, donde empezasteis el sábado, y cerrando la perspectiva, la iglesia de Santa Nedelya. Hacia las seis y cuarto, de vuelta a casa para descansar un rato antes de la cena."
+  "texto": "Sofia Christmas Fest frente al NDK. El Palacio Nacional de Cultura se inauguró en 1981 para celebrar los mil trescientos años del Estado búlgaro, y fue el gran proyecto de Lyudmila Zhivkova, hija del dirigente comunista Todor Zhivkov. Es el mayor centro de congresos del sudeste de Europa, y la explanada que tiene delante es el gran espacio de fiestas de la ciudad. En estas fechas acoge el Sofia Christmas Fest, del veinte de noviembre al veintiocho de diciembre, de once de la mañana a diez de la noche, con casetas, atracciones, comida y una pista de hielo abierta hasta las once. Es más grande y animado que el mercado alemán, más de familias búlgaras que de turistas. Paseaos por las casetas con un vino caliente o un chocolate, con todas las luces encendidas. A las siete, el bulevar Vitosha, que arranca justo aquí."
  },
  {
   "app": "itinerario",
   "id": "itin-lun-t7",
-  "texto": "Del bulevar Vitosha a casa. Un cuarto de hora hacia el noroeste, por calles residenciales de Vazrazhdane hasta vuestra calle. Si hace frío o hay cansancio, un taxi os deja en cinco minutos."
+  "texto": "Del Christmas Fest al bulevar Vitosha. Diez minutos hacia el norte. Desde la explanada del NDK arranca el bulevar Vitosha, peatonal, con su doble hilera de árboles y sus vías de tranvía antiguas en el suelo. Al mirar hacia atrás, la montaña Vitosha cierra la perspectiva: por eso la calle lleva su nombre."
+ },
+ {
+  "app": "itinerario",
+  "id": "itin-lun-p8",
+  "texto": "Paseo por el bulevar Vitosha. El bulevar Vitosha, «Vitoshka» para los sofianos, es la calle principal de la ciudad, peatonal entre el NDK y la iglesia de Santa Nedelya. Es el lugar del paseo, de las tiendas de marcas internacionales y búlgaras, de las terrazas con calefactores y de los cafés donde se pasa la tarde. En diciembre, con las luces de Navidad encendidas, tiene mucho ambiente. Buenas ideas para llevarse a casa: cosmética de aceite de rosa, una botella de rakía o de vino de mavrud, miel de montaña o los bordados tradicionales que se venden en las tiendas de artesanía. Hacia el final veréis el Palacio de Justicia, donde empezasteis el sábado, y cerrando la perspectiva, la iglesia de Santa Nedelya. A las ocho menos cuarto, dos taxis hacia Pod Lipite."
  },
  {
   "app": "itinerario",
   "id": "itin-lun-t8",
-  "texto": "De casa a Pod Lipite. Unos quince minutos de taxi hacia el sureste, atravesando el centro y pasando junto al gran parque Borisova Gradina y el Palacio Nacional de Cultura. Pod Lipite está en el barrio de Lozenets, cerca del estadio nacional Vasil Levski: una casa baja, con tilos delante, que le dan nombre."
+  "texto": "Del bulevar Vitosha a Pod Lipite. Unos diez minutos de taxi hacia el sureste, atravesando las calles de detrás del Teatro Nacional y pasando junto al gran parque Borisova Gradina y el Monumento al Ejército Soviético. Pod Lipite está en el barrio de Lozenets, cerca del estadio nacional Vasil Levski, en la calle Elin Pelin, que lleva el nombre de un escritor búlgaro de cuentos de campesinos."
  },
  {
   "app": "itinerario",

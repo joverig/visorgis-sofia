@@ -69,6 +69,8 @@ window.ATERRIZA = {
       ['Museo Nacional de Historia', 9, 9],
       ['Taxi del museo a Manastirska', 2.3, 2.9, '8-10 € por coche'],
       ['Comida en Manastirska Magernitsa', 15, 25, 'Reservado a las 13:30'],
+      ['Taxi del restaurante a casa', 1.5, 2, '5-7 € por coche'],
+      ['Taxi de casa al NDK', 1.5, 2, '5-7 € por coche'],
       ['Pista de hielo con patines', 5, 8],
       ['Merienda en el Christmas Fest', 3, 8],
       ['Taxis a Pod Lipite y de vuelta', 3.4, 4.6, '6-8 € por coche y trayecto'],
