@@ -373,7 +373,7 @@
     if (p.reserva) m.push('<span class="marca m-reservado">✓ Reservado · ' + p.reserva + '</span>');
     if (p.comida && !corto) m.push('<span class="marca m-comida">' + COMIDAS[p.comida] + '</span>');
     if (p.opcional) m.push('<span class="marca m-opcional">Opcional</span>');
-    if (p.aviso) m.push('<span class="marca m-aviso">⚠ Tiempo justo</span>');
+    if (p.aviso) m.push('<span class="marca m-aviso">⚠ ' + (p.avisoEtq || 'Aviso') + '</span>');
     return m.join('');
   }
 
