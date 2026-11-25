@@ -63,6 +63,7 @@
   background: #fffaf1; color: var(--carmesi, #a8322a); border: 2px solid var(--carmesi, #a8322a); font-weight: 700; font-size: 15px; text-decoration: none; margin-right: 8px; }
 .btn-pedir[hidden] { display: none; }
 .btn-pedir:active { transform: scale(.97); }
+.btn-explora { color: #5f7a34; border-color: #5f7a34; }
 
 /* Comidas, opcionales, reservas y avisos */
 .pasos li.comida .num { background: none; width: 30px; height: 30px; }

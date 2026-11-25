@@ -429,13 +429,14 @@
     // Qué pedir (restaurantes): arriba, bajo el nombre del sitio
     $('p-pedir').hidden = !(esParada && p.comer);
     if (esParada && p.comer) $('p-pedir').href = '../comer/#' + p.comer;
+    $('p-explora').hidden = !(esParada && p.explora);
+    if (esParada && p.explora) $('p-explora').href = '../explora/#' + p.explora;
     // Enlaces
     const ir = $('p-ir'); ir.innerHTML = '';
     const enlace = (txt, href, cls) => { const a = document.createElement('a'); a.textContent = txt; a.href = href; a.className = cls || 'ver-google'; if (/^https?:/.test(href)) { a.target = '_blank'; a.rel = 'noopener'; } ir.appendChild(a); };
     if (esParada) {
       const [lon, lat] = datos.lugares[p.lugar].coord;
       enlace('Cómo llegar', 'https://www.google.com/maps/dir/?api=1&travelmode=walking&destination=' + lat + ',' + lon, 'llevame');
-      if (p.explora) enlace('Ficha en Explora Sofía', '../explora/#' + p.explora);
     } else {
       const [lo1, la1] = datos.lugares[p.desde].coord, [lo2, la2] = datos.lugares[p.hasta].coord;
       enlace('Abrir en Google Maps', 'https://www.google.com/maps/dir/?api=1&travelmode=' + MODOS[p.modo].gm + '&origin=' + la1 + ',' + lo1 + '&destination=' + la2 + ',' + lo2, 'llevame');

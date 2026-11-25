@@ -501,7 +501,7 @@
      "Se inauguró en 1954, en plena época estalinista, para honrar al ejército soviético que entró en Bulgaria en 1944. Durante décadas fue escenario de actos oficiales del régimen.",
      "Después de 1989 se convirtió en un símbolo incómodo: en 2011 unos artistas pintaron a sus soldados como superhéroes de cómic, y las imágenes dieron la vuelta al mundo. En 2023 se empezó a desmontar su figura central, en medio de un fuerte debate."
     ],
-    "nivel": "secundario"
+    "nivel": "principal"
    },
    "geometry": {
     "type": "Point",
@@ -522,7 +522,7 @@
      "Se construyó en 1528 como Kara Camii, la Mezquita Negra, por el color oscuro de su piedra, y se atribuye a Mimar Sinan. Después de la liberación quedó abandonada y llegó a usarse como prisión.",
      "Entre 1901 y 1902 los arquitectos Yordan Milanov y Petko Momchilov la transformaron en iglesia ortodoxa dedicada a los siete santos, discípulos de Cirilo y Metodio. Su jardín, en la animada calle Graf Ignatiev, es un punto de encuentro del barrio."
     ],
-    "nivel": "secundario"
+    "nivel": "principal"
    },
    "geometry": {
     "type": "Point",
@@ -627,7 +627,7 @@
      "Construido en 1891 sobre el río Perlovska, sus cuatro águilas recuerdan el lugar donde los sofiotas recibieron a los prisioneros de guerra que volvían tras la liberación de 1878. Las águilas simbolizan la protección de los que regresaban.",
      "Hoy es un cruce muy concurrido y un lugar habitual de concentraciones y protestas, junto a la entrada del parque Borisova Gradina."
     ],
-    "nivel": "secundario"
+    "nivel": "principal"
    },
    "geometry": {
     "type": "Point",
@@ -902,7 +902,7 @@
      "La explanada frente al Palacio Nacional de Cultura es el gran espacio de fiestas de Sofía. En Navidad se llena con el Sofia Christmas Fest: casetas de comida y regalos, atracciones, conciertos y una pista de hielo. Es más grande y más familiar que el mercado del Jardín de la Ciudad.",
      "Está junto a la estación de metro del NDK, en la línea M2, y al final del bulevar Vitosha, así que es fácil de combinar con un paseo."
     ],
-    "nivel": "secundario"
+    "nivel": "principal"
    },
    "geometry": {
     "type": "Point",
@@ -1080,6 +1080,48 @@
     "coordinates": [
      24.75259,
      42.14406
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ilusiones",
+    "nombre": "Museo de las Ilusiones",
+    "categoria": "museo",
+    "resumen": "Más de sesenta montajes que engañan a la vista, a dos pasos de la mezquita de Banya Bashi.",
+    "historia": [
+     "Abrió en diciembre de 2019 en el bulevar Maria Luiza y forma parte de una cadena internacional nacida en Zagreb en 2015. Son unos cuatrocientos metros cuadrados de montajes que juegan con la óptica, la perspectiva y la física.",
+     "Hay un túnel giratorio que hace perder el equilibrio aunque el suelo esté quieto, una habitación cabeza abajo, salas donde unos parecen gigantes y otros enanos, y una sala a oscuras donde la sombra se queda pegada a la pared. El personal explica cada truco y ayuda a sacar la foto. Abre todos los días de diez a ocho; a primera hora está más tranquilo."
+    ],
+    "nivel": "secundario"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.32272,
+     42.70044
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "shishman",
+    "nombre": "Calle Tsar Shishman",
+    "categoria": "edificio",
+    "resumen": "Una calle corta y con encanto de tiendas de diseño, cafés y bares pequeños en edificios antiguos.",
+    "historia": [
+     "Lleva el nombre de Iván Shishman, el último zar de Tarnovo, que cayó ante los otomanos a finales del siglo catorce. Hoy es una de las calles más agradables del centro, a pocos pasos de la iglesia rusa y del bulevar Tsar Osvoboditel.",
+     "De día se pasea entre tiendas de diseño y cafés; de noche se llena de gente local en bares pequeños con cócteles de autor. Es el corazón de la vida nocturna tranquila de Sofía."
+    ],
+    "nivel": "secundario"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.3305,
+     42.692
     ]
    }
   }
