@@ -27,6 +27,7 @@ DIA = {'id': 'lun',
                       'Abre todos los días de diez a ocho y a primera hora está más tranquilo. La entrada ronda los diecisiete euros por persona y se puede comprar online. A las once y media, dos '
                       'taxis hacia el Puente de las Águilas.'],
             'precio': 'Unos 17 € por persona',
+            'explora': 'ilusiones',
             'avisoEtq': 'Llegar pronto',
             'aviso': 'Llegad a las diez, a la apertura: a partir de las once se llena.'},
            {'modo': 'taxi',

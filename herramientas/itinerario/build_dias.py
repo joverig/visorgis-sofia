@@ -46,7 +46,7 @@ D = dict(id='vie', fecha='2026-12-04', titulo='Viernes 4', lema='Llegada y prime
 guardar('d1_vie', D)
 
 # ============ SÁBADO ============
-tour = g(O2, 'Free Sofia Tour en español', reserva='11:00')
+tour = g(O2, 'Free Sofia Tour en español', reserva='11:00', explora='freetour')
 rep(tour, 'Escuchad bien y tomad nota de lo que os llame la atención: por la tarde volveréis con calma a los sitios que más os interesen.',
     'El tour termina junto a la catedral de Alejandro Nevski: ahí mismo bajaréis a su cripta, y después iréis a comer a Izbata Tavern, a ocho minutos.')
 rep(tour, 'No hace falta reservar, y al final', 'Tenéis plaza apuntada para siete, y al final')
@@ -81,7 +81,7 @@ rep(kas, 'Mesa para siete reservada cerca de los músicos, en el +359 899 917 83
 tks = g(O2, 'De Hadjidraganovite Kashti a la calle Tsar Shishman', modo='taxi', alternativa='Andando: unos 35 min')
 tks['texto'] = ['Unos ocho minutos de taxi atravesando el centro de norte a sur: el puente de los Leones, el bulevar Maria Luiza con la mezquita iluminada, el Largo y el bulevar Tsar Osvoboditel, con la iglesia rusa y sus cúpulas doradas.',
  'La calle Tsar Shishman lleva el nombre de Iván Shishman, el último zar de Tarnovo, que cayó ante los otomanos a finales del siglo catorce. Es una calle corta y con encanto, llena de tiendas de diseño, cafés y bares en edificios antiguos.']
-shi = g(O2, 'Copas por Tsar Shishman', hora='22:15')
+shi = g(O2, 'Copas por Tsar Shishman', hora='22:15', explora='shishman')
 pet = g(O2, 'Si el grupo quiere bailar: Bar Petak', hora='23:15', titulo='Opcional: a bailar en Bar Petak', opcional=True)
 rep(pet, 'Es opcional, claro: mañana el autobús a Plovdiv sale a las nueve.', 'Es opcional, y la noche se alarga: mañana el taxi a la estación sale a las ocho y veinte.')
 D = dict(id='sab', fecha='2026-12-05', titulo='Sábado 5', lema='Sofía a fondo y cena con música', intro=[
@@ -177,7 +177,7 @@ ilu = P('ilusiones', '10:00', 'Museo de las Ilusiones', [
  'Una hora y media para jugar. El Museo de las Ilusiones abrió en diciembre de 2019 en el bulevar Maria Luiza, a dos pasos de la mezquita de Banya Bashi, y forma parte de una cadena internacional nacida en Zagreb en 2015. Son unos cuatrocientos metros cuadrados con más de sesenta montajes que juegan con la óptica, la perspectiva y la física.',
  'Hay un túnel giratorio que hace perder el equilibrio aunque el suelo esté quieto, una habitación cabeza abajo, salas donde unos parecen gigantes y otros enanos, y una sala a oscuras donde se dibuja con luz y la sombra se queda pegada a la pared. El personal explica el truco de cada montaje y ayuda a sacar la foto buena: con siete personas, las fotos de grupo dan mucho juego.',
  'Abre todos los días de diez a ocho y a primera hora está más tranquilo. La entrada ronda los diecisiete euros por persona y se puede comprar online. A las once y media, dos taxis hacia el Puente de las Águilas.'],
- precio='Unos 17 € por persona', avisoEtq='Llegar pronto', aviso='Llegad a las diez, a la apertura: a partir de las once se llena.')
+ precio='Unos 17 € por persona', explora='ilusiones', avisoEtq='Llegar pronto', aviso='Llegad a las diez, a la apertura: a partir de las once se llena.')
 agu = P('aguilas', '11:40', 'El Puente de las Águilas', [
  'Cuatro águilas de bronce, cada una sobre su columna, vigilan este puente sobre el río Perlovska, construido en 1891. Recuerdan el lugar donde los sofiotas salieron a recibir a los prisioneros de guerra que volvían a casa tras la liberación de 1878, y las águilas simbolizan la protección de los que regresaban.',
  'Hoy es uno de los cruces más concurridos de la ciudad y el punto de reunión habitual de manifestaciones y protestas. Al otro lado empieza Borisova Gradina, el gran parque de Sofía. Vosotros seguís a la derecha, hacia el Jardín del Príncipe.'],

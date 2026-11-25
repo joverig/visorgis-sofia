@@ -36,7 +36,8 @@ DIA = {'id': 'sab',
                       'la sinagoga, los Baños Minerales y sus fuentes, los tres edificios del Largo, la Rotonda, el Jardín de la Ciudad, el Teatro Nacional, el antiguo Palacio Real, la iglesia rusa, '
                       'Santa Sofía y, al final, Alejandro Nevski. El guía puede cambiar el orden según el grupo. El tour termina junto a la catedral de Alejandro Nevski: ahí mismo bajaréis a su '
                       'cripta, y después iréis a comer a Izbata Tavern, a ocho minutos.'],
-            'reserva': '11:00'},
+            'reserva': '11:00',
+            'explora': 'freetour'},
            {'modo': 'pie',
             'titulo': 'El recorrido del free tour',
             'texto': ['El guía os lleva a pie desde el Palacio de Justicia hasta la catedral de Alejandro Nevski, con diecinueve paradas por el centro monumental. Primero hacia el norte: Santa '
@@ -163,7 +164,8 @@ DIA = {'id': 'sab',
                       'otra.',
                       'One More Bar, en el número 12, ocupa una casa antigua con encanto y es el favorito de las guías locales: cócteles bien hechos en un ambiente de salón, con techos altos y luz '
                       'cálida. Al otro lado de la calle, en el 15, el 5L Speakeasy es más íntimo y creativo, un bar escondido para quien quiera que el barman le sorprenda.',
-                      'Si os apetece probar algo local, pedid un cóctel con rakía o con hierbas de montaña búlgaras. Y si el grupo pide marcha, la siguiente parada está a cinco minutos.']},
+                      'Si os apetece probar algo local, pedid un cóctel con rakía o con hierbas de montaña búlgaras. Y si el grupo pide marcha, la siguiente parada está a cinco minutos.'],
+            'explora': 'shishman'},
            {'modo': 'pie',
             'titulo': 'De Tsar Shishman a Bar Petak',
             'texto': ['Cinco minutos andando. Seguís unos metros por Tsar Shishman y giráis a la izquierda hacia la calle General Gurko, que lleva el nombre del general ruso Iósif Gurko, el que '

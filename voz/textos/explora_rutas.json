@@ -238,5 +238,45 @@
   "app": "explora",
   "id": "ruta-historia--ndk",
   "texto": "Del Museo de Historia al centro. Para volver al centro desde Boyana, lo más cómodo es un taxi, unos veinte minutos hasta el Palacio Nacional de Cultura. También hay autobuses urbanos que conectan Boyana con el centro."
+ },
+ {
+  "app": "explora",
+  "id": "ruta-parlamento--ejercito",
+  "texto": "Por los adoquines amarillos. Desde la plaza del Parlamento, el camino sigue hacia el este por el bulevar Tsar Osvoboditel, pavimentado con los célebres adoquines amarillos que se colocaron a principios del siglo veinte. Pasarás ante la Universidad de Sofía, con las estatuas de los hermanos Georgiev, sus mecenas, en la fachada, y enseguida aparece entre los árboles del Jardín del Príncipe el gran monumento al Ejército Soviético. Por el camino verás: El monumento al Zar Libertador; Los adoquines amarillos del bulevar; La fachada de la Universidad de Sofía."
+ },
+ {
+  "app": "explora",
+  "id": "ruta-ejercito--parlamento",
+  "texto": "Del jardín al Parlamento. Saliendo del Jardín del Príncipe, el camino vuelve hacia el centro por el bulevar Tsar Osvoboditel, el eje de la Sofía del siglo diecinueve. Dejarás atrás la Universidad de Sofía y llegarás a la plaza del Parlamento, presidida por el zar ruso Alejandro II a caballo, el Zar Libertador. Por el camino verás: La fachada de la Universidad de Sofía; Los adoquines amarillos del bulevar; El monumento al Zar Libertador."
+ },
+ {
+  "app": "explora",
+  "id": "ruta-ejercito--aguilas",
+  "texto": "Hasta las águilas. Un paseo corto desde el monumento al Ejército Soviético, levantado en 1954, hacia el este, siguiendo el bulevar hasta el río Perlovska. Allí, cuatro águilas de bronce sobre sus columnas vigilan el puente de 1891. Al otro lado empieza el gran parque Borisova Gradina. Por el camino verás: Los relieves del monumento al Ejército Soviético; Los árboles del Jardín del Príncipe; Las cuatro águilas de bronce."
+ },
+ {
+  "app": "explora",
+  "id": "ruta-aguilas--ejercito",
+  "texto": "De las águilas al monumento. Desde el Puente de las Águilas, el camino vuelve hacia el centro bordeando el Jardín del Príncipe. Enseguida aparece la gran columna del monumento al Ejército Soviético, de 1954. Fíjate en los relieves de la base: en 2011 unos artistas pintaron una noche a sus soldados como superhéroes de cómic, y la foto dio la vuelta al mundo. Por el camino verás: Las cuatro águilas de bronce; Los árboles del Jardín del Príncipe; Los relieves del monumento."
+ },
+ {
+  "app": "explora",
+  "id": "ruta-siete--teatro",
+  "texto": "De la Mezquita Negra al teatro. La iglesia de los Siete Santos fue en el siglo dieciséis la Mezquita Negra, por el granito oscuro de su alminar, y se convirtió en iglesia a principios del siglo veinte. Desde aquí el camino va hacia el noroeste por las calles tranquilas del centro hasta el Jardín de la Ciudad, donde espera el Teatro Nacional Iván Vázov, blanco y rojo, de 1906. Por el camino verás: Los muros de la antigua Mezquita Negra; Las calles tranquilas del centro; La fachada del Teatro Nacional."
+ },
+ {
+  "app": "explora",
+  "id": "ruta-teatro--siete",
+  "texto": "Del teatro a los Siete Santos. Desde el Teatro Nacional y su jardín, el camino se aleja del bullicio hacia el sudeste, por calles de casas de principios del siglo veinte. Al final espera la iglesia de los Siete Santos, una antigua mezquita otomana del siglo dieciséis rodeada de un pequeño jardín, que se convirtió en iglesia a principios del siglo veinte. Por el camino verás: La fachada del Teatro Nacional; Las calles tranquilas del centro; El jardín de los Siete Santos."
+ },
+ {
+  "app": "explora",
+  "id": "ruta-ndk--navidadndk",
+  "texto": "Del palacio al mercadillo. El Palacio Nacional de Cultura se inauguró en 1981 para celebrar los mil trescientos años de Bulgaria, y es uno de los mayores centros de congresos del sudeste de Europa. En diciembre, el parque que se extiende delante se llena con las casetas, las luces y la pista de hielo del Sofia Christmas Fest. Solo hay que bajar la escalinata. Por el camino verás: La gran fachada del Palacio Nacional de Cultura; Las fuentes y los paseos del parque; Las luces del mercado navideño."
+ },
+ {
+  "app": "explora",
+  "id": "ruta-navidadndk--ndk",
+  "texto": "Del mercadillo al palacio. Desde las casetas del Sofia Christmas Fest, cruza el parque hacia el gran edificio del Palacio Nacional de Cultura. Se inauguró en 1981 para celebrar los mil trescientos años de Bulgaria; de noche, con el mercado iluminado delante, es una de las estampas navideñas de Sofía. Por el camino verás: Las luces del mercado navideño; Las fuentes y los paseos del parque; La gran fachada del Palacio Nacional de Cultura."
  }
 ]
