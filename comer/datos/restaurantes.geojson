@@ -409,7 +409,6 @@
     "precio": "€",
     "direccion": "bulevar Knyaginya Maria Luiza 25",
     "horario": "7:00-23:00",
-    "itinerario": "Sábado 5 · comida",
     "resumen": "El mercado cubierto de 1911, junto a la mezquita: en la planta alta y en el sótano hay puestos donde comer barato y rápido, perfecto para que cada uno pique lo que quiera.",
     "platos": [
      "Banitsa recién hecha",
@@ -463,14 +462,15 @@
     "direccion": "Slavyanska 18",
     "horario": "11:00-23:00",
     "telefono": "+359 889 895 533",
-    "resumen": "Taberna en un sótano acogedor, con recetas búlgaras casi olvidadas y precios razonables. Alternativa del plan si queréis bajar el gasto.",
-    "nota_pedir": "Conviene reservar.",
+    "resumen": "Taberna en un sótano a cinco minutos de Nevski, con recetas búlgaras casi olvidadas, raciones generosas y precios razonables.",
+    "nota_pedir": "Conviene reservar para siete: +359 889 895 533.",
     "platos": [
      "Cerdo al vino servido en pan",
      "Costillas",
      "El helado casero de postre"
     ],
-    "valoracion": null
+    "valoracion": null,
+    "itinerario": "Sábado 5 · comida"
    },
    "geometry": {
     "type": "Point",
