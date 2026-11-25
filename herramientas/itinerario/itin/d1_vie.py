@@ -1,38 +1,95 @@
-# Viernes 4 de diciembre · llegada
-DIA = dict(id='vie', fecha='2026-12-04', titulo='Viernes 4', lema='Llegada y primera rakía',
- intro=[
- 'Bienvenidos a Sofía. Este primer día es corto y nocturno: el avión de Ryanair sale de Madrid a las cinco menos diez de la tarde y aterriza en la Terminal 2 del aeropuerto de Sofía a las nueve y veinte de la noche, hora local, una más que en España. Todo lo que queda de jornada es llegar a casa, soltar las maletas y daros el primer homenaje.',
- 'El plan tiene tres tiempos. Primero, el traslado: el metro M4 sale de la misma terminal y os deja a cinco minutos de la casa por menos de un euro, aunque con siete personas y equipaje facturado lo más cómodo son dos taxis oficiales. Segundo, la cena en Raketa Rakia Bar, un local decorado con objetos de la época socialista donde la cocina cierra a las once: si el vuelo se retrasa, llamad para avisar. Y tercero, para quien aún tenga cuerda, una copa a la luz de las velas en Hambara, el bar más escondido de la ciudad.',
- 'Haced la cuenta con calma: entre recoger maletas, el traslado y dejar las cosas en casa, lo razonable es sentarse a cenar hacia las diez y media. Bulgaria usa el euro desde enero de este año, así que no hace falta cambiar moneda, aunque conviene llevar algo de efectivo para los sitios pequeños. Hará frío, probablemente bajo cero al salir del restaurante: abrigo a mano desde el aeropuerto.'],
- pasos=[
- dict(lugar='aeropuerto', hora='21:20', titulo='Aterrizaje en la Terminal 2', precio='0,80 € en metro · 13-14 € por taxi', texto=[
-  'Acabáis de tocar tierra en el aeropuerto Vasil Levski de Sofía, que lleva el nombre del gran héroe de la independencia búlgara, el «Apóstol de la libertad», ahorcado por los otomanos en 1873. Ryanair opera desde la Terminal 2, la más moderna, inaugurada en 2006, y es también la única con estación de metro, así que estáis en el sitio bueno.',
-  'Al salir de la zona de equipajes encontraréis cajeros que ya dan euros y los mostradores de taxis oficiales. No aceptéis ofertas de conductores que se acerquen en el vestíbulo: los taxis de confianza se piden en el mostrador o en la parada señalizada, y el trayecto al centro ronda los 13 o 14 euros por coche. Con siete, os tocan dos taxis.',
-  'La alternativa barata es el metro: la estación está a la salida de la terminal, el billete sencillo cuesta 0,80 euros y se puede pagar con tarjeta sin contacto en los tornos. El último tren sale hacia las once y media, así que vais con margen.'],
-  datos=['Vuelo FR6410 · Madrid 16:50 → Sofía 21:20 (hora local)', 'Terminal 2 · metro M4 a la salida', 'Taxi: solo en el mostrador oficial']),
- dict(modo='metro', titulo='Del aeropuerto a casa', alternativa='Taxi: unos 20 min, 13-14 € por coche', texto=[
-  'Tenéis dos maneras de llegar. En metro, la línea M4 va directa, sin transbordos, desde la Terminal 2 hasta la estación Opalchenska, a unos cinco minutos andando de la casa. Son unos 25 o 30 minutos de trayecto, primero en superficie entre naves y avenidas anchas, después bajo tierra al cruzar el centro. Al salir en Opalchenska, caminad hacia el sur por la calle Sredna Gora.',
-  'En taxi, el coche cruza la ciudad por el bulevar Tsarigradsko Shose, la vieja carretera de Constantinopla, que entra en Sofía por el puente de las Águilas, junto al parque Borisova Gradina, y luego atraviesa el corazón de la ciudad: el Parlamento, el bulevar Tsar Osvoboditel y la plaza del Largo, con las ruinas romanas a sus pies. Es un primer vistazo nocturno de lo que veréis mañana. A esas horas no hay tráfico y en unos veinte minutos estaréis en la puerta. Con maletas grandes y siete personas, es la opción que os recomiendo para esta primera noche.']),
- dict(lugar='casa', hora='22:00', titulo='La casa: Sredna Gora 16', texto=[
-  'Esta es vuestra base para los próximos cuatro días: un apartamento en la calle Sredna Gora, en el barrio de Vazrazhdane, que significa «Renacimiento». La calle toma su nombre de la Sredna Gora, la «montaña del medio», la cordillera del centro de Bulgaria donde estalló en 1876 el Levantamiento de Abril contra el Imperio otomano. Las calles de alrededor llevan nombres de montes y pueblos de aquella historia.',
-  'La entrada es autónoma, con código digital, y se puede hacer desde las tres de la tarde hasta medianoche, así que llegáis bien de hora. Dejad las maletas, abrigaos y salid: el centro histórico empieza a diez minutos a pie, y en la esquina tenéis supermercados abiertos hasta las diez de la noche y una farmacia de guardia 24 horas junto a la estación de metro. Todos esos detalles los tenéis en la aplicación Aterrizando.',
-  'El último día la salida es a las once de la mañana, pero el alojamiento guarda las maletas, así que podréis aprovechar la mañana del martes sin cargar con ellas.']),
- dict(modo='taxi', titulo='De casa a Raketa', alternativa='Andando: unos 45 min', texto=[
-  'Son casi cuatro kilómetros de punta a punta del centro, demasiado para la primera noche y con la cocina a punto de cerrar: pedid dos taxis. El coche cruza el centro hacia el este: pasa junto a las ruinas romanas de Serdica, bajo el edificio del Largo, y sigue por el bulevar Dondukov, junto a la Ópera. A vuestra derecha, entre los edificios, asomarán iluminadas las cúpulas doradas de la catedral de Alejandro Nevski.',
-  'Raketa está en el bulevar Yanko Sakazov, frente a la entrada principal del parque Zaimov. Fijaos en las bicicletas antiguas aparcadas delante de la puerta: es la señal de que habéis llegado.']),
- dict(lugar='raketa', hora='22:30', titulo='Cena tardía en Raketa Rakia Bar', comer='raketa', precio='10-20 € por persona', texto=[
-  'Raketa significa «cohete», y el nombre ya da la pista: el local es un pequeño museo de la vida cotidiana en la Bulgaria socialista, con máquinas de escribir, carteles de propaganda, periódicos de época, radios de válvulas y vajilla de metal como la de las cocinas de las abuelas. Comparte terraza con el Sputnik, un bar de cócteles del mismo grupo. Es nostalgia con sentido del humor, y los búlgaros vienen tanto como los turistas.',
-  'El motivo de fondo es la rakía, el aguardiente nacional, que aquí tienen en más de ciento setenta versiones de todo el país: de ciruela, de uva, de albaricoque, de membrillo. Se bebe despacio, en vasito pequeño, y siempre acompañando la comida, empezando por una ensalada. Pedid que os aconsejen una suave para empezar.',
-  'Para picar entre todos, las reseñas coinciden: el pan «gitano», la ensalada de la rakía, los corazones de pollo y las albóndigas. Si hay hambre de verdad, el codillo entero es para compartir. La cocina cierra a las once y la barra a medianoche; si llegáis justos, llamad antes al +359 2 444 6111.']),
- dict(modo='pie', titulo='De Raketa a Hambara', texto=[
-  'Un paseo de veinte minutos para bajar la cena. Salís del parque Zaimov hacia el sur y atravesáis el barrio de Oborishte, de calles tranquilas y edificios de principios del siglo veinte, muchos con embajadas y residencias. Desembocaréis en el bulevar Tsar Osvoboditel, la avenida del adoquín amarillo, justo frente al Parlamento y la estatua ecuestre del zar Alejandro II, el Libertador; a un par de manzanas a la izquierda queda la catedral de Alejandro Nevski, iluminada y casi irreal en la niebla de diciembre.',
-  'Después el camino baja por la calle General Gurko y se mete en las calles estrechas que llevan a la calle 6 de Septiembre. El nombre recuerda el 6 de septiembre de 1885, el día de la Unificación de Bulgaria con Rumelia Oriental, la región de Plovdiv que visitaréis el domingo.']),
- dict(lugar='hambara', hora='23:45', titulo='Si aún tenéis ganas: Hambara', comer='hambara', precio='3-9 € por copa', texto=[
-  'Hambara significa «el granero», y es probablemente el bar más escondido de Sofía. En el número 22 de la calle 6 de Septiembre hay que entrar en un patio, recorrer un callejón oscuro y llamar a una puerta de madera sin cartel. Dentro no hay electricidad: solo velas, sobre las mesas, en la barra, en las estanterías llenas de botellas.',
-  'Durante la época comunista fue un refugio de escritores, artistas e intelectuales, un lugar donde se hablaba con algo más de libertad. Hoy conserva ese aire de reunión clandestina, con música bien escogida y una clientela fiel que viene desde hace décadas. No es sitio de cócteles: rakía, vino o combinados sencillos.',
-  'Pagad en efectivo y no esperéis sitio para siete juntos si llegáis tarde: el local es pequeño. Y al salir, fijaos: oleréis a vela durante el resto de la noche, como todo el que ha pasado por aquí.']),
- dict(modo='pie', titulo='De Hambara a casa', texto=[
-  'Veinte minutos de vuelta hacia el oeste. Pasaréis por la plaza Slaveykov, en la calle Graf Ignatiev, la de las tiendas y los cafés, presidida por las estatuas de dos escritores sentados en un banco, padre e hijo, Petko y Pencho Slaveykov. Después cruzaréis el bulevar Vitosha, la gran calle peatonal de Sofía, a la altura del Palacio de Justicia: si miráis hacia el sur, veréis al fondo la masa oscura de la montaña Vitosha, que da nombre a la calle.',
-  'Desde allí seguís por calles residenciales hasta la plaza Macedonia y, enseguida, vuestra calle. Es un trayecto tranquilo y bien iluminado; aun así, si el frío aprieta o alguien está cansado del viaje, un taxi os cuesta apenas tres o cuatro euros. Mañana empieza el día grande.']),
- dict(lugar='casa', hora='00:15', titulo='De vuelta en casa', narrar=False, texto=['A dormir: mañana a las once os espera el Free Sofia Tour en el Palacio de Justicia, a quince minutos andando.']),
- ])
+# Generado por build_dias.py
+DIA = {'id': 'vie',
+ 'fecha': '2026-12-04',
+ 'titulo': 'Viernes 4',
+ 'lema': 'Llegada y primera cena en el bulevar Vitosha',
+ 'intro': ['Bienvenidos a Sofía. Este primer día es corto y nocturno: el avión de Ryanair sale de Madrid a las cinco menos diez de la tarde y aterriza en la Terminal 2 del aeropuerto de Sofía a las '
+           'nueve y veinte de la noche, hora local, una más que en España. Todo lo que queda de jornada es llegar a casa, soltar las maletas y daros el primer homenaje.',
+           'El plan tiene tres tiempos. Primero, el traslado en dos taxis oficiales, unos veinte minutos hasta la puerta; el metro M4, que sale de la misma terminal, queda como alternativa barata. '
+           'Segundo, la cena: mesa reservada a las once en Lavelé Garden, en pleno bulevar Vitosha, a cinco minutos en taxi de casa. Y tercero, solo para quien aún tenga cuerda, una copa a la luz de '
+           'las velas en Hambara, el bar más escondido de la ciudad.',
+           'Haced la cuenta con calma: entre recoger maletas, el traslado y dejar las cosas en casa, estaréis listos para coger los taxis hacia las once menos cuarto. Bulgaria usa el euro desde '
+           'enero de este año, así que no hace falta cambiar moneda, aunque conviene llevar algo de efectivo para los sitios pequeños. Hará frío, probablemente bajo cero al salir del restaurante: '
+           'abrigo a mano desde el aeropuerto.'],
+ 'pasos': [{'lugar': 'aeropuerto',
+            'hora': '21:20',
+            'titulo': 'Aterrizaje en la Terminal 2',
+            'precio': '13-14 € por taxi · 0,80 € en metro',
+            'texto': ['Acabáis de tocar tierra en el aeropuerto Vasil Levski de Sofía, que lleva el nombre del gran héroe de la independencia búlgara, el «Apóstol de la libertad», ahorcado por los '
+                      'otomanos en 1873. Ryanair opera desde la Terminal 2, la más moderna, inaugurada en 2006, y es también la única con estación de metro, así que estáis en el sitio bueno.',
+                      'Al salir de la zona de equipajes encontraréis cajeros que ya dan euros y los mostradores de taxis oficiales. No aceptéis ofertas de conductores que se acerquen en el '
+                      'vestíbulo: los taxis de confianza se piden en el mostrador o en la parada señalizada, y el trayecto al centro ronda los 13 o 14 euros por coche. Con siete, os tocan dos taxis.',
+                      'La alternativa barata es el metro: la estación está a la salida de la terminal, el billete sencillo cuesta 0,80 euros y se puede pagar con tarjeta sin contacto en los tornos. '
+                      'El último tren sale hacia las once y media, así que vais con margen.'],
+            'datos': ['Vuelo FR6410 · Madrid 16:50 → Sofía 21:20 (hora local)', 'Terminal 2 · metro M4 a la salida', 'Taxi: solo en el mostrador oficial']},
+           {'modo': 'taxi',
+            'titulo': 'Del aeropuerto a casa en taxi',
+            'texto': ['En taxi, el coche cruza la ciudad por el bulevar Tsarigradsko Shose, la vieja carretera de Constantinopla, que entra en Sofía por el puente de las Águilas, junto al parque '
+                      'Borisova Gradina, y luego atraviesa el corazón de la ciudad: el Parlamento, el bulevar Tsar Osvoboditel y la plaza del Largo, con las ruinas romanas a sus pies. Es un primer '
+                      'vistazo nocturno de lo que veréis mañana. A esas horas no hay tráfico y en unos veinte minutos estaréis en la puerta. Pedid dos taxis en el mostrador oficial: con maletas y '
+                      'siete personas, es lo más cómodo.',
+                      'Si preferís el metro, la línea M4 va directa, sin transbordos, desde la Terminal 2 hasta la estación Opalchenska, a cinco minutos andando de la casa: unos veinticinco o '
+                      'treinta minutos y 0,80 euros.'],
+            'alternativa': 'Metro M4 hasta Opalchenska: unos 30 min, 0,80 €'},
+           {'lugar': 'casa',
+            'hora': '22:20',
+            'titulo': 'La casa: Sredna Gora 16',
+            'texto': ['Esta es vuestra base para los próximos cuatro días: un apartamento en la calle Sredna Gora, en el barrio de Vazrazhdane, que significa «Renacimiento». La calle toma su nombre '
+                      'de la Sredna Gora, la «montaña del medio», la cordillera del centro de Bulgaria donde estalló en 1876 el Levantamiento de Abril contra el Imperio otomano. Las calles de '
+                      'alrededor llevan nombres de montes y pueblos de aquella historia.',
+                      'La entrada es autónoma, con código digital, y se puede hacer desde las tres de la tarde hasta medianoche, así que llegáis bien de hora. Dejad las maletas, abrigaos y salid: el '
+                      'centro histórico empieza a diez minutos a pie, y en la esquina tenéis supermercados abiertos hasta las diez de la noche y una farmacia de guardia 24 horas junto a la estación '
+                      'de metro. Todos esos detalles los tenéis en la aplicación Aterrizando.',
+                      'El último día la salida es a las once de la mañana, pero el alojamiento guarda las maletas, así que podréis aprovechar la mañana del martes sin cargar con ellas.']},
+           {'modo': 'taxi',
+            'titulo': 'De casa a Lavelé Garden en taxi',
+            'texto': ['Unos cinco minutos de taxi hacia el este, el primer vistazo a Sofía de noche: la plaza Macedonia, una encrucijada de tranvías, y las calles de edificios de entreguerras hasta '
+                      'el bulevar Vitosha, la gran calle peatonal de la ciudad, iluminada de punta a punta en diciembre.',
+                      'Pedid dos taxis para las once menos cuarto. El restaurante está en el número 34 del bulevar, en el tramo de las tiendas; como el bulevar es peatonal, el taxi os dejará en la '
+                      'esquina con la calle Lavele.'],
+            'salida': '22:45',
+            'alternativa': 'Andando: unos 15 min'},
+           {'lugar': 'lavele',
+            'hora': '23:00',
+            'titulo': 'Cena en Lavelé Garden',
+            'texto': ['Lavelé Garden está en el número 34 del bulevar Vitosha, el corazón del paseo de Sofía. Su nombre viene de la calle Lavele, que cruza el bulevar justo aquí, y el local juega a '
+                      'ser un jardín en plena ciudad, con mucha planta y luz cálida.',
+                      'La cocina mezcla lo mediterráneo y lo balcánico: pizzas, pastas y risottos para quien llegue con hambre de casa, y para estrenarse en lo búlgaro, la ensalada balcánica con '
+                      'queso sirene de granja. Es una cena tranquila después del viaje, sin prisas: mañana el día empieza a las once.',
+                      'Mesa reservada para siete a las once de la noche. Si el vuelo se retrasa, avisad al restaurante.'],
+            'comer': 'lavele',
+            'comida': 'cena',
+            'reserva': '23:00',
+            'precio': '15-25 € por persona'},
+           {'modo': 'pie',
+            'titulo': 'De Lavelé Garden a Hambara',
+            'texto': ['Doce minutos hacia el este. Seguís por la calle Graf Ignatiev, la de las tiendas y los tranvías, hasta la plaza Slaveykov, donde dos escritores de bronce, padre e hijo, Petko '
+                      'y Pencho Slaveykov, conversan sentados en un banco.',
+                      'Desde allí os metéis por calles más estrechas hasta la calle 6 de Septiembre. El nombre recuerda el 6 de septiembre de 1885, el día de la Unificación de Bulgaria, cuando el '
+                      'principado del norte y la Rumelia Oriental, con capital en Plovdiv, se unieron en un solo Estado.'],
+            'opcional': True},
+           {'lugar': 'hambara',
+            'hora': '00:30',
+            'titulo': 'Opcional: una vela en Hambara',
+            'comer': 'hambara',
+            'precio': '3-9 € por copa',
+            'texto': ['Hambara significa «el granero», y es probablemente el bar más escondido de Sofía. En el número 22 de la calle 6 de Septiembre hay que entrar en un patio, recorrer un callejón '
+                      'oscuro y llamar a una puerta de madera sin cartel. Dentro no hay electricidad: solo velas, sobre las mesas, en la barra, en las estanterías llenas de botellas.',
+                      'Durante la época comunista fue un refugio de escritores, artistas e intelectuales, un lugar donde se hablaba con algo más de libertad. Hoy conserva ese aire de reunión '
+                      'clandestina, con música bien escogida y una clientela fiel que viene desde hace décadas. No es sitio de cócteles: rakía, vino o combinados sencillos.',
+                      'Pagad en efectivo y no esperéis sitio para siete juntos si llegáis tarde: el local es pequeño. Y al salir, fijaos: oleréis a vela durante el resto de la noche, como todo el '
+                      'que ha pasado por aquí.'],
+            'opcional': True},
+           {'modo': 'pie',
+            'titulo': 'De Hambara a casa',
+            'texto': ['Veinte minutos de vuelta hacia el oeste. Pasaréis por la plaza Slaveykov, en la calle Graf Ignatiev, la de las tiendas y los cafés, presidida por las estatuas de dos '
+                      'escritores sentados en un banco, padre e hijo, Petko y Pencho Slaveykov. Después cruzaréis el bulevar Vitosha, la gran calle peatonal de Sofía, a la altura del Palacio de '
+                      'Justicia: si miráis hacia el sur, veréis al fondo la masa oscura de la montaña Vitosha, que da nombre a la calle.',
+                      'Desde allí seguís por calles residenciales hasta la plaza Macedonia y, enseguida, vuestra calle. Es un trayecto tranquilo y bien iluminado; aun así, si el frío aprieta o '
+                      'alguien está cansado del viaje, un taxi os cuesta apenas tres o cuatro euros. Mañana empieza el día grande.'],
+            'alternativa': 'Taxi: unos 5 min, 3-5 € · Si no vais a Hambara: de Lavelé a casa, 15 min andando'},
+           {'lugar': 'casa',
+            'hora': '01:00',
+            'titulo': 'De vuelta en casa',
+            'narrar': False,
+            'texto': ['A dormir: mañana a las once os espera el Free Sofia Tour en el Palacio de Justicia, a quince minutos andando.']}]}

@@ -13,7 +13,7 @@ Carpetas
   www\itinerario\         "Itinerario": plan dia a dia con narracion
   www\aterrizando\        "Aterrizando": vuelos, traslado, servicios y tiempo
     datos\puntos.geojson   lugares de interes con su historia
-    datos\rutas.geojson    rutas a pie entre lugares (se genera, ver abajo)
+    datos\rutas.geojson    rutas a pie entre lugares (ver abajo)
   www\<app>\audio\        narraciones mp3 + manifest.json (lista de ids con audio)
   voz\                    configuracion y textos para generar narraciones
 
@@ -21,10 +21,10 @@ Trabajo diario
   Arrancar_visor.bat -> http://localhost:8081/ (portal; usa el PHP portable de C:\Trabajo\VisorGIS)
 
 Rutas a pie (Explora Sofia)
-  2_Calcular_rutas.bat  descarga de OSRM (perfil a pie) los caminos entre lugares cercanos y
-                        los elementos de OSM del entorno a datos_rutas\ (cache; se puede relanzar).
-  Despues Claude elige las rutas que no se cruzan (1 a 4 por lugar segun densidad), calcula
-  tiempos (4,5 km/h) y redacta "por el camino" -> www\explora\datos\rutas.geojson.
+  2_Recalcular_rutas_explora.bat  recalcula con OpenStreetMap los caminos de rutas.geojson
+                        cuyos lugares han cambiado de sitio (con --todas, todos). No toca textos
+                        ni paradas: avisa si cambian los minutos o una parada queda lejos.
+  Rutas nuevas (otro par de lugares) y sus textos: pedirselas a Claude.
 
 Narrador (Azure)
   1. Crear un recurso "Speech" en Azure (capa gratuita F0) y copiar clave y region.

@@ -4,3 +4,5 @@
 /voz/azure.txt
 /voz/muestras/
 /datos_rutas/
+# Cache de Python
+__pycache__/

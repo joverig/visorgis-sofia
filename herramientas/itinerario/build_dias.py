@@ -13,7 +13,7 @@ def rep(p, a, b):
 def P(lugar, hora, titulo, texto, **kw): return dict(lugar=lugar, hora=hora, titulo=titulo, texto=texto, **kw)
 def T(modo, titulo, texto, **kw): return dict(modo=modo, titulo=titulo, texto=texto, **kw)
 def guardar(nombre, D):
-    open('itin/' + nombre + '.py', 'w').write('# Generado por build_dias.py\nDIA = ' + pprint.pformat(D, width=200, sort_dicts=False) + '\n')
+    open('itin/' + nombre + '.py', 'w', encoding='utf-8').write('# Generado por build_dias.py\nDIA = ' + pprint.pformat(D, width=200, sort_dicts=False) + '\n')
 
 # ============ VIERNES ============
 D = dict(id='vie', fecha='2026-12-04', titulo='Viernes 4', lema='Llegada y primera cena en el bulevar Vitosha', intro=[
@@ -66,13 +66,13 @@ PTOUR = [dict(n=i + 1, nombre=a, coord=list(b), explora=c) for i, (a, b, c) in e
 nev = g(O2, 'Catedral de Alejandro Nevski y su cripta', hora='13:00')
 rep(nev, 'Abre de martes a domingo de diez a seis y la entrada cuesta diez euros: si vais justos de tiempo, haced la cripta primero. Y quien quiera hacer el tour del comunismo, a las cuatro, que avise al grupo y quede después en el mercado navideño.',
     'Abre de martes a domingo de diez a seis y la entrada cuesta diez euros. Calculad unos cuarenta minutos: el hambre aprieta, y la comida os espera a ocho minutos andando.')
-izb = P('izbata', '13:50', 'Comida en Izbata Tavern', [
+izb = P('izbata', '14:00', 'Comida en Izbata Tavern', [
  'Izbata significa «la bodega», y eso es: una taberna tradicional en un sótano, a cinco minutos de la catedral. Abrió en 2010 con una idea sencilla, recuperar recetas búlgaras casi olvidadas, de las que se cocinaban en las casas, y servirlas a precios razonables y en raciones generosas.',
  'Para empezar, una ensalada shopska, la de tomate, pepino y queso sirene rallado por encima, con una rakía bien fría, que es como se hace aquí. Después, la especialidad de la casa: cerdo guisado al vino que llega a la mesa dentro de una hogaza de pan. Las costillas también tienen fama. Y dejad sitio para el helado casero, que es de lo más alabado.',
- 'Abre todos los días de once a doce de la noche. Suele llenarse: conviene llamar para reservar mesa para siete a las dos menos diez. Después de comer, dos taxis a casa a descansar.'],
+ 'Abre todos los días de once a doce de la noche. Tenéis mesa reservada para siete a las dos. Después de comer, dos taxis a casa a descansar.'],
  comida='comida', comer='izbata', precio='15-25 € por persona',
- avisoEtq='Reservar', aviso='Conviene reservar para siete: +359 889 895 533 o +359 2 989 5533.',
- calle='Si no hay mesa: Egur Egur, cocina armenia, a dos calles de Nevski, o un bocado rápido en las cafeterías del bulevar Vitosha camino de casa.')
+ reserva='14:00',
+ calle='Si alguien prefiere algo más rápido: Egur Egur, cocina armenia, a dos calles de Nevski, o un bocado rápido en las cafeterías del bulevar Vitosha camino de casa.')
 mer = g(O2, 'Mercado navideño alemán', hora='18:20', calle='Vino caliente, salchichas y dulces en las casetas: para picar antes de la cena, sin quitar el hambre.')
 rep(mer, 'Es buen momento para que el grupo se reúna si alguien ha ido al tour del comunismo.', 'No os entretengáis demasiado: a las siete y media os esperan para cenar.')
 kas = g(O2, 'Cena con música folk: Hadjidraganovite Kashti', hora='19:30', reserva='19:30', comida='cena')
@@ -86,10 +86,10 @@ pet = g(O2, 'Si el grupo quiere bailar: Bar Petak', hora='23:15', titulo='Opcion
 rep(pet, 'Es opcional, claro: mañana el autobús a Plovdiv sale a las nueve.', 'Es opcional, y la noche se alarga: mañana el taxi a la estación sale a las ocho y veinte.')
 D = dict(id='sab', fecha='2026-12-05', titulo='Sábado 5', lema='Sofía a fondo y cena con música', intro=[
  O2.DIA['intro'][0],
- 'La mañana empieza a las once con el Free Sofia Tour en español, que sale del Palacio de Justicia y termina, dos horas después, junto a la catedral de Alejandro Nevski. Allí mismo bajaréis a su cripta de iconos, y a las dos menos diez, comida en Izbata Tavern, una taberna de cocina búlgara de las de antes a ocho minutos andando. La Rotonda, Serdica y el resto del centro ya los habréis visto con el guía. Desayunad bien: hasta casi las dos no hay comida.',
+ 'La mañana empieza a las once con el Free Sofia Tour en español, que sale del Palacio de Justicia y termina, dos horas después, junto a la catedral de Alejandro Nevski. Allí mismo bajaréis a su cripta de iconos, y a las dos, comida en Izbata Tavern, una taberna de cocina búlgara de las de antes a ocho minutos andando. La Rotonda, Serdica y el resto del centro ya los habréis visto con el guía. Desayunad bien: hasta las dos no hay comida.',
  'A las tres y cuarto, taxi a casa: dos horas y media para descansar antes de la noche. A las seis salís hacia el mercado navideño alemán del Jardín de la Ciudad, ya con las luces encendidas, y a las siete y media, la cena-espectáculo del viaje en Hadjidraganovite Kashti, con música folclórica en directo. Para rematar, copas en la calle Tsar Shishman y, para quien quiera bailar, Bar Petak.'],
  pasos=[
- g(O2, 'Salida de casa', texto=['Salid con veinte minutos de margen. Hasta casi las dos no hay comida: si no habéis desayunado fuerte, comprad una banitsa por el camino.']),
+ g(O2, 'Salida de casa', texto=['Salid con veinte minutos de margen. Hasta las dos no hay comida: si no habéis desayunado fuerte, comprad una banitsa por el camino.']),
  g(O2, 'De casa al Palacio de Justicia'),
  tour,
  T('pie', 'El recorrido del free tour', salida='11:00', tour=True, minutos=120, paradasTour=PTOUR, texto=[

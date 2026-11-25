@@ -29,7 +29,7 @@ Todo está en `herramientas/itinerario/`:
 Marcas de un paso: `reserva='HH:MM'`, `opcional=True` (color lavanda), `comida='desayuno|comida|cena|tapas'`, `aviso='…'` + `avisoEtq='Reservar|Cuesta|Tiempo justo|Llegar pronto'`, `calle='plan B de comida en la calle'`, `descanso=True`, `narrar=False`, `explora='id'`, `comer='id'`, `precio='…'`, `alternativa='…'` (caminos), `salida='HH:MM'` (fuerza la salida de un camino), `tour=True` + `paradasTour` (el free tour del sábado, línea naranja con 19 paradas).
 
 **Deuda conocida (a mejorar):** los cambios de texto se hacen con `rep()` sobre los originales, lo que obliga a repetir la frase vieja entera. Objetivo: pasar a un `lugares.json` único (Itinerario + Explora + Comer + Gastos) y un `itinerario.yaml` editable, y jubilar `itin_orig` + parches.
-Explora se edita directamente en sus geojson (su generador `gen_todo.py` apunta a rutas antiguas). Comer: `comer_datos.py` + retoques en el geojson publicado.
+Explora se edita directamente en sus geojson (su generador `gen_todo.py` apunta a rutas antiguas). Caminos de Explora: `2_Recalcular_rutas_explora.bat` (`herramientas/explora/recalcular_rutas.py`, caché en `rutas_cache.json`) recalcula geometría, distancia y minutos de las rutas cuyos extremos se movieron; textos y paradas se editan a mano. Comer: `comer_datos.py` + retoques en el geojson publicado.
 
 ## Audios (narraciones con Azure)
 - `4_Generar_audios.bat` (lo lanza el usuario; tarda). Usa `voz/config.json` y la clave en `voz/azure.txt` (**nunca** a GitHub ni al chat).
@@ -53,9 +53,8 @@ Explora se edita directamente en sus geojson (su generador `gen_todo.py` apunta 
 - Taxi siempre que no se vaya andando; transporte público solo como alternativa.
 - Bares que van justos de tiempo = opcionales (lavanda). Comidas y cenas destacadas con icono de cubiertos; plan B de comida en la calle donde tenga sentido, manteniendo la reserva como plan principal.
 - Evitar cuestas pronunciadas (>15 %) y actividades de impacto; si alguna parada las tiene, marcarla como opcional con aviso.
-- Reservas (todas para 7, hora de Sofía): Vie 23:00 Lavelé Garden · Sáb 11:00 Free Sofia Tour · Sáb 19:30 Hadjidraganovite Kashti · Dom bus Sofía→Plovdiv 09:00, vuelta 16:10 · Dom 21:30 Sense Rooftop (tapas) · Lun 13:30 Manastirska Magernitsa · Lun 20:00 Pod Lipite. Mar: aeropuerto con 2 h de margen (vuelo 17:25).
-- Sábado: tras el tour y la cripta de Nevski, comida en Izbata Tavern 13:50 (pendiente de reservar). Lunes: Museo de las Ilusiones → Puente de las Águilas → Jardín del Príncipe → Siete Santos → Manastirska.
+- Reservas (todas para 7, hora de Sofía): Vie 23:00 Lavelé Garden · Sáb 11:00 Free Sofia Tour · Sáb 14:00 Izbata Tavern · Sáb 19:30 Hadjidraganovite Kashti · Dom bus Sofía→Plovdiv 09:00, vuelta 16:10 · Dom 21:30 Sense Rooftop (tapas) · Lun 13:30 Manastirska Magernitsa · Lun 20:00 Pod Lipite. Mar: aeropuerto con 2 h de margen (vuelo 17:25).
+- Sábado: tras el tour y la cripta de Nevski, comida en Izbata Tavern 14:00 (reservada para 7). Lunes: Museo de las Ilusiones → Puente de las Águilas → Jardín del Príncipe → Siete Santos → Manastirska.
 
 ## Pendiente
-- Regenerar las narraciones que cambiaron (sábado, lunes, intro del domingo, Nebet Tepe, Baños del martes) con `4_Generar_audios.bat`, y después volver a meter sus ids en el manifest y publicar.
-- Automatizar la publicación (`publicar.bat`) y migrar a `lugares.json` + `itinerario.yaml` (ver Deuda).
+- Migrar a `lugares.json` + `itinerario.yaml` (ver Deuda).
